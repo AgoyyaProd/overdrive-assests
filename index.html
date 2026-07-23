@@ -4,7 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OverDrive – 2v2 Trackmania League</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwMDAgMTAwMCI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNTU2LjIzLDMwMC4zMmw5Ljc4LTM0Ljc1YzMuNDktMTIuNC01LjgzLTI0LjY5LTE4LjcxLTI0LjY5aC0xNzEuOThjLTQuMzMsMC04LjU0LDEuNDUtMTEuOTUsNC4xMS00NC43NCwzNC45Mi04OS41LDY5Ljg0LTEzNC4yNiwxMDQuNzctMy4yNiwyLjU1LTUuNjMsNi4wNy02Ljc1LDEwLjA1bC02MC45MiwyMTYuNGMtMTMuOTYsNDkuNTksMjMuMyw5OC43OSw3NC44Miw5OC43OWgxODguODVjMTIuODgsMCwyMi4xOSwxMi4zLDE4LjcsMjQuN2wtOS43OCwzNC43NGMtMy40OSwxMi40LDUuODMsMjQuNywxOC43LDI0LjdoMTcxLjljNC4zMywwLDguNTQtMS40NSwxMS45NS00LjExLDQ0Ljc2LTM0Ljk0LDg5LjU0LTY5Ljg2LDEzNC4zMS0xMDQuOCwzLjI2LTIuNTUsNS42My02LjA3LDYuNzUtMTAuMDZsNjAuOS0yMTYuMzZjMTMuOTYtNDkuNTktMjMuMzEtOTguNzgtNzQuODItOTguNzhoLTE4OC44Yy0xMi44OCwwLTIyLjE5LTEyLjMtMTguNzEtMjQuNjlaTTY0OC40LDY0Ni4zM2gtMTYzLjkxYy0xMi44OCwwLTIyLjE5LTEyLjMtMTguNy0yNC43bDkuNzgtMzQuNzRjMy40OS0xMi40LTUuODMtMjQuNy0xOC43LTI0LjdoLTE1My4wMWMtMTIuODgsMC0yMi4xOS0xMi4zLTE4LjctMjQuN2w0Ny43NS0xNjkuNjVjMi4zNi04LjM4LDEwLTE0LjE3LDE4LjctMTQuMTdoMTYzLjk1YzEyLjg4LDAsMjIuMTksMTIuMywxOC43LDI0LjdsLTkuNzgsMzQuNzRjLTMuNDksMTIuNCw1LjgzLDI0LjcsMTguNywyNC43aDE1Mi45N2MxMi44OCwwLDIyLjE5LDEyLjMsMTguNywyNC43bC00Ny43NSwxNjkuNjVjLTIuMzYsOC4zOC0xMCwxNC4xNy0xOC43LDE0LjE3WiIvPgo8L3N2Zz4=">
+<link id="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMTE4LjQ5IDIwMC44OCA3NjMuMDEgNTk4LjI2Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01NTYuMjMsMzAwLjMybDkuNzgtMzQuNzVjMy40OS0xMi40LTUuODMtMjQuNjktMTguNzEtMjQuNjloLTE3MS45OGMtNC4zMywwLTguNTQsMS40NS0xMS45NSw0LjExLTQ0Ljc0LDM0LjkyLTg5LjUsNjkuODQtMTM0LjI2LDEwNC43Ny0zLjI2LDIuNTUtNS42Myw2LjA3LTYuNzUsMTAuMDVsLTYwLjkyLDIxNi40Yy0xMy45Niw0OS41OSwyMy4zLDk4Ljc5LDc0LjgyLDk4Ljc5aDE4OC44NWMxMi44OCwwLDIyLjE5LDEyLjMsMTguNywyNC43bC05Ljc4LDM0Ljc0Yy0zLjQ5LDEyLjQsNS44MywyNC43LDE4LjcsMjQuN2gxNzEuOWM0LjMzLDAsOC41NC0xLjQ1LDExLjk1LTQuMTEsNDQuNzYtMzQuOTQsODkuNTQtNjkuODYsMTM0LjMxLTEwNC44LDMuMjYtMi41NSw1LjYzLTYuMDcsNi43NS0xMC4wNmw2MC45LTIxNi4zNmMxMy45Ni00OS41OS0yMy4zMS05OC43OC03NC44Mi05OC43OGgtMTg4LjhjLTEyLjg4LDAtMjIuMTktMTIuMy0xOC43MS0yNC42OVpNNjQ4LjQsNjQ2LjMzaC0xNjMuOTFjLTEyLjg4LDAtMjIuMTktMTIuMy0xOC43LTI0LjdsOS43OC0zNC43NGMzLjQ5LTEyLjQtNS44My0yNC43LTE4LjctMjQuN2gtMTUzLjAxYy0xMi44OCwwLTIyLjE5LTEyLjMtMTguNy0yNC43bDQ3Ljc1LTE2OS42NWMyLjM2LTguMzgsMTAtMTQuMTcsMTguNy0xNC4xN2gxNjMuOTVjMTIuODgsMCwyMi4xOSwxMi4zLDE4LjcsMjQuN2wtOS43OCwzNC43NGMtMy40OSwxMi40LDUuODMsMjQuNywxOC43LDI0LjdoMTUyLjk3YzEyLjg4LDAsMjIuMTksMTIuMywxOC43LDI0LjdsLTQ3Ljc1LDE2OS42NWMtMi4zNiw4LjM4LTEwLDE0LjE3LTE4LjcsMTQuMTdaIi8+Cjwvc3ZnPg==">
+<script>
+// The logo is white-on-transparent by default (visible on dark browser tabs/OS themes)
+// but swaps to a black-on-transparent version when the user's system is in light mode,
+// so the tab icon stays visible either way.
+(function() {
+  var FAVICON_WHITE = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMTE4LjQ5IDIwMC44OCA3NjMuMDEgNTk4LjI2Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01NTYuMjMsMzAwLjMybDkuNzgtMzQuNzVjMy40OS0xMi40LTUuODMtMjQuNjktMTguNzEtMjQuNjloLTE3MS45OGMtNC4zMywwLTguNTQsMS40NS0xMS45NSw0LjExLTQ0Ljc0LDM0LjkyLTg5LjUsNjkuODQtMTM0LjI2LDEwNC43Ny0zLjI2LDIuNTUtNS42Myw2LjA3LTYuNzUsMTAuMDVsLTYwLjkyLDIxNi40Yy0xMy45Niw0OS41OSwyMy4zLDk4Ljc5LDc0LjgyLDk4Ljc5aDE4OC44NWMxMi44OCwwLDIyLjE5LDEyLjMsMTguNywyNC43bC05Ljc4LDM0Ljc0Yy0zLjQ5LDEyLjQsNS44MywyNC43LDE4LjcsMjQuN2gxNzEuOWM0LjMzLDAsOC41NC0xLjQ1LDExLjk1LTQuMTEsNDQuNzYtMzQuOTQsODkuNTQtNjkuODYsMTM0LjMxLTEwNC44LDMuMjYtMi41NSw1LjYzLTYuMDcsNi43NS0xMC4wNmw2MC45LTIxNi4zNmMxMy45Ni00OS41OS0yMy4zMS05OC43OC03NC44Mi05OC43OGgtMTg4LjhjLTEyLjg4LDAtMjIuMTktMTIuMy0xOC43MS0yNC42OVpNNjQ4LjQsNjQ2LjMzaC0xNjMuOTFjLTEyLjg4LDAtMjIuMTktMTIuMy0xOC43LTI0LjdsOS43OC0zNC43NGMzLjQ5LTEyLjQtNS44My0yNC43LTE4LjctMjQuN2gtMTUzLjAxYy0xMi44OCwwLTIyLjE5LTEyLjMtMTguNy0yNC43bDQ3Ljc1LTE2OS42NWMyLjM2LTguMzgsMTAtMTQuMTcsMTguNy0xNC4xN2gxNjMuOTVjMTIuODgsMCwyMi4xOSwxMi4zLDE4LjcsMjQuN2wtOS43OCwzNC43NGMtMy40OSwxMi40LDUuODMsMjQuNywxOC43LDI0LjdoMTUyLjk3YzEyLjg4LDAsMjIuMTksMTIuMywxOC43LDI0LjdsLTQ3Ljc1LDE2OS42NWMtMi4zNiw4LjM4LTEwLDE0LjE3LTE4LjcsMTQuMTdaIi8+Cjwvc3ZnPg==";
+  var FAVICON_BLACK = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMTE4LjQ5IDIwMC44OCA3NjMuMDEgNTk4LjI2Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjMGEwYTBhOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik01NTYuMjMsMzAwLjMybDkuNzgtMzQuNzVjMy40OS0xMi40LTUuODMtMjQuNjktMTguNzEtMjQuNjloLTE3MS45OGMtNC4zMywwLTguNTQsMS40NS0xMS45NSw0LjExLTQ0Ljc0LDM0LjkyLTg5LjUsNjkuODQtMTM0LjI2LDEwNC43Ny0zLjI2LDIuNTUtNS42Myw2LjA3LTYuNzUsMTAuMDVsLTYwLjkyLDIxNi40Yy0xMy45Niw0OS41OSwyMy4zLDk4Ljc5LDc0LjgyLDk4Ljc5aDE4OC44NWMxMi44OCwwLDIyLjE5LDEyLjMsMTguNywyNC43bC05Ljc4LDM0Ljc0Yy0zLjQ5LDEyLjQsNS44MywyNC43LDE4LjcsMjQuN2gxNzEuOWM0LjMzLDAsOC41NC0xLjQ1LDExLjk1LTQuMTEsNDQuNzYtMzQuOTQsODkuNTQtNjkuODYsMTM0LjMxLTEwNC44LDMuMjYtMi41NSw1LjYzLTYuMDcsNi43NS0xMC4wNmw2MC45LTIxNi4zNmMxMy45Ni00OS41OS0yMy4zMS05OC43OC03NC44Mi05OC43OGgtMTg4LjhjLTEyLjg4LDAtMjIuMTktMTIuMy0xOC43MS0yNC42OVpNNjQ4LjQsNjQ2LjMzaC0xNjMuOTFjLTEyLjg4LDAtMjIuMTktMTIuMy0xOC43LTI0LjdsOS43OC0zNC43NGMzLjQ5LTEyLjQtNS44My0yNC43LTE4LjctMjQuN2gtMTUzLjAxYy0xMi44OCwwLTIyLjE5LTEyLjMtMTguNy0yNC43bDQ3Ljc1LTE2OS42NWMyLjM2LTguMzgsMTAtMTQuMTcsMTguNy0xNC4xN2gxNjMuOTVjMTIuODgsMCwyMi4xOSwxMi4zLDE4LjcsMjQuN2wtOS43OCwzNC43NGMtMy40OSwxMi40LDUuODMsMjQuNywxOC43LDI0LjdoMTUyLjk3YzEyLjg4LDAsMjIuMTksMTIuMywxOC43LDI0LjdsLTQ3Ljc1LDE2OS42NWMtMi4zNiw4LjM4LTEwLDE0LjE3LTE4LjcsMTQuMTdaIi8+Cjwvc3ZnPg==";
+  function applyFavicon() {
+    var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    var link = document.getElementById('favicon');
+    if (link) link.href = isLight ? FAVICON_BLACK : FAVICON_WHITE;
+  }
+  applyFavicon();
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: light)');
+    if (mq.addEventListener) mq.addEventListener('change', applyFavicon);
+    else if (mq.addListener) mq.addListener(applyFavicon); // older Safari
+  }
+})();
+</script>
 <link rel="stylesheet" href="https://use.typekit.net/ejz8nvd.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -68,6 +88,7 @@ body::before{
 /* nav links with dropdown */
 .nl{display:flex;align-items:center;gap:0}
 .nav-item{position:relative;display:flex;align-items:center}
+.nav-item.open .dd-arr{transform:rotate(180deg)}
 .nlk{
   font-family:var(--ft);font-weight:400;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
   color:#fff;padding:8px 13px;cursor:pointer;
@@ -76,18 +97,23 @@ body::before{
 .nlk:hover{color:#fff;font-weight:950}
 .nlk.on{color:#fff;font-weight:950}
 .dd-arr{display:inline-flex;align-items:center;opacity:.85;transition:transform .2s}
-.nav-item:hover .dd-arr{transform:rotate(180deg)}
 
-/* dropdown */
+/* dropdown: visibility is controlled by JS via the .open class on .nav-item,
+   not by :hover, so it never closes mid-move along an imperfect pointer path. */
 .dd{
-  position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
   background:#111;border:1px solid var(--brd2);
   padding:6px;min-width:170px;z-index:200;
-  display:none;flex-direction:column;gap:2px;
+  display:flex;flex-direction:column;gap:2px;
   box-shadow:0 16px 40px rgba(0,0,0,.6);
+  margin-top:8px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .12s ease;
 }
-.nav-item:hover .dd{display:flex}
-.dd::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:100%;height:10px}
+.nav-item.open .dd{opacity:1;visibility:visible;pointer-events:auto}
+/* Solid invisible bridge spanning the gap, so the pointer is never over "nothing"
+   between the nav item and the menu. */
+.dd::before{content:'';position:absolute;top:-12px;left:-12px;right:-12px;height:14px}
 .ddi{
   padding:9px 14px;font-family:var(--ft);font-weight:500;
   font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
@@ -95,16 +121,24 @@ body::before{
 }
 .ddi:hover{color:var(--acc);background:var(--acc-dim)}
 .ddi-sep{height:1px;background:var(--brd);margin:4px 0}
-.ddi-sub{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.dd-sub-arr{display:inline-flex;align-items:center;opacity:.7}
+/* Submenu expands vertically below its parent row, inside the dropdown's flow,
+   so it reads as a nested list rather than a second floating panel. */
+.ddi-sub{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0}
+.ddi-sub-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+.dd-sub-arr{display:inline-flex;align-items:center;opacity:.7;transition:transform .2s}
+.ddi-sub.open .dd-sub-arr{transform:rotate(90deg)}
 .dd-sub{
-  position:absolute;top:-6px;left:100%;margin-left:6px;
-  background:#111;border:1px solid var(--brd2);
-  padding:6px;min-width:170px;z-index:210;
-  display:none;flex-direction:column;gap:2px;
-  box-shadow:0 16px 40px rgba(0,0,0,.6);
+  display:flex;flex-direction:column;gap:2px;
+  padding:0 0 0 12px;margin:0;
+  border-left:1px solid var(--brd2);
+  max-height:0;overflow:hidden;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:max-height .18s ease,opacity .12s ease,margin .18s ease;
 }
-.ddi-sub:hover .dd-sub{display:flex}
+.ddi-sub.open .dd-sub{
+  max-height:300px;margin:4px 0 2px 8px;
+  opacity:1;visibility:visible;pointer-events:auto;
+}
 
 /* ━━━ APP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 #app{padding-top:var(--hh);min-height:100vh}
@@ -120,6 +154,11 @@ footer{
 @media(max-width:768px){.fi{width:100%}}
 .fb2{display:flex;align-items:center;gap:10px;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.07em;text-transform:uppercase}
 .fb2 img{height:36px;object-fit:contain}
+.fr-block{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;text-align:right}
+.fc2{color:#fff;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.02em}
+.fl2{color:rgba(255,255,255,.55);font-family:var(--ft);font-weight:500;font-size:13px;letter-spacing:.02em}
+.fl2 a{color:rgba(255,255,255,.92);text-decoration:none;cursor:pointer;transition:color .15s}
+.fl2 a:hover{color:#fff;text-decoration:underline}
 .fl{display:flex;gap:18px;flex-wrap:wrap}
 .fl a{color:var(--muted);font-family:var(--fb);font-size:12px;font-weight:500;transition:color .15s}
 .fl a:hover{color:var(--txt)}
@@ -232,12 +271,16 @@ footer{
 .mo-lph{width:75px;height:75px;display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:900;font-size:28px;color:var(--muted)}
 .mo-tname{font-family:var(--ft);font-weight:900;font-size:24px;text-transform:uppercase}
 .mo-players{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.mo-center-sub{font-family:var(--ft);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .mo-center{text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
 .mo-sc{font-family:var(--ft);font-weight:900;font-size:58px;line-height:1}
 .mo-ti{font-family:var(--fb);font-weight:900;font-size:58px;line-height:1;letter-spacing:.02em}
 .mo-date{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
 .mo-section{padding:0 28px 68px}
 .mo-sh{font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--txt);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--brd)}
+/* Team modal is styled without divider lines; the match modal keeps them. */
+.team-modal .mo-hd{border-bottom:none}
+.team-modal .mo-sh{border-bottom:none;padding-bottom:0}
 .mo-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .mo-form-col{background:var(--bg-c2);padding:14px}
 .mo-form-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -258,7 +301,7 @@ footer{
 .mo-map-score{font-family:var(--ft);font-weight:900;font-size:20px}
 
 /* ━━━ SECTION HEADER ━━━━━━━━━━━━━━━━━━━━━━ */
-.sh{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:10px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
 .sa{font-family:var(--fb);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);cursor:pointer;transition:opacity .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .sa-arr{display:inline-flex;align-items:center}
 .sa:hover{opacity:.7}
@@ -275,6 +318,9 @@ footer{
 /* ━━━ STANDINGS ━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .st-wrap{overflow-x:auto}
 .stt{width:100%;border-collapse:separate;border-spacing:0 0}
+.th-tip{position:relative;cursor:help;border-bottom:1px dotted var(--muted);padding-bottom:1px}
+.th-tip:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none;white-space:nowrap;z-index:30;box-shadow:0 4px 14px rgba(0,0,0,.5);pointer-events:none}
+.th-tip:hover::before{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#111;margin-top:4px;z-index:30;pointer-events:none}
 .stt th{font-family:var(--ft);font-weight:900;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 14px;text-align:center;background:#0f0f0f}
 .stt th:first-child{text-align:left;padding-left:20px;border-radius:var(--r) 0 0 var(--r)}
 .stt th:nth-child(2){text-align:left}
@@ -426,14 +472,16 @@ footer{
 /* ━━━ MATCH CARD (unified: upcoming + result) ━━━━━━━━━━━━━━━━ */
 .mc-card{background:var(--bg-c);border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px;cursor:pointer;transition:background .15s,border-color .15s}
 .mc-card:hover{background:rgba(255,255,255,.03);border-color:var(--brd2)}
-.mc-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mc-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;font-family:var(--ft);font-weight:700;font-size:clamp(9px,0.45vw,10px);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .mc-hd-right{display:flex;align-items:center;gap:18px}
 .mc-body{display:flex;align-items:center;justify-content:center;gap:20px;padding:4px 24px 32px}
 .mc-team{width:380px;flex:none;display:flex;align-items:center;gap:16px}
 .mc-team.right{}
-.mc-tname{font-family:var(--ft);font-weight:900;font-size:22px;text-transform:uppercase;letter-spacing:.02em;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-tname{font-family:var(--ft);font-weight:900;font-size:clamp(16px,1vw,22px);text-transform:uppercase;letter-spacing:.02em;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-center{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;min-width:140px}
-.mc-center-main{font-family:var(--ft);font-weight:900;font-size:48px;line-height:1;color:var(--txt)}
+.mc-center-main{font-family:var(--ft);font-weight:900;font-size:clamp(32px,2.2vw,48px);line-height:1;color:var(--txt)}
+.mc-logo{width:clamp(45px,3.1vw,75px);height:clamp(45px,3.1vw,75px);flex-shrink:0}
+.tp.mc-logo{font-size:clamp(16px,1.4vw,26px)}
 .mc-center-sub{font-family:var(--ft);font-weight:700;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
 
 /* ━━━ DATE GROUP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -464,11 +512,12 @@ footer{
       <div class="nav-item">
         <span class="nlk" data-p="leagues" onclick="go('leagues')">Leagues <span class="dd-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span></span>
         <div class="dd">
-          <div class="ddi ddi-sub" onclick="go('standings')">Standings <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span>
+          <div class="ddi ddi-sub">
+            <div class="ddi-sub-row" onclick="go('standings')">Standings <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></div>
             <div class="dd-sub">
               <div class="ddi" onclick="event.stopPropagation();goStandingsDiv('1')">Division 1</div>
               <div class="ddi" onclick="event.stopPropagation();goStandingsDiv('2')">Division 2</div>
-              <div class="ddi" onclick="event.stopPropagation();go('leagues')">Regional</div>
+              <div class="ddi" onclick="event.stopPropagation();go('leagues')">Regionals</div>
             </div>
           </div>
           <div class="ddi" onclick="go('teams')">Teams</div>
@@ -523,10 +572,10 @@ footer{
     <div class="fb2">
       <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgODQyLjc3IDE5NC40MiI+CiAgPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDMwLjYuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDIuMS40IEJ1aWxkIDEwOSkgIC0tPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuc3QwIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8Zz4KICAgIDxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iNjkwLjY1IDEzOC44OCA2NzMuOTggMTM4Ljg4IDY5OS44OCA1NS41MyA3MTYuNTQgNTUuNTMgNjkwLjY1IDEzOC44OCIvPgogICAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTMzNy44Niw1NS41M2MtNy4yOCw1LjU2LTE0LjU3LDExLjExLTIxLjg1LDE2LjY3bC0yMC43Miw2Ni42N2g1OC4zNGwyNS45LTgzLjM0aC00MS42NywwWk0zNDIuMTUsMTIyLjIxaC0yNWwxNS41NC01MGgyNWwtMTUuNTQsNTBaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDU4LjkxLDcyLjJsLTUuMTgsMTYuNjdoMTguMjdsNC42NCw2LjczLTMuMDksOS45NGgtMjVsLTUuMTgsMTYuNjdoNDEuNjdsLTUuMTgsMTYuNjdoLTU4LjM0YzguNjMtMjcuNzgsMTcuMjYtNTUuNTYsMjUuOS04My4zNGg1OC4zNGwtNS4xOCwxNi42N2gtNDEuNjdaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDIxLjkzLDEyMi4yMWM2LjkxLTIyLjIyLDEzLjgxLTQ0LjQ1LDIwLjcyLTY2LjY3aC0xNi42N2MtNi45MSwyMi4yMi0xMy44MSw0NC40NS0yMC43Miw2Ni42N2gtMjVsMjAuNzItNjYuNjdoLTE2LjY3bC0yNS45LDgzLjM0aDQxLjY3bDIxLjg1LTE2LjY3aDBaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNzk1LjkyLDcyLjJsLTUuMTgsMTYuNjdoMTguMjdsNC42NCw2LjczLTMuMDksOS45NGgtMjVsLTUuMTgsMTYuNjdoNDEuNjdsLTUuMTgsMTYuNjdoLTU4LjM0YzguNjMtMjcuNzgsMTcuMjYtNTUuNTYsMjUuOS04My4zNGg1OC4zNGwtNS4xOCwxNi42N2gtNDEuNjdaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNzU4Ljk0LDEyMi4yMWM2LjkxLTIyLjIyLDEzLjgxLTQ0LjQ1LDIwLjcyLTY2LjY3aC0xNi42N2MtNi45MSwyMi4yMi0xMy44MSw0NC40NS0yMC43Miw2Ni42N2gtMjVsMjAuNzItNjYuNjdoLTE2LjY3bC0yNS45LDgzLjM0aDQxLjY3bDIxLjg1LTE2LjY3aDBaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjE1LjU2LDU1LjUzaC00MS45MWwtMjUuOSw4My4zNGg1OC4zNGwyMC43OS02Ni45MWMtMy43OC01LjQ4LTcuNTUtMTAuOTUtMTEuMzMtMTYuNDNoLjAxWk01OTQuNiwxMjIuMjFoLTI1bDE1LjU0LTUwaDI1bC0xNS41NCw1MFoiLz4KICAgIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01NDQuMTQsOTcuMmwxNS40NC0xMS43OGMxLjM3LTQuNDEsMi43NC04LjgxLDQuMS0xMy4yMiwxLjczLTUuNTYsMy40Ni0xMS4xMSw1LjE5LTE2LjY3aC00MS42N2MtNy4yOCw1LjU2LTE0LjU3LDExLjExLTIxLjg1LDE2LjY3bC0yMC43Miw2Ni42N2gxNi42N2wxMC4zNi0zMy4zNGgyNWwtMTAuMzYsMzMuMzRoMTYuNjdsNy45NS0yNS41OGMuNDUtMS40My44OS0yLjg3LDEuMzQtNC4zbC04LjEyLTExLjc4aDBaTTU0MS44NSw4OC44N2gtMTguMjdsLTguODIsNi43Myw3LjI3LTIzLjRoMjVsLTUuMTgsMTYuNjdaIi8+CiAgICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjcwLjM3LDk3LjJsMTUuNDQtMTEuNzhjMS4zNy00LjQxLDIuNzQtOC44MSw0LjEtMTMuMjIsMS43My01LjU2LDMuNDYtMTEuMTEsNS4xOS0xNi42N2gtNDEuNjdjLTcuMjgsNS41Ni0xNC41NywxMS4xMS0yMS44NSwxNi42N2wtMjAuNzIsNjYuNjdoMTYuNjdsMTAuMzYtMzMuMzRoMjVsLTEwLjM2LDMzLjM0aDE2LjY3bDcuOTUtMjUuNThjLjQ1LTEuNDMuODktMi44NywxLjM0LTQuM2wtOC4xMi0xMS43OGgwWk02NjguMDcsODguODdoLTE4LjI3bC04LjgyLDYuNzMsNy4yNy0yMy40aDI1bC01LjE4LDE2LjY3WiIvPgogIDwvZz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTQ5LjIxLDIyLjNsMy42Ny0xMy4wNGMxLjMxLTQuNjUtMi4xOS05LjI2LTcuMDItOS4yNmgtNjQuNTJjLTEuNjMsMC0zLjIuNTQtNC40OCwxLjU0LTE2Ljc5LDEzLjEtMzMuNTgsMjYuMi01MC4zNywzOS4zLTEuMjIuOTYtMi4xMSwyLjI4LTIuNTMsMy43N0wxLjExLDEyNS43OWMtNS4yNCwxOC42LDguNzQsMzcuMDYsMjguMDcsMzcuMDZoNzAuODVjNC44MywwLDguMzMsNC42MSw3LjAyLDkuMjdsLTMuNjcsMTMuMDNjLTEuMzEsNC42NSwyLjE5LDkuMjcsNy4wMiw5LjI3aDY0LjQ5YzEuNjMsMCwzLjItLjU0LDQuNDgtMS41NCwxNi43OS0xMy4xMSwzMy41OS0yNi4yMSw1MC4zOS0zOS4zMiwxLjIyLS45NiwyLjExLTIuMjgsMi41My0zLjc3bDIyLjg1LTgxLjE3YzUuMjQtMTguNi04Ljc0LTM3LjA2LTI4LjA3LTM3LjA2aC03MC44M2MtNC44MywwLTguMzMtNC42MS03LjAyLTkuMjZoMFpNMTgzLjc4LDE1Mi4xMWgtNjEuNDljLTQuODMsMC04LjMzLTQuNjEtNy4wMi05LjI3bDMuNjctMTMuMDNjMS4zMS00LjY1LTIuMTktOS4yNy03LjAyLTkuMjdoLTU3LjRjLTQuODMsMC04LjMzLTQuNjEtNy4wMi05LjI2bDE3LjkxLTYzLjY1Yy44OC0zLjE0LDMuNzUtNS4zMSw3LjAyLTUuMzFoNjEuNTFjNC44MywwLDguMzMsNC42MSw3LjAyLDkuMjdsLTMuNjcsMTMuMDNjLTEuMzEsNC42NSwyLjE5LDkuMjcsNy4wMiw5LjI3aDU3LjM5YzQuODMsMCw4LjMzLDQuNjEsNy4wMiw5LjI2bC0xNy45MSw2My42NWMtLjg4LDMuMTQtMy43NSw1LjMxLTcuMDIsNS4zMWgtLjAxWiIvPgo8L3N2Zz4=" alt="OverDrive" style="height:36px;object-fit:contain">
     </div>
-    <div class="fl">
-      <a href="#">The Site</a><a href="#">Contact</a><a href="#">Legal Notice</a><a href="#">Privacy</a>
+    <div class="fr-block">
+      <div class="fc2">© 2026 OverDrive. All rights reserved.</div>
+      <div class="fl2"><a onclick="go('about')">The Site</a> - <a onclick="go('contact')">Contact Us</a> - <a onclick="go('legal')">Legal Notice</a> - <a onclick="go('privacy')">Privacy</a></div>
     </div>
-    <span class="fc">© 2026 OverDrive. All rights reserved.</span>
   </div>
 </footer>
 
@@ -569,7 +618,9 @@ const LOGOS = {
 const S = {
   cfg:{ pd:600, pm:60 },
   splits:[], act:'spring2026', configActiveSplit:'spring2026',
-  teams:{}, d1:[], d2:[], sched:[], res:[], art:[], vods:[],
+  teams:{}, d1:[], d2:[], sched:[], res:[], art:[], vods:[], defaultLogo:'',
+  homeSched:[], homeD1:[], homeD2:[],
+  schedAllRows:[], schedSplit:'all', schedMode:'all', schedRegion:'EMEA', schedOQ:'',
   page:'home',
   homeUpDiv:'1', homeReDiv:'1', homeStDiv:'1', stdDiv:'1', leaguesDiv:'1',
   divTab:'1', regTab:'EMEA', vodSp:null, tdiv:'all',
@@ -586,7 +637,6 @@ async function gv(name) {
   ];
   for (let i = 0; i < urls.length; i++) {
     try {
-      console.log('[GViz] Loading:', name, '(url', i+1, ')');
       const res = await fetch(urls[i]);
       if (!res.ok) { console.warn('[GViz] HTTP', res.status, 'trying next:', name); continue; }
       const text = await res.text();
@@ -601,7 +651,6 @@ async function gv(name) {
       const cols = (table.cols||[]).map(c2=>(c2.label||c2.id||'').toLowerCase());
       const isConfigFallback = cols.length <= 3 && cols.some(c2=>c2.includes('site_name')||c2.includes('key_site'));
       if (isConfigFallback) { console.warn('[GViz] Config fallback detected for tab:', name, '(tab not found in sheet)'); continue; }
-      console.log('[GViz] ✅', name, table?.rows?.length ?? 0, 'rows', '| cols:', cols.slice(0,4));
       return table;
     } catch(e) {
       console.warn('[GViz] Error (url', i+1, '):', name, e.message);
@@ -676,6 +725,12 @@ async function lTeams() {
       S.teams[id].logo_url = LOGOS[id] || S.teams[id].logo_url;
     }
   });
+  // "no_logo" is a data-only row in the Teams tab that supplies the default fallback logo
+  // for teams not registered there (e.g. Open Qualifier participants). It must NEVER be
+  // shown as an actual team anywhere on the site, so pull its logo out and delete the row.
+  const noLogoId = Object.keys(S.teams).find(id => id.toLowerCase() === 'no_logo');
+  S.defaultLogo = (noLogoId && S.teams[noLogoId]?.logo_url) || '';
+  if (noLogoId) delete S.teams[noLogoId];
 }
 function isOpenDivision(div) {
   const d = (div||'').toString().trim();
@@ -695,6 +750,13 @@ function matchDivLabel(div) {
   if (d.toLowerCase() === 'open') return 'OPEN';
   return d.toUpperCase();
 }
+// Same as matchDivLabel, but for Open Qualifier matches also appends which OQ it is
+// (region + round, e.g. "APAC 1") taken straight from the match_id column.
+function matchDivLabelFull(m) {
+  const base = matchDivLabel(m.division);
+  const isOQ = (m.division||'').toString().trim().toLowerCase() === 'open qualifier';
+  return (isOQ && m.match_id) ? `${base} - ${m.match_id}` : base;
+}
 // Human label for a schedule "period" value (regular_season, promotion, playoffs, ...)
 function periodLabel(p) {
   const s = (p||'').toString().trim().toLowerCase();
@@ -702,7 +764,7 @@ function periodLabel(p) {
   const known = {playoffs:'Playoffs', promotion:'Promotion', relegation:'Relegation', playin:'Barrage', 'play-in':'Barrage', 'play_in':'Barrage', barrage:'Barrage', barrages:'Barrage'};
   return known[s] || s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
 }
-// The Schedule_Results sheet no longer has a dedicated "period" column — the match's
+// The Schedule_Results sheet no longer has a dedicated "period" column: the match's
 // "division" cell now carries that meaning instead:
 //   "Div 1" / "Div 2"            -> regular season
 //   anything containing "playoff" (e.g. "Div 1 Playoffs", "Div 2 Playoffs") -> playoffs (merged, regardless of division)
@@ -740,12 +802,14 @@ function periodOutcomeLabel(period, startDiv, win) {
     if (div === '2') return win ? 'Maintained in Division 2' : 'Relegated to Open';
     if (div === 'open') return win ? 'Promoted to Division 2' : 'Maintained in Open';
   }
+  // Unexpected/unresolved division (e.g. a team we couldn't match to a division): never
+  // silently return nothing, always fall back to a plain result so an arrow still shows.
+  if (isBarrage || isPromotion) return win ? 'Won' : 'Lost';
   return null;
 }
-// Some positions move automatically at season's end, without a barrage: the very last
-// team of Division 1 goes straight down, the very last team of Division 2... err, the
-// very FIRST team of Division 2 goes straight up. divisionSize is how many teams are
-// ranked in that division's standings (so we can tell "last place" apart from mid-table).
+// Automatic movements at season's end, without a barrage: last of Division 1 goes down,
+// first of Division 2 goes up. divisionSize is the number of ranked teams in that
+// division, used to identify last place.
 function autoPromoRelegLabel(division, rank, divisionSize) {
   const div = (division||'').toString().trim();
   const r = +rank;
@@ -772,7 +836,7 @@ function buildExtraSplitRows(buckets, startDiv, isChamp, playoffPlacement) {
   if (isChamp && !otherPeriods.includes('playoffs')) rows.push({ label: 'Playoffs', value: 'Champion' });
   return rows;
 }
-// Which bracket a "Div 1 Playoffs" / "Div 2 Playoffs" match belongs to — Div1 and Div2
+// Which bracket a "Div 1 Playoffs" / "Div 2 Playoffs" match belongs to: Div1 and Div2
 // playoffs are separate brackets, so they must be reconstructed independently.
 function playoffBracketKey(divisionRaw) {
   const d = (divisionRaw||'').toString().trim().toLowerCase();
@@ -781,14 +845,10 @@ function playoffBracketKey(divisionRaw) {
   if (d.includes('1')) return 'div1';
   return 'playoffs';
 }
-// Deduces final placements in a DOUBLE-ELIMINATION bracket purely from match results.
-// The very last match played (by date + time) is treated as the decisive Grand Final: its
-// winner is Champion, its loser is Runner-up — no bracket-reset game is assumed, matching
-// how this league plays its final. Every other participant must have already collected 2
-// losses (i.e. be properly eliminated) for the bracket to be considered resolved; otherwise
-// this returns null so callers fall back to a plain W-L record instead of guessing. When a
-// known champion (from the Standings "Champ" flag) is supplied, it's cross-checked against
-// the deduced Grand Final winner and any mismatch also bails out to null.
+// Deduces final placements in a double-elimination bracket from match results alone.
+// The last match by date/time is the Grand Final (no bracket reset, matching this league's
+// format). Returns null unless every other participant has 2 losses, or if the deduced
+// champion contradicts the Standings "Champ" flag, so callers fall back to a W-L record.
 function computePlayoffPlacements(matches, knownChampionId) {
   const done = matches.filter(m => (m.status||'').toString().trim().toLowerCase() === 'done'
     && m.score_a != null && m.score_b != null && m.score_a !== '' && m.score_b !== '');
@@ -879,7 +939,6 @@ async function loadScheduleResults(sp) {
     'Schedule',
     'Calendrier',
   ].filter(Boolean).filter((v,i,a) => a.indexOf(v)===i);
-  console.log('[Sched] Trying tabs:', tabs);
   // Validate returned table has schedule columns (not Config fallback)
   // GViz silently returns first sheet when tab not found
   for (const tab of tabs) {
@@ -895,80 +954,97 @@ async function loadScheduleResults(sp) {
   return null;
 }
 
-async function lSched(sp) {
+// Builds {sched, res} for a split without touching S.sched/S.res, so callers such as the
+// Home page can read one split independently of what lSched() last loaded.
+function enrichScheduleRows(rows) {
+  return rows.map(r => ({
+    ...r,
+    status: (()=>{ const s=(r.status||'').trim().toLowerCase(); const map={'done':'DONE','live':'LIVE','confirmed':'confirmed','check':'CHECK','pending':'pending','cancelled':'cancelled'}; return map[s]||s; })(),
+    dO: pd(r.date),
+    A: S.teams[(r.team_a_id||'').toLowerCase()] || S.teams[r.team_a_id] || {team_name:r.team_a_id, logo_url:S.defaultLogo},
+    B: S.teams[(r.team_b_id||'').toLowerCase()] || S.teams[r.team_b_id] || {team_name:r.team_b_id, logo_url:S.defaultLogo}
+  })).sort((a, b) => (a.dO||new Date(0)) - (b.dO||new Date(0)));
+}
+async function buildScheduleForSplit(sp) {
   const t = _srCache?.sp === sp ? _srCache.t : await loadScheduleResults(sp);
-  if (!t) { S.sched = []; return; }
+  if (!t) return { sched: [], res: [] };
   const allRows = t2o(t);
-  console.log('[Sched DEBUG] Detected columns:', allRows.length ? Object.keys(allRows[0]) : 'none');
-  console.log('[Sched DEBUG] Exemple ligne 1:', JSON.stringify(allRows[0]));
-  // Flexible column mapping – handles various header naming conventions
   const rows = allRows.map(r => {
-    // Try to find team columns regardless of exact name
-    const keys = Object.keys(r);
     const findKey = (...names) => names.find(n => r[n] !== undefined && r[n] !== null);
     const kA = findKey('team_a_id','team_a','equipe_a','team1_id','team1','home');
     const kB = findKey('team_b_id','team_b','equipe_b','team2_id','team2','away');
-    if (kA && kB && r[kA] && r[kB]) {
-      return {...r, team_a_id: r[kA], team_b_id: r[kB]};
-    }
+    if (kA && kB && r[kA] && r[kB]) return {...r, team_a_id: r[kA], team_b_id: r[kB]};
     return r;
   }).filter(r => r.team_a_id && r.team_b_id);
-  // The Schedule_Results tab is now shared across splits (a "split" column identifies which).
-  // Keep only rows belonging to the requested split; if no split column is present, or if
-  // scoping would wipe out every row (e.g. split values don't match the configured split_id),
-  // fall back to showing everything rather than an empty schedule.
   const hasSplitCol = rows.some(r => r.split);
   const strictScoped = hasSplitCol ? rows.filter(r => !r.split || r.split === sp) : rows;
   const scopedRows = strictScoped.length ? strictScoped : rows;
-  if (hasSplitCol && !strictScoped.length) console.warn('[Sched] No rows matched split="'+sp+'" — showing all rows instead of an empty schedule');
-  console.log('[Sched DEBUG]', rows.length, 'rows after team filter,', scopedRows.length, 'after split scope (' + sp + ')');
-  S.sched = scopedRows.map(r => ({
-    ...r,
-    // Normalize status to consistent casing for comparisons
-    status: (()=>{ const s=(r.status||'').trim().toLowerCase(); const map={'done':'DONE','live':'LIVE','confirmed':'confirmed','check':'CHECK','pending':'pending','cancelled':'cancelled'}; return map[s]||s; })(),
-    dO: pd(r.date),
-    A: S.teams[(r.team_a_id||'').toLowerCase()] || S.teams[r.team_a_id] || {team_name:r.team_a_id, logo_url:''},
-    B: S.teams[(r.team_b_id||'').toLowerCase()] || S.teams[r.team_b_id] || {team_name:r.team_b_id, logo_url:''}
-  })).sort((a, b) => (a.dO||new Date(0)) - (b.dO||new Date(0)));
-  console.log('[Sched] Loaded', S.sched.length, 'matches | DONE:', S.sched.filter(m=>m.status==='DONE').length, '| confirmed:', S.sched.filter(m=>m.status==='confirmed').length);
-  // Also populate S.res from same tab (combined tab has scores)
-  S.res = scopedRows.filter(r => r.score_a != null || r.score_b != null).map(r => ({...r}));
+  const sched = enrichScheduleRows(scopedRows);
+  const res = scopedRows.filter(r => r.score_a != null || r.score_b != null).map(r => ({...r}));
+  return { sched, res };
 }
-async function lStand(sp) {
+async function lSched(sp) {
+  const { sched, res } = await buildScheduleForSplit(sp);
+  S.sched = sched; S.res = res;
+}
+// Builds {d1, d2} for a split without touching S.d1/S.d2, so callers such as the Home
+// page can read one split independently of what lStand() last loaded.
+async function buildStandingsForSplit(sp) {
   const split = S.splits.find(x => x.split_id === sp);
   const tab = split?.standings_tab || 'Standings_Spring2026';
-  const t = await gv(tab); if (!t) { S.d1 = []; S.d2 = []; return; }
-  // Two tables side-by-side: GViz merges all columns in one row.
-  // Div1: cols A-J (idx 0-9)  →  rank=B(1), team=C(2), p=D(3), w=E(4), l=F(5), tw=G(6), tl=H(7), diff=I(8), pts=J(9)
-  // Div2: cols L-U (idx 11-20) → rank=M(12), team=N(13), p=O(14), w=P(15), l=Q(16), tw=R(17), tl=S(18), diff=T(19), pts=U(20)
+  const t = await gv(tab); if (!t) return { d1: [], d2: [] };
   const allRows = t.rows.filter(r => r.c?.some(c => c?.v != null));
-  // Div1: valid rank at col B (idx 1)
   const d1rows = allRows.filter(r => { const v = cv(r,1); return v!=null && !isNaN(+v) && +v>0; });
-  // Div2: valid rank at col M (idx 12)
   const d2rows = allRows.filter(r => { const v = cv(r,12); return v!=null && !isNaN(+v) && +v>0; });
-  S.d1 = d1rows.map(r => en({
+  const d1 = d1rows.map(r => en({
     rank:cv(r,1), team_id:(cv(r,2)||'').toLowerCase(),
     matches_p:cv(r,3), matches_w:cv(r,4), matches_l:cv(r,5),
     tracks_w:cv(r,6), tracks_l:cv(r,7), track_diff:cv(r,8), points:cv(r,9),
     champion: String(cv(r,10)||'').trim().toLowerCase()==='x'
   })).filter(r => r.team_id).sort((a,b) => +a.rank - +b.rank);
-  S.d2 = d2rows.map(r => en({
+  const d2 = d2rows.map(r => en({
     rank:cv(r,12), team_id:(cv(r,13)||'').toLowerCase(),
     matches_p:cv(r,14), matches_w:cv(r,15), matches_l:cv(r,16),
     tracks_w:cv(r,17), tracks_l:cv(r,18), track_diff:cv(r,19), points:cv(r,20),
     champion: String(cv(r,21)||'').trim().toLowerCase()==='x'
   })).filter(r => r.team_id).sort((a,b) => +a.rank - +b.rank);
-  console.log('[Stand] D1:', S.d1.length, 'rows | D2:', S.d2.length, 'rows');
+  return { d1, d2 };
+}
+async function lStand(sp) {
+  const { d1, d2 } = await buildStandingsForSplit(sp);
+  S.d1 = d1; S.d2 = d2;
 }
 async function lRes(sp) {
   // Results are loaded by lSched() from the combined tab – this is a no-op
   // S.res is already populated with scored matches
 }
+// Home page ("Upcoming/Recent matches" + "Standings" preview) must always reflect the
+// league's true active split (Config's active_split), completely independent of whatever
+// split the Standings/Leagues page selector is currently showing.
+async function loadHomeSplitData() {
+  const sp = S.configActiveSplit || S.act;
+  try {
+    const { sched } = await buildScheduleForSplit(sp);
+    S.homeSched = sched;
+  } catch(e) { console.warn('[Home] schedule load failed:', e); }
+  try {
+    const { d1, d2 } = await buildStandingsForSplit(sp);
+    S.homeD1 = d1; S.homeD2 = d2;
+  } catch(e) { console.warn('[Home] standings load failed:', e); }
+}
+// Schedule page: every match, from every split, combined: lets the page show the
+// "global" view by default and filter client-side (by split/division/region) without
+// extra fetches, since fetchAllScheduleRows() already caches the full combined tab.
+async function loadScheduleAllSplits() {
+  try {
+    const rows = await fetchAllScheduleRows();
+    S.schedAllRows = enrichScheduleRows(rows);
+  } catch(e) { console.warn('[Sched-All] load failed:', e); }
+}
 async function lArt() {
   const t = await gv('Articles');
   if (!t) { S.art = []; console.warn('[Art] No data from GViz'); return; }
   const raw = t2o(t);
-  console.log('[Art] Raw rows:', raw.length, '| Sample:', JSON.stringify(raw[0]||{}));
   S.art = raw.filter(r => r.status?.toLowerCase() === 'published' && r.title).map(a => {
     // Thumbnail: handle Drive file IDs, filenames, or full URLs
     let thumb = a.thumbnail_url || '';
@@ -1021,7 +1097,6 @@ async function lArt() {
     return isNaN(t) ? 0 : t;
   };
   S.art.sort((a,b) => parseArtDate(b.date) - parseArtDate(a.date));
-  console.log('[Art] Loaded', S.art.length, 'published articles');
   // Prefetch excerpts for all articles in background
   S.art.forEach(async (a, i) => {
     if (a.excerpt || !a.pub_url) return;
@@ -1037,29 +1112,50 @@ async function lArt() {
   });
 }
 async function lVod() { S.vods = []; } // VODs tab removed
-function en(r) { const id=r.team_id; const team=S.teams[id]||S.teams[(id||'').toLowerCase()]||S.teams[(id||'').toUpperCase()]||{team_name:id||'?',logo_url:''}; return {...r, team}; }
+function en(r) { const id=r.team_id; const team=S.teams[id]||S.teams[(id||'').toLowerCase()]||S.teams[(id||'').toUpperCase()]||{team_name:id||'?',logo_url:S.defaultLogo}; return {...r, team}; }
 
 // ─── HELPERS ───────────────────────────────────────────────────────────────
-function fd(d) { if (!d||isNaN(d)) return '—'; return d.toLocaleDateString('fr-FR', {weekday:'short', day:'numeric', month:'short'}); }
-function fdLong(d) {
-  if (!d||isNaN(d)) return '—';
-  const mois=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  return d.getDate()+' '+mois[d.getMonth()]+' '+d.getFullYear();
-}
-function fdHome(d) {
-  if (!d||isNaN(d)) return '—';
-  const today=new Date(); today.setHours(0,0,0,0);
-  const dd=new Date(d); dd.setHours(0,0,0,0);
-  if(dd.getTime()===today.getTime()) return 'Today';
-  return (String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear());
-}
 function ytth(u) { const m = u?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([^&?/\s]+)/); return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null; }
 function getRes(mid) {
   // Try S.res (populated from combined tab)
   return S.res.find(r => r.match_id === mid);
 }
-function computeTeamRecord(teamId) {
-  return computeTeamRecordByPeriod(teamId).total;
+// A team's completed, scored matches across every split, sorted chronologically
+// (date + time, falling back to match_id): the basis for career-wide stats.
+function teamMatchHistory(teamId, allRows) {
+  const done = allRows.filter(m => (m.team_a_id === teamId || m.team_b_id === teamId)
+    && (m.status||'').toString().trim().toLowerCase() === 'done'
+    && m.score_a != null && m.score_b != null && m.score_a !== '' && m.score_b !== '');
+  const ts = m => {
+    const d = pd(m.date);
+    if (!d) return 0;
+    const t = String(m.time_cest||'').match(/(\d{1,2}):(\d{2})/);
+    const hh = t ? +t[1] : 0, mm = t ? +t[2] : 0;
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm).getTime();
+  };
+  return done.sort((a,b) => ts(a) - ts(b) || String(a.match_id||'').localeCompare(String(b.match_id||'')));
+}
+// Career record (all splits combined): the "Overdrive Record" stat.
+function computeCareerRecord(teamId, allRows) {
+  let w = 0, l = 0;
+  teamMatchHistory(teamId, allRows).forEach(m => {
+    const isA = m.team_a_id === teamId;
+    const my = +(isA ? m.score_a : m.score_b), opp = +(isA ? m.score_b : m.score_a);
+    if (isNaN(my) || isNaN(opp)) return;
+    if (my > opp) w++; else if (my < opp) l++;
+  });
+  return { w, l };
+}
+// Longest run of consecutive wins across the team's whole history: "Biggest Winning Streak".
+function computeBiggestStreak(teamId, allRows) {
+  let best = 0, cur = 0;
+  teamMatchHistory(teamId, allRows).forEach(m => {
+    const isA = m.team_a_id === teamId;
+    const my = +(isA ? m.score_a : m.score_b), opp = +(isA ? m.score_b : m.score_a);
+    if (isNaN(my) || isNaN(opp)) return;
+    if (my > opp) { cur++; best = Math.max(best, cur); } else if (my < opp) { cur = 0; }
+  });
+  return best;
 }
 // Groups a team's completed matches by schedule "period" (regular_season, playoffs, promotion, ...)
 function computeTeamRecordByPeriod(teamId, sched) {
@@ -1113,7 +1209,7 @@ async function fetchAllScheduleRows() {
   _allSchedCache = rows;
   return rows;
 }
-// Groups a team's completed matches (in one specific split) by period — works for any split,
+// Groups a team's completed matches (in one specific split) by period: works for any split,
 // past or present, since all rows live in the same combined tab.
 function computeSplitPeriodRecord(teamId, splitId, allRows) {
   const buckets = {};
@@ -1139,29 +1235,31 @@ async function openTeamModal(teamId) {
   const playersLine = [t.player1, t.player2].filter(Boolean).join(' & ');
 
   document.getElementById('modal-content').innerHTML = `
+<div class="team-modal">
 <div class="mo-hd">
   <div class="mo-bc">${divLbl}<span>-</span>${t.team_name||teamId}</div>
   <button class="mo-close" onclick="closeModal()">Close</button>
 </div>
 <div style="padding:28px 28px 0">
-  <div style="display:flex;align-items:center;gap:20px">
-    ${tlogo(t, 64)}
-    <div style="text-align:left;min-width:0">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+    ${tlogo(t, 84)}
+    <div style="text-align:center;min-width:0">
       <div class="mo-tname">${t.team_name||teamId}</div>
       <div class="mo-players" style="margin-top:6px">${divLbl}</div>
       ${playersLine ? `<div class="mo-players" style="margin-top:4px;opacity:.75">${playersLine}</div>` : ''}
     </div>
   </div>
 </div>
-<div id="team-current-split" style="display:flex;flex-wrap:wrap;margin-top:26px;border-top:1px solid var(--brd2)"><div class="empty" style="padding:16px 0;width:100%;text-align:center"><p>Loading…</p></div></div>
+<div id="team-current-split" style="display:flex;flex-wrap:wrap;margin-top:26px"><div class="empty" style="padding:16px 0;width:100%;text-align:center"><p>Loading…</p></div></div>
 <div class="mo-section">
   <div class="mo-sh">Previous Splits</div>
   <div id="team-history-list" class="mo-maps"><div class="empty" style="padding:16px 0"><p>Loading…</p></div></div>
+</div>
 </div>`;
   document.getElementById('modal-ov').classList.add('open');
 
   // Always the league's true active split (from Config), never the split the Standings/
-  // Leagues page selector might currently be showing — Team stats must stay independent
+  // Leagues page selector might currently be showing: Team stats must stay independent
   // from whatever the user is browsing elsewhere on the site.
   const curSplitId = S.configActiveSplit || S.act;
   const curEl = document.getElementById('team-current-split');
@@ -1191,24 +1289,28 @@ async function openTeamModal(teamId) {
     }
 
     const cur = await teamSplitData(curSplitId);
-    const regRec = cur.buckets['regular_season'] || { w:0, l:0 };
-    const extraRows = buildExtraSplitRows(cur.buckets, cur.startDiv, cur.champion, cur.placement);
-    const autoLabel = cur.rank ? autoPromoRelegLabel(cur.startDiv, cur.rank, cur.startDiv==='1'?cur.d1Size:cur.d2Size) : null;
-    const statCols = [{
-      label: 'Regular Season' + (cur.rank ? ` - ${ordinal(cur.rank)}` : '') + (autoLabel ? ` - ${autoLabel}` : ''),
-      value: `${regRec.w}-${regRec.l}`,
-      accent: false
-    }];
-    extraRows.forEach(r => statCols.push({ label: r.label, value: r.value, accent: true }));
-    curEl.innerHTML = statCols.map((c, i) => `<div style="flex:1;min-width:0;text-align:center;padding:20px 14px;${i>0?'border-left:1px solid var(--brd2)':''}">
-      <div class="mo-center-sub">${c.label}</div>
-      <div style="margin-top:8px;font-family:var(--ft);font-weight:900;font-size:28px;color:${c.accent?'var(--acc)':'var(--txt)'}">${c.value}</div>
-    </div>`).join('');
+
+    // Career-wide stats (all splits combined): matches the reference layout:
+    // Overdrive Record, Biggest Winning Streak, Overdrive Title (count of "Champ" splits).
+    const record = computeCareerRecord(teamId, allSchedRows);
+    const streak = computeBiggestStreak(teamId, allSchedRows);
 
     const others = S.splits.filter(s => s.split_id !== curSplitId);
+    const otherResults = await Promise.all(others.map(async s => ({ label: s.label || s.split_id, ...(await teamSplitData(s.split_id)) })));
+    const titleCount = (cur.champion ? 1 : 0) + otherResults.filter(r => r.champion).length;
+
+    curEl.innerHTML = [
+      { label: 'Overdrive Record', value: `${record.w}-${record.l}` },
+      { label: 'Biggest Winning Streak', value: `${streak}` },
+      { label: 'Overdrive Title', value: `${titleCount}` }
+    ].map(c => `<div style="flex:1;min-width:0;text-align:center;padding:20px 14px">
+      <div class="mo-center-sub">${c.label}</div>
+      <div style="margin-top:8px;font-family:var(--ft);font-weight:900;font-size:28px;color:var(--txt)">${c.value}</div>
+    </div>`).join('');
+
     if (!others.length) { histEl.innerHTML = '<div class="empty" style="padding:12px 0"><p>No previous splits</p></div>'; return; }
 
-    const results = await Promise.all(others.map(async s => ({ label: s.label || s.split_id, ...(await teamSplitData(s.split_id)) })));
+    const results = otherResults;
     const found = results.filter(r => r.rank);
     histEl.innerHTML = found.length ? found.map(r => {
       const reg = r.buckets['regular_season'] || { w:0, l:0 };
@@ -1235,16 +1337,20 @@ async function openTeamModal(teamId) {
     histEl.innerHTML = '<div class="empty" style="padding:12px 0"><p>Could not load previous splits</p></div>';
   }
 }
-function tph(letter, sz=80) { return `<div class="tp" style="width:${sz}px;height:${sz}px">${letter||''}</div>`; }
-function tlogoFallback(img, letter, sz) {
-  const wrap = img.parentElement;
-  if (wrap) wrap.outerHTML = tph(letter, sz);
+function tph(letter, sz=80, cls='') {
+  const style = cls ? '' : `width:${sz}px;height:${sz}px;`;
+  return `<div class="tp${cls?' '+cls:''}" style="${style}">${letter||''}</div>`;
 }
-function tlogo(team, sz=80) {
+function tlogoFallback(img, letter, sz, cls) {
+  const wrap = img.parentElement;
+  if (wrap) wrap.outerHTML = tph(letter, sz, cls);
+}
+function tlogo(team, sz=80, cls='') {
   const letter = (team?.team_name||'?')[0];
-  if (!team?.logo_url) return tph(letter, sz);
+  if (!team?.logo_url) return tph(letter, sz, cls);
   const safeLetter = letter.replace(/'/g,"\\'");
-  return `<div style="width:${sz}px;height:${sz}px;flex-shrink:0"><img src="${team.logo_url}" style="width:100%;height:100%;object-fit:contain" onerror="tlogoFallback(this,'${safeLetter}',${sz})" alt=""></div>`;
+  const style = cls ? 'flex-shrink:0' : `width:${sz}px;height:${sz}px;flex-shrink:0`;
+  return `<div${cls?` class="${cls}"`:''} style="${style}"><img src="${team.logo_url}" style="width:100%;height:100%;object-fit:contain" onerror="tlogoFallback(this,'${safeLetter}',${sz},'${cls}')" alt=""></div>`;
 }
 function sb(st) {
   const key = (st||'').toLowerCase().trim();
@@ -1275,17 +1381,16 @@ function mcDateLabel(m) {
   return `${jours[m.dO.getDay()]} ${m.dO.getDate()} ${mois[m.dO.getMonth()]}`;
 }
 function mcDivLabel(m) {
-  return matchDivLabel(m.division);
+  return matchDivLabelFull(m);
 }
-// Unified match card — upcoming (time) and result (score) share the same layout
+// Unified match card: upcoming (time) and result (score) share the same layout
 function mc(m) {
   const s=(m.status||'').toUpperCase();
   const isDone = s==='DONE'||s==='LIVE';
   let center;
   if (isDone) {
-    const r = getRes(m.match_id);
-    const sa = (r && r.score_a != null && r.score_a !== '') ? r.score_a : '?';
-    const scB = (r && r.score_b != null && r.score_b !== '') ? r.score_b : '?';
+    const sa = (m.score_a != null && m.score_a !== '') ? m.score_a : '?';
+    const scB = (m.score_b != null && m.score_b !== '') ? m.score_b : '?';
     center = `${sa}<span style="color:var(--muted);margin:0 10px">–</span>${scB}`;
   } else {
     center = m.time_cest || '—:——';
@@ -1293,22 +1398,71 @@ function mc(m) {
   return `<div class="mc-card" onclick="openMatchModal('${m.match_id}')">
 <div class="mc-hd">
   <span>${mcDateLabel(m)}</span>
-  <span class="mc-hd-right"><span>${mcDivLabel(m)}</span><span>${mcStatusLabel(m.status)}</span></span>
+  <span class="mc-hd-right"><span>${mcDivLabel(m)}</span><span>${splitLabelFor(m.split)}</span><span>${mcStatusLabel(m.status)}</span></span>
 </div>
 <div class="mc-body">
-  <div class="mc-team">${tlogo(m.A,75)}<span class="mc-tname">${m.A?.team_name||m.team_a_id||'?'}</span></div>
+  <div class="mc-team">${tlogo(m.A,75,'mc-logo')}<span class="mc-tname">${m.A?.team_name||m.team_a_id||'?'}</span></div>
   <div class="mc-center">
     <div class="mc-center-main">${center}</div>
     <div class="mc-center-sub">Match details</div>
   </div>
-  <div class="mc-team right"><span class="mc-tname">${m.B?.team_name||m.team_b_id||'?'}</span>${tlogo(m.B,75)}</div>
+  <div class="mc-team right"><span class="mc-tname">${m.B?.team_name||m.team_b_id||'?'}</span>${tlogo(m.B,75,'mc-logo')}</div>
 </div>
 </div>`;
 }
-// Date grouping — only dates that actually have matches (empty days are skipped)
+// Open Qualifier regions: the sheet uses "NCSA" as the match_id prefix, but this is
+// labeled "AMERICAS" in the UI.
+const OQ_REGIONS = [
+  { key:'EMEA', label:'EMEA', prefix:'EMEA' },
+  { key:'APAC', label:'APAC', prefix:'APAC' },
+  { key:'AMERICAS', label:'AMERICAS', prefix:'NCSA' },
+];
+function schedCatMatches(m, mode) {
+  const d = String(m.division||'').toLowerCase().trim();
+  // Matches "Div 1", "Division 1", "Div1", "Div 1 Playoffs", "Division 1 Playoffs"…
+  // but not "Div 10" or anything else that merely starts with the same digit.
+  if (mode === '1') return /^div(ision)?\s*1\b/.test(d) || d === '1' || d === 'barrage';
+  if (mode === '2') return /^div(ision)?\s*2\b/.test(d) || d === '2' || d === 'promo' || d === 'promotion';
+  if (mode === 'oq') return d === 'open qualifier';
+  return true; // 'all'
+}
+// Which OQ round numbers actually exist (in the current split/region scope): generated
+// from match_id values like "EMEA 1", "EMEA 2"… rather than always assuming a fixed 8.
+function schedOQRounds(regionKey, base) {
+  const region = OQ_REGIONS.find(r => r.key === regionKey);
+  if (!region) return [];
+  const re = new RegExp('^' + region.prefix + '\\s+(\\d+)$', 'i');
+  const rounds = new Set();
+  base.forEach(m => {
+    const mt = String(m.match_id||'').trim().match(re);
+    if (mt) rounds.add(+mt[1]);
+  });
+  return [...rounds].sort((a,b) => a-b);
+}
+function schedFilteredMatches() {
+  let ms = S.schedAllRows;
+  if (S.schedSplit !== 'all') ms = ms.filter(m => m.split === S.schedSplit);
+  ms = ms.filter(m => schedCatMatches(m, S.schedMode));
+  if (S.schedMode === 'oq' && S.schedRegion) {
+    const region = OQ_REGIONS.find(r => r.key === S.schedRegion);
+    if (region) {
+      ms = ms.filter(m => String(m.match_id||'').trim().toUpperCase().startsWith(region.prefix.toUpperCase()+' '));
+      if (S.schedOQ) ms = ms.filter(m => String(m.match_id||'').trim() === `${region.prefix} ${S.schedOQ}`);
+    }
+  }
+  return ms;
+}
+function setSchedSplit(sp) { S.schedSplit = sp; S.schedOQ = ''; renderInPlace(); }
+function setSchedMode(mode) { S.schedMode = mode; S.schedOQ = ''; renderInPlace(); }
+function setSchedRegion(r) { S.schedRegion = r; S.schedOQ = ''; renderInPlace(); }
+function setSchedOQ(n) { S.schedOQ = n; renderInPlace(); }
+function splitLabelFor(splitId) {
+  return S.splits.find(s => s.split_id === splitId)?.label || splitId || '';
+}
+// Date grouping: only dates that actually have matches (empty days are skipped)
 function schedGroups() {
   const map = {};
-  S.sched.forEach(m => {
+  schedFilteredMatches().forEach(m => {
     if (!m.dO || isNaN(m.dO)) return;
     const k = m.dO.toDateString();
     if (!map[k]) map[k] = { dO: m.dO, matches: [] };
@@ -1347,6 +1501,19 @@ function splitSel(val, fn) {
   <div class="ss-menu">${items}</div>
 </div>`;
 }
+// Same widget as splitSel(), but with an extra "All Splits" option prepended: used on
+// the Schedule page, whose default view spans every split combined.
+function splitSelWithAll(val, fn) {
+  if (!S.splits.length) return '';
+  const label = val === 'all' ? 'All Splits' : (S.splits.find(s => s.split_id === val)?.label || val);
+  const uid = 'ssd' + Math.random().toString(36).slice(2,9);
+  const allOpt = `<div class="ss-opt${val==='all'?' on':''}" onclick="event.stopPropagation();${fn}('all');closeAllSs()">All Splits</div>`;
+  const items = S.splits.map(s => `<div class="ss-opt${s.split_id===val?' on':''}" onclick="event.stopPropagation();${fn}('${s.split_id}');closeAllSs()">${s.label||s.split_id}</div>`).join('');
+  return `<div class="ss-cust" id="${uid}">
+  <button type="button" class="ss" onclick="event.stopPropagation();toggleSs('${uid}')">${label}</button>
+  <div class="ss-menu">${allOpt}${items}</div>
+</div>`;
+}
 function toggleSs(id) {
   const el = document.getElementById(id);
   const isOpen = el?.classList.contains('open');
@@ -1357,7 +1524,7 @@ function closeAllSs() {
   document.querySelectorAll('.ss-cust.open').forEach(el => el.classList.remove('open'));
 }
 document.addEventListener('click', closeAllSs);
-function liveMatch() { return S.sched.find(m => (m.status||'').toUpperCase() === 'LIVE'); }
+function liveMatch() { return S.homeSched.find(m => (m.status||'').toUpperCase() === 'LIVE'); }
 
 // ─── STANDINGS TABLE ───────────────────────────────────────────────────────
 function stTab(rows, div) {
@@ -1376,11 +1543,95 @@ function stTab(rows, div) {
     const teamName = `${r.team?.team_name||r.team_id||'?'}`;
     return `<tr class="${z}"><td><span class="rn">${r.rank}</span></td><td><div class="tc">${logo}<span class="tc-n">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
   }).join('');
-  return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>MW</th><th>ML</th><th>DIFF</th><th>PTS</th></tr></thead><tbody>${trs}</tbody></table></div>`;
+  return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trs}</tbody></table></div>`;
 }
 function legend(div) {
   if (div==1) return `<div class="leg"><div class="li"><div class="ld3 ld-champ"></div>Split Champion</div><div class="li"><div class="ld3 ld-pl"></div>Playoffs qualified</div><div class="li"><div class="ld3 ld-br"></div>Play-in qualified</div><div class="li"><div class="ld3 ld-rl"></div>Relegated to Div 2</div></div>`;
   return `<div class="leg"><div class="li"><div class="ld3 ld-pl"></div>Promoted to Div 1</div><div class="li"><div class="ld3 ld-br"></div>Play-in qualified</div><div class="li"><div class="ld3 ld-rl"></div>Up & Down</div></div>`;
+}
+// Barrage (Div 1 ↔ Div 2) / Promotion (Div 2 ↔ Open) results section for the Standings pages.
+// Shows each decider match with the per-team promoted/relegated/maintained outcome, computed
+// from which division the team started in (via the currently-loaded S.d1/S.d2 for this split).
+function promoRelChevron(dir) {
+  const color = dir === 'up' ? 'var(--acc)' : dir === 'down' ? '#fff' : 'var(--muted)';
+  const path = dir === 'up' ? 'M4 16l8-9 8 9' : dir === 'down' ? 'M4 8l8 9 8-9' : 'M4 12h16';
+  return `<svg viewBox="0 0 24 24" width="72" height="72" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><path d="${path}"/></svg>`;
+}
+function promoRelOutcomeColor(outcome) {
+  return outcome ? 'var(--acc)' : 'var(--muted)';
+}
+function promoRelSection(title, periodKey) {
+  // Only ever show a result for a match explicitly tagged with this period AND belonging
+  // to the split currently shown on this page: never one that leaked in from another split.
+  const matches = S.sched.filter(m => derivePeriodFromDivision(m.division) === periodKey && m.split === S.act);
+  const heading = `<div class="dt-md" style="font-family:var(--ft);margin:52px 0 20px">${title.toUpperCase()}</div>`;
+  if (!matches.length) {
+    return `${heading}<div class="empty"><p>No ${title.toLowerCase()} matches recorded for this split yet.</p></div>`;
+  }
+  const rankOf = teamId => {
+    const id = (teamId||'').toString().trim().toLowerCase();
+    const r1 = S.d1.find(r => (r.team_id||'').toLowerCase() === id);
+    if (r1) return { rank: r1.rank, div: '1' };
+    const r2 = S.d2.find(r => (r.team_id||'').toLowerCase() === id);
+    if (r2) return { rank: r2.rank, div: '2' };
+    return null;
+  };
+  // For a team not found in either division's standings (an Open/Continentals team), try
+  // to figure out which region they qualified through, from their Open Qualifier matches.
+  // Names can differ a lot between sheets ("Aurora X SKUF" vs "aurora_skuf"), so compare by
+  // significant word overlap rather than exact/substring equality.
+  const regionOfTeam = (teamId, teamName, teamShort) => {
+    // Generic words that shouldn't count as a "match" on their own (too common across orgs)
+    const STOP = new Set(['team','gaming','esports','squad','clan','crew','x','the']);
+    const words = s => (s||'').toString().toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().split(/\s+/).filter(w => w && !STOP.has(w));
+    const candidates = [words(teamId), words(teamName), words(teamShort)].filter(w => w.length);
+    // A team may have been renamed since qualifying (e.g. "SKUF Gaming" -> "aurora_skuf"), so a
+    // single shared distinctive word (not just an exact full-name match) counts as the same team.
+    const sameTeam = other => {
+      const ow = words(other);
+      if (!ow.length) return false;
+      return candidates.some(c => c.some(w => ow.includes(w)));
+    };
+    const base = S.schedAllRows && S.schedAllRows.length ? S.schedAllRows : S.sched;
+    const match = base.find(mm => schedCatMatches(mm, 'oq') && (sameTeam(mm.team_a_id) || sameTeam(mm.team_b_id)));
+    if (!match) return null;
+    const mid = String(match.match_id||'').trim().toUpperCase();
+    const region = OQ_REGIONS.find(rg => mid.startsWith(rg.prefix.toUpperCase()+' '));
+    return region ? region.label : null;
+  };
+  const rows = matches.map(m => {
+    const scoreA = +m.score_a, scoreB = +m.score_b;
+    const hasScore = !isNaN(scoreA) && !isNaN(scoreB) && m.score_a != null && m.score_a !== '';
+    const aWin = hasScore && scoreA > scoreB;
+    const aRank = rankOf(m.team_a_id), bRank = rankOf(m.team_b_id);
+    const aOutcome = hasScore ? periodOutcomeLabel(periodKey, aRank ? aRank.div : 'open', aWin) : null;
+    const bOutcome = hasScore ? periodOutcomeLabel(periodKey, bRank ? bRank.div : 'open', !aWin) : null;
+    // The arrow reflects who actually won this decider, not just whether their division
+    // label literally changed: the winner always points up, the loser always points down
+    // (e.g. a team that "Maintained" its division by winning still gets an up arrow).
+    const dirOf = win => !hasScore ? 'flat' : (win ? 'up' : 'down');
+    const placement = (r, team, id) => {
+      if (r) return `${ordinal(r.rank)} in Div ${r.div}`;
+      const region = regionOfTeam(id, team?.team_name, team?.team_short);
+      return region ? `Continentals - ${region}` : 'Continentals';
+    };
+    // Grid rows: logo / name / placement / outcome: identical row heights across both
+    // teams (via CSS Grid), so everything lines up vertically regardless of content length.
+    return `<div class="mo-map" style="cursor:pointer;padding:32px 20px" onclick="openMatchModal('${m.match_id}')">
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;justify-items:center;column-gap:32px;row-gap:14px;width:100%">
+        <div style="grid-column:1;grid-row:1">${tlogo(m.A,68)}</div>
+        <div style="grid-column:3;grid-row:1">${tlogo(m.B,68)}</div>
+        <div style="grid-column:2;grid-row:1/span 4;display:flex;align-items:center;gap:12px">${promoRelChevron(dirOf(aWin))}${promoRelChevron(dirOf(!aWin))}</div>
+        <div class="mo-tname" style="grid-column:1;grid-row:2;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.A?.team_name||m.team_a_id||'?'}</div>
+        <div class="mo-tname" style="grid-column:3;grid-row:2;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.B?.team_name||m.team_b_id||'?'}</div>
+        <div class="mo-players" style="grid-column:1;grid-row:3;font-size:13px">${placement(aRank, m.A, m.team_a_id)}</div>
+        <div class="mo-players" style="grid-column:3;grid-row:3;font-size:13px">${placement(bRank, m.B, m.team_b_id)}</div>
+        <div style="grid-column:1;grid-row:4;font-size:14px;font-weight:600;color:${promoRelOutcomeColor(aOutcome)}">${aOutcome||''}</div>
+        <div style="grid-column:3;grid-row:4;font-size:14px;font-weight:600;color:${promoRelOutcomeColor(bOutcome)}">${bOutcome||''}</div>
+      </div>
+    </div>`;
+  }).join('');
+  return `${heading}<div class="mo-maps">${rows}</div>`;
 }
 
 // ─── TWITCH SECTION ────────────────────────────────────────────────────────
@@ -1430,7 +1681,12 @@ function twitchSection() {
 // ─── HOME MATCH CARD ───────────────────────────────────────────────────────
 function pgHome() {
   const live = liveMatch();
-  const rows = S.homeStDiv==='1' ? S.d1 : S.d2;
+  // Safety net: fall back to the generic (already-loaded) data if the home-specific
+  // split fetch hasn't resolved yet or came back empty for any reason.
+  const homeSchedSafe = S.homeSched.length ? S.homeSched : S.sched;
+  const homeD1Safe = S.homeD1.length ? S.homeD1 : S.d1;
+  const homeD2Safe = S.homeD2.length ? S.homeD2 : S.d2;
+  const rows = S.homeStDiv==='1' ? homeD1Safe : homeD2Safe;
 
   // About
   const about = `<div class="ab-wrap">
@@ -1468,9 +1724,9 @@ function pgHome() {
   // Live / Twitch
   const liveSection = twitchSection();
 
-  // Upcoming / Recent matches – each with its own division toggle
+  // Upcoming matches – still has its own division toggle
   function homeMatches(div, status) {
-    const ms = S.sched.filter(m => { const d = String(m.division||''); return d===div || d.includes(div); });
+    const ms = homeSchedSafe.filter(m => { const d = String(m.division||''); return d===div || d.includes(div); });
     if (status === 'upcoming') {
       const rows3 = ms.filter(m => m.status==='confirmed'||m.status==='pending'||m.status==='CHECK').slice(0,3);
       return rows3.length ? rows3.map(m => mc(m)).join('') : '<div class="empty" style="padding:12px 0"><p>No upcoming matches</p></div>';
@@ -1479,7 +1735,7 @@ function pgHome() {
     return rows3.length ? rows3.map(m => mc(m)).join('') : '<div class="empty" style="padding:12px 0"><p>No results</p></div>';
   }
   const upcomingSection = `<div class="pg" style="padding-top:var(--block-gap)">
-<div class="sh"><div class="dt-md" style="font-family:var(--ft);margin-bottom:18px">UPCOMING MATCHES</div><span class="sa" onclick="go('schedule')">See all <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
+<div class="sh"><div class="dt-md" style="font-family:var(--ft)">UPCOMING MATCHES</div><span class="sa" onclick="go('schedule')">See all <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
 <div class="dtog">
 <button class="dtb${S.homeUpDiv==='1'?' on':''}" onclick="setHomeUpDiv('1')">Division 1</button>
 <button class="dtb${S.homeUpDiv==='2'?' on':''}" onclick="setHomeUpDiv('2')">Division 2</button>
@@ -1487,18 +1743,17 @@ function pgHome() {
 ${homeMatches(S.homeUpDiv,'upcoming')}
 </div>`;
 
+  // Recent matches – no division toggle, just the last 3 completed matches overall
+  const recentOverall = [...homeSchedSafe].filter(m => m.status==='DONE').reverse().slice(0,3);
+  const recentMatchesHtml = recentOverall.length ? recentOverall.map(m => mc(m)).join('') : '<div class="empty" style="padding:12px 0"><p>No results</p></div>';
   const recentSection = `<div class="pg" style="padding-top:var(--block-gap)">
-<div class="sh"><div class="dt-md" style="font-family:var(--ft);margin-bottom:18px">RECENT MATCHES</div><span class="sa" onclick="go('schedule')">See all <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
-<div class="dtog">
-<button class="dtb${S.homeReDiv==='1'?' on':''}" onclick="setHomeReDiv('1')">Division 1</button>
-<button class="dtb${S.homeReDiv==='2'?' on':''}" onclick="setHomeReDiv('2')">Division 2</button>
-</div>
-${homeMatches(S.homeReDiv,'recent')}
+<div class="sh"><div class="dt-md" style="font-family:var(--ft)">RECENT MATCHES</div><span class="sa" onclick="go('schedule')">See all <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
+${recentMatchesHtml}
 </div>`;
 
   // Standings
   const standSection = `<div class="pg" style="padding-top:var(--block-gap)">
-<div class="sh"><div class="dt-md" style="font-family:var(--ft);margin-bottom:18px">STANDINGS</div><span class="sa" onclick="go('standings')">Full standings <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
+<div class="sh"><div class="dt-md" style="font-family:var(--ft)">STANDINGS</div><span class="sa" onclick="go('standings')">Full standings <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
 <div class="dtog">
 <button class="dtb${S.homeStDiv==='1'?' on':''}" onclick="setHSD('1')">Division 1</button>
 <button class="dtb${S.homeStDiv==='2'?' on':''}" onclick="setHSD('2')">Division 2</button>
@@ -1510,7 +1765,7 @@ ${legend(S.homeStDiv)}
   // News – always visible above sponsors
   const newsCards = S.art.slice(0,3).map((a,i)=>artCard(a,i)).join('');
   const newsSection = `<div class="pg" style="padding-top:var(--block-gap)">
-<div class="sh"><div><div class="dt-md" style="font-family:var(--ft);margin-bottom:18px">NEWS</div></div><span class="sa" onclick="go('news')">All articles <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
+<div class="sh"><div><div class="dt-md" style="font-family:var(--ft)">NEWS</div></div><span class="sa" onclick="go('news')">All articles <span class="sa-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></span></div>
 <div class="home-news-cards al">${newsCards || ''}</div>
 </div>`;
 
@@ -1518,46 +1773,37 @@ ${legend(S.homeStDiv)}
 }
 
 function pgLeagues() {
-  const tabs = ['EMEA','APAC','NCSA'];
-  const tabHtml = tabs.map(t => `<button class="dtb${S.regTab===t?' on':''}" onclick="setReg('${t}')">${t}</button>`).join('');
-  const div = S.leaguesDiv || '1';
-  const rows = div==='1' ? S.d1 : S.d2;
+  const region = S.regTab || 'EMEA';
+  const regionDef = OQ_REGIONS.find(r => r.key === region) || OQ_REGIONS[0];
+  const tabHtml = OQ_REGIONS.map(r => `<button class="dtb${region===r.key?' on':''}" onclick="setReg('${r.key}')">${r.label}</button>`).join('');
+
   return `<div class="pg">
 <div class="dt">STANDINGS</div>
 <div class="tb-bar lg-ctrl-row">
-  <div class="dtog">
-  <button class="dtb${div==='1'?' on':''}" onclick="setLeaguesDiv('1')">Division 1</button>
-  <button class="dtb${div==='2'?' on':''}" onclick="setLeaguesDiv('2')">Division 2</button>
-  </div>
+  <div class="dt-md" style="font-family:var(--ft);margin:0">OPEN QUALIFIER</div>
   <span class="ss-pill">${splitSel(S.act,'changeSplit')}</span>
 </div>
-
-<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">DIVISION <span style="color:var(--acc)">${div}</span></div>
-${stTab(rows,+div)}
-${legend(+div)}
-
-<div class="dt-md" style="font-family:var(--ft);margin:52px 0 20px">RELEGATION & <span style="color:var(--acc)">PROMOTION</span></div>
 <div class="dtog">${tabHtml}</div>
-<div class="empty"><h3>${S.regTab}</h3><p>Relegation and promotion data will be available soon.</p></div>
+
+<div class="dt-md" style="font-family:var(--ft);margin:52px 0 20px">CONTINENTALS</div>
+<div class="empty"><h3>Coming soon</h3><p>Continentals bracket and results will be available soon.</p></div>
 </div>`;
 }
 
 function pgStandings() {
   const div = S.stdDiv || '1';
   const rows = div==='1' ? S.d1 : S.d2;
+  const extraSection = div==='1' ? promoRelSection('Barrage', 'barrage') : promoRelSection('Promotion', 'promotion');
   return `<div class="pg">
 <div class="dt">STANDINGS</div>
 <div class="tb-bar lg-ctrl-row">
-  <div class="dtog">
-  <button class="dtb${div==='1'?' on':''}" onclick="setStdDiv('1')">Division 1</button>
-  <button class="dtb${div==='2'?' on':''}" onclick="setStdDiv('2')">Division 2</button>
-  </div>
+  <div class="dt-md" style="font-family:var(--ft);margin:0">DIVISION <span style="color:var(--acc)">${div}</span></div>
   <span class="ss-pill">${splitSel(S.act,'changeSplit')}</span>
 </div>
 
-<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">DIVISION <span style="color:var(--acc)">${div}</span></div>
 ${stTab(rows,+div)}
 ${legend(+div)}
+${extraSection}
 </div>`;
 }
 
@@ -1569,9 +1815,31 @@ function pgSchedule() {
       ? g.matches.map(mc).join('')
       : `<div class="empty" style="margin:0"><h3>No match today</h3><p>Check back soon</p></div>`;
     return `<div class="date-group" id="sch-g-${i}"><div class="date-hd${schedGroupLabel(g.dO)==="Today"?' today':''}">${schedGroupLabel(g.dO)}</div>${body}</div>`;
-  }).join('');
+  }).join('') + `<div aria-hidden="true" style="height:900px"></div>`;
+
+  const splitScoped = S.schedSplit === 'all' ? S.schedAllRows : S.schedAllRows.filter(m => m.split === S.schedSplit);
+  const regionScoped = S.schedRegion ? splitScoped.filter(m => schedCatMatches(m, 'oq')) : [];
+  const oqRounds = S.schedRegion ? schedOQRounds(S.schedRegion, regionScoped) : [];
+
+  const filterBar = `<div class="tb-bar lg-ctrl-row">
+  <div class="dtog">
+    <button class="dtb${S.schedMode==='all'?' on':''}" onclick="setSchedMode('all')">All</button>
+    <button class="dtb${S.schedMode==='1'?' on':''}" onclick="setSchedMode('1')">Division 1</button>
+    <button class="dtb${S.schedMode==='2'?' on':''}" onclick="setSchedMode('2')">Division 2</button>
+    <button class="dtb${S.schedMode==='oq'?' on':''}" onclick="setSchedMode('oq')">Open Qualifier</button>
+  </div>
+  <span class="ss-pill">${splitSelWithAll(S.schedSplit, 'setSchedSplit')}</span>
+</div>
+${S.schedMode==='oq' ? `<div class="dtog" style="margin-top:10px">
+  ${OQ_REGIONS.map(r => `<button class="dtb${S.schedRegion===r.key?' on':''}" onclick="setSchedRegion('${r.key}')">${r.label}</button>`).join('')}
+</div>` : ''}
+${(S.schedMode==='oq' && S.schedRegion && oqRounds.length) ? `<div class="dtog" style="margin-top:10px">
+  ${oqRounds.map(n => `<button class="dtb${String(S.schedOQ)===String(n)?' on':''}" onclick="setSchedOQ('${n}')">OQ ${n}</button>`).join('')}
+</div>` : ''}`;
+
   return `<div class="pg">
 <div class="dt">SCHEDULE</div>
+${filterBar}
 <div class="sch-nav">
   <div class="sch-nav-ctrl">
     <button class="sch-arr" onclick="schedNav(-1)" aria-label="Previous day"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
@@ -1584,13 +1852,18 @@ ${groupsHtml}
 </div>
 </div>`;
 }
+let _schAutoScrolling = false;
 function schedScrollTo(idx, smooth) {
   const list = document.getElementById('sch-list');
   const el = document.getElementById('sch-g-'+idx);
   if (!list || !el) return;
   const delta = el.getBoundingClientRect().top - list.getBoundingClientRect().top;
+  _schAutoScrolling = true;
   list.scrollTo({ top: list.scrollTop + delta, behavior: smooth ? 'smooth' : 'auto' });
+  clearTimeout(_schAutoScrollT);
+  _schAutoScrollT = setTimeout(() => { _schAutoScrolling = false; }, smooth ? 500 : 120);
 }
+let _schAutoScrollT = null;
 function schedUpdateBtn(g) {
   const btn = document.getElementById('sch-today-btn');
   if (btn && g) btn.textContent = schedGroupLabel(g.dO);
@@ -1606,6 +1879,7 @@ let _schScrollT = null;
 function schedOnScroll() {
   clearTimeout(_schScrollT);
   _schScrollT = setTimeout(() => {
+    if (_schAutoScrolling) return; // don't let our own auto-scroll clobber schIdx mid-flight
     const list = document.getElementById('sch-list');
     if (!list) return;
     const groups = schedGroups();
@@ -1726,7 +2000,6 @@ async function fetchDocContent(pubUrl, exportUrl) {
       if (alt) img.setAttribute('alt', alt);
       img.setAttribute('loading', 'lazy');
       img.setAttribute('onerror', "docImgFallback(this)");
-      if (src) console.log('[Doc image found]', src);
     });
 
     // Strip clutter from all elements
@@ -1888,14 +2161,56 @@ function pgAbout() {
 </div>`;
 }
 
+// ─── FOOTER LEGAL PAGES (draft content: see notice on each page) ──────────
+function pgContact() {
+  return `<div class="pg">
+<div class="dt">CONTACT</div>
+<p class="ab-p">Got a question about the league, a partnership idea, or want to join the project? Drop us a line and we'll get back to you as soon as we can.</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">GET IN TOUCH</div>
+<p class="ab-p">Email: <a href="mailto:contact@overdrive.gg" style="color:var(--acc)">contact@overdrive.gg</a><br>
+Discord: <a href="#" style="color:var(--acc)">discord.gg/overdrive</a><br>
+Twitter / X: <a href="#" style="color:var(--acc)">@OverDriveLeague</a></p>
+<div class="empty" style="margin-top:32px"><p>Draft: replace these placeholder details with your real contact info before going live.</p></div>
+</div>`;
+}
+function pgLegal() {
+  return `<div class="pg">
+<div class="dt">LEGAL NOTICE</div>
+<div class="empty" style="margin-bottom:28px"><p>This is a starting draft to fill in with your actual legal details. It is not a substitute for legal advice.</p></div>
+<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">SITE PUBLISHER</div>
+<p class="ab-p">[Company or association name], [legal form], registered under number [registration number], with its registered office at [full address].<br>
+Publication director: [Full name]<br>
+Contact: [contact email]</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">HOSTING</div>
+<p class="ab-p">This site is hosted by [hosting provider, e.g. GitHub Inc. / Netlify Inc.], [provider address].</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">INTELLECTUAL PROPERTY</div>
+<p class="ab-p">All content on this site (text, logos, visuals, video) belongs to OverDrive or its respective authors unless stated otherwise. Reproduction without permission is prohibited.</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">LIABILITY</div>
+<p class="ab-p">OverDrive aims to provide information that is as accurate as possible, but makes no guarantee as to the accuracy, completeness or timeliness of the data published on this site.</p>
+</div>`;
+}
+function pgPrivacy() {
+  return `<div class="pg">
+<div class="dt">PRIVACY</div>
+<div class="empty" style="margin-bottom:28px"><p>This is a starting draft to adapt to your actual data practices. It is not a substitute for legal advice.</p></div>
+<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">DATA WE COLLECT</div>
+<p class="ab-p">OverDrive does not collect any personal data required to browse this site, aside from anonymised technical analytics data where applicable.</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">COOKIES</div>
+<p class="ab-p">[To complete: state whether cookies are used, for what purpose, and how visitors can manage or decline them.]</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">YOUR RIGHTS</div>
+<p class="ab-p">Under the GDPR, you have the right to access, correct and delete data concerning you. To exercise these rights, contact us at [contact email].</p>
+</div>`;
+}
+
 // ─── ROUTER ────────────────────────────────────────────────────────────────
 const PAGES = {
   home: pgHome, leagues: pgLeagues, standings: pgStandings,
   schedule: pgSchedule, news: pgNews, articles: pgArticles, article: pgArticle, vods: pgVODs,
   teams: pgTeams, players: pgPlayers, about: pgAbout,
+  contact: pgContact, legal: pgLegal, privacy: pgPrivacy,
 };
 // Map page → parent nav item
-const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',players:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about'};
+const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',players:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
 
 // renderInPlace – updates content WITHOUT scrolling (toggles, filters…)
 function renderInPlace() {
@@ -1904,7 +2219,15 @@ function renderInPlace() {
   const fn = PAGES[S.page] || pgHome;
   document.getElementById('app').innerHTML = fn();
   if (S.page === 'home') { _ytReady = false; _ytPlayer = null; _ytMuted = true; setTimeout(initYTPlayer, 150); }
-  if (S.page === 'schedule') { requestAnimationFrame(() => { schedScrollTo(schIdx, false); schedOnScroll(); }); }
+  if (S.page === 'schedule') {
+    const schTargetIdx = schIdx;
+    requestAnimationFrame(() => { schedScrollTo(schTargetIdx, false); });
+    // Webfont swap-in and logo images loading after the initial paint can shift card
+    // heights just enough to throw off the scroll anchor (cropping the date header while
+    // still showing that day's matches). Re-snap once things have actually settled.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => schedScrollTo(schTargetIdx, false));
+    setTimeout(() => schedScrollTo(schTargetIdx, false), 350);
+  }
 }
 
 // go – navigation entre pages (scroll en haut)
@@ -1912,9 +2235,44 @@ function go(page) {
   S.page = page;
   renderInPlace();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  syncHash(page);
 }
 
+// ─── HASH ROUTING ──────────────────────────────────────────────────────────
+// Reflects the current page in the URL (e.g. yoursite.com/#schedule) so pages can be
+// bookmarked/shared directly and the browser's back/forward buttons work as expected.
+const PAGE_TITLES = {
+  home:'OverDrive', leagues:'Standings – OverDrive', standings:'Standings – OverDrive',
+  schedule:'Schedule – OverDrive', news:'News – OverDrive', articles:'News – OverDrive',
+  article:'News – OverDrive', vods:'VODs – OverDrive',
+  teams:'Teams – OverDrive', players:'Players – OverDrive', about:'About – OverDrive',
+  contact:'Contact – OverDrive', legal:'Legal Notice – OverDrive', privacy:'Privacy – OverDrive',
+};
+let _navigatingViaGo = false;
+function pageFromHash() {
+  const h = (location.hash || '').replace(/^#\/?/, '').split('?')[0];
+  return PAGES[h] ? h : 'home';
+}
+function syncHash(page) {
+  document.title = PAGE_TITLES[page] || 'OverDrive';
+  const desired = page === 'home' ? '' : page;
+  if ((location.hash || '').replace(/^#\/?/, '') !== desired) {
+    _navigatingViaGo = true;
+    location.hash = desired;
+  }
+}
+window.addEventListener('hashchange', () => {
+  if (_navigatingViaGo) { _navigatingViaGo = false; return; } // already handled by go()
+  const p = pageFromHash();
+  if (p === S.page) return;
+  S.page = p;
+  renderInPlace();
+  window.scrollTo({ top: 0 });
+  document.title = PAGE_TITLES[p] || 'OverDrive';
+});
+
 function render() {
+  document.title = PAGE_TITLES[S.page] || 'OverDrive';
   const hasData = S.sched.length || S.d1.length || S.d2.length || Object.keys(S.teams).length;
   if (!hasData) {
     const warn = '<div style="background:rgba(255,106,0,.1);border:1px solid rgba(255,106,0,.3);padding:16px 20px;margin:0 0 20px;font-size:13px;color:var(--muted)"><strong style="color:var(--acc)">⚠ Data not loaded</strong> – Open console (F12) to see GViz errors.</div>';
@@ -1927,11 +2285,8 @@ function render() {
 
 // ─── CONTROLS ──────────────────────────────────────────────────────────────
 function setHomeUpDiv(d) { S.homeUpDiv = d; renderInPlace(); }
-function setHomeReDiv(d) { S.homeReDiv = d; renderInPlace(); }
 function setHSD(d) { S.homeStDiv = d; renderInPlace(); }
-function setStdDiv(d) { S.stdDiv = d; renderInPlace(); }
 function goStandingsDiv(d) { S.stdDiv = d; go('standings'); }
-function setLeaguesDiv(d) { S.leaguesDiv = d; renderInPlace(); }
 function setVodSp(id) { S.vodSp = id; renderInPlace(); }
 function setTDiv(d) { S.tdiv = d; renderInPlace(); }
 function setReg(r) { S.regTab = r; renderInPlace(); }
@@ -1944,7 +2299,8 @@ async function changeSplit(sp) {
 
 // ─── POLLING ───────────────────────────────────────────────────────────────
 async function refresh() {
-  await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod()]);
+  _allSchedCache = null; // force a fresh combined-tab fetch this cycle (see loadScheduleAllSplits)
+  await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), loadHomeSplitData(), loadScheduleAllSplits()]);
   render(); poll();
 }
 function poll() { if (pollT) clearTimeout(pollT); pollT = setTimeout(refresh, (todayMatch()?S.cfg.pm:S.cfg.pd)*1000); }
@@ -1965,13 +2321,16 @@ function mlogoSm(team) {
 
 // ─── MODAL ─────────────────────────────────────────────────────────────────
 function openMatchModal(matchId) {
-  const m = S.sched.find(x => x.match_id === matchId);
+  const fromMain = S.sched.find(x => x.match_id === matchId);
+  const m = fromMain || S.homeSched.find(x => x.match_id === matchId);
   if (!m) return;
-  const r = getRes(matchId);
+  // Whichever array the match actually came from: keeps "recent form" consistent with
+  // the same split, instead of assuming S.res (which tracks whatever S.act currently is).
+  const matchSource = fromMain ? S.sched : S.homeSched;
   const isDone = m.status === 'DONE';
   const isLive = (m.status||''). toUpperCase() === 'LIVE';
 
-  const sa = r?.score_a ?? '', sb2 = r?.score_b ?? '';
+  const sa = m.score_a ?? '', sb2 = m.score_b ?? '';
   const hasScore = (isDone||isLive) && sa!=='' && sb2!=='';
   const scoreHtml = hasScore
     ? `<div class="mo-sc">${sa} <span style="color:var(--muted);font-weight:300">-</span> ${sb2}</div>`
@@ -1987,8 +2346,8 @@ function openMatchModal(matchId) {
 
   // Recent form (last 3 matches for each team)
   function recentForm(teamId, excludeMatchId) {
-    return S.res
-      .filter(rx => rx.match_id !== excludeMatchId && (rx.team_a_id === teamId || rx.team_b_id === teamId))
+    return matchSource
+      .filter(rx => rx.match_id !== excludeMatchId && (rx.team_a_id === teamId || rx.team_b_id === teamId) && rx.score_a != null && rx.score_b != null && rx.score_a !== '' && rx.score_b !== '')
       .slice(-3).reverse()
       .map(rx => {
         const isA = rx.team_a_id === teamId;
@@ -1996,8 +2355,7 @@ function openMatchModal(matchId) {
         const scoreA = rx.score_a ?? '?', scoreB = rx.score_b ?? '?';
         const myScore = isA ? scoreA : scoreB, oppScore = isA ? scoreB : scoreA;
         const won = +myScore > +oppScore;
-        const mData = S.sched.find(sx => sx.match_id === rx.match_id);
-        const div = mData?.division || rx.division || '';
+        const div = rx.division || '';
         return `<div class="mo-result">
   <div><div class="mo-res-meta">${div}</div><div class="mo-res-vs">vs ${opponent}</div></div>
   <div class="mo-res-right">
@@ -2010,12 +2368,12 @@ function openMatchModal(matchId) {
 
   // Map details
   let detailSection = '';
-  if (isDone && r) {
+  if (isDone && m) {
     const maps = [];
     for (let i = 1; i <= 5; i++) {
-      const ta = r[`track${i}_a`], tb = r[`track${i}_b`];
+      const ta = m[`track${i}_a`], tb = m[`track${i}_b`];
       if (ta != null && tb != null && ta !== '') {
-        const mapName = r[`track${i}`] || r[`track${i}_name`] || r[`track${i}_map`] || r[`track${i}map`] || r[`map${i}_name`] || r[`map${i}`] || `Track ${i}`;
+        const mapName = m[`track${i}`] || m[`track${i}_name`] || m[`track${i}_map`] || m[`track${i}map`] || m[`map${i}_name`] || m[`map${i}`] || `Track ${i}`;
         maps.push({num:i, name:mapName, scoreA:ta, scoreB:tb});
       }
     }
@@ -2053,7 +2411,7 @@ function openMatchModal(matchId) {
   const splitLabel = (S.splits.find(s => s.split_id === m.split)?.label) || m.split || (S.splits.find(s => s.split_id === S.act)?.label) || S.act || 'OverDrive 2026';
   document.getElementById('modal-content').innerHTML = `
 <div class="mo-hd">
-  <div class="mo-bc">${matchDivLabel(m.division)||'—'}<span>-</span>${isDone?'Finished':isLive?'Live':'Upcoming'}<span>-</span>${splitLabel}</div>
+  <div class="mo-bc">${matchDivLabelFull(m)||'—'}<span>-</span>${isDone?'Finished':isLive?'Live':'Upcoming'}<span>-</span>${splitLabel}</div>
   <button class="mo-close" onclick="closeModal()">Close</button>
 </div>
 <div class="mo-main">
@@ -2083,7 +2441,93 @@ function closeModal() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ─── INIT ──────────────────────────────────────────────────────────────────
+// ─── NAV DROPDOWNS ─────────────────────────────────────────────────────────
+// Driven by JS rather than CSS :hover, which closes the menu the instant the pointer
+// leaves the element and makes the submenu hard to reach. Open/close is explicit state
+// with a close delay, so imperfect pointer paths still work.
+const DD_CLOSE_DELAY = 400;   // ms of grace before a menu closes
+const DD_OPEN_DELAY  = 60;    // ms before opening, avoids flicker when passing over
+
+function initNavDropdowns() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const dd = item.querySelector('.dd');
+    if (!dd) return;                       // plain nav links have no dropdown
+    let closeTimer = null, openTimer = null;
+
+    const closeAll = () => {
+      item.classList.remove('open');
+      item.querySelectorAll('.ddi-sub.open').forEach(s => s.classList.remove('open'));
+    };
+    const open = () => {
+      clearTimeout(closeTimer); clearTimeout(openTimer);
+      document.querySelectorAll('.nav-item.open').forEach(o => {
+        if (o !== item) { o.classList.remove('open'); o.querySelectorAll('.ddi-sub.open').forEach(s => s.classList.remove('open')); }
+      });
+      item.classList.add('open');
+    };
+    const scheduleOpen = () => { clearTimeout(closeTimer); clearTimeout(openTimer); openTimer = setTimeout(open, DD_OPEN_DELAY); };
+
+    item.addEventListener('mouseenter', scheduleOpen);
+
+    // "Inside" is decided by geometry rather than element boundaries: a hidden .dd
+    // has pointer-events:none and can never receive mouseenter. Tracking coordinates
+    // also covers the gap between the button and the panel.
+    const PAD = 14;
+    const within = (r, x, y) => x >= r.left-PAD && x <= r.right+PAD && y >= r.top-PAD && y <= r.bottom+PAD;
+    document.addEventListener('mousemove', e => {
+      const overItem = within(item.getBoundingClientRect(), e.clientX, e.clientY);
+      // Not gated on the menu being open: the panel keeps its geometry when hidden,
+      // and gating here would make it impossible to reopen by moving back onto it.
+      const overDD   = within(dd.getBoundingClientRect(), e.clientX, e.clientY);
+      let overSub = false;
+      item.querySelectorAll('.ddi-sub').forEach(sub => {
+        const sm = sub.querySelector('.dd-sub');
+        if (sub.classList.contains('open') && sm && within(sm.getBoundingClientRect(), e.clientX, e.clientY)) overSub = true;
+      });
+
+      if (overItem || overDD || overSub) {
+        if (!item.classList.contains('open')) scheduleOpen();
+        else if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      } else if (item.classList.contains('open')) {
+        if (!closeTimer) closeTimer = setTimeout(() => { closeAll(); closeTimer = null; }, DD_CLOSE_DELAY);
+      }
+
+      // Nested submenus follow the same geometric rule.
+      if (item.classList.contains('open')) {
+        item.querySelectorAll('.ddi-sub').forEach(sub => {
+          const sm = sub.querySelector('.dd-sub');
+          if (!sm) return;
+          const overRow = within(sub.getBoundingClientRect(), e.clientX, e.clientY);
+          const overPanel = sub.classList.contains('open') && within(sm.getBoundingClientRect(), e.clientX, e.clientY);
+          if (overRow || overPanel) { clearTimeout(sub._t); sub.classList.add('open'); }
+          else if (sub.classList.contains('open') && !sub._t) {
+            sub._t = setTimeout(() => { sub.classList.remove('open'); sub._t = null; }, DD_CLOSE_DELAY);
+          }
+        });
+      }
+    });
+
+    // Clicking a destination should dismiss the menu straight away.
+    dd.addEventListener('click', () => { clearTimeout(closeTimer); clearTimeout(openTimer); closeAll(); });
+    const label = item.querySelector('.nlk');
+    if (label) label.addEventListener('focus', open);
+  });
+
+  // Close everything on outside click or Escape.
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-item')) {
+      document.querySelectorAll('.nav-item.open,.ddi-sub.open').forEach(o => o.classList.remove('open'));
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.querySelectorAll('.nav-item.open,.ddi-sub.open').forEach(o => o.classList.remove('open'));
+  });
+}
+initNavDropdowns();
+
 async function init() {
+  // Direct/shared links (e.g. #schedule) should open straight on that page
+  S.page = pageFromHash();
   // Detect file:// protocol – GViz fetch() is blocked by browser security
   if (location.protocol === 'file:') {
     document.getElementById('app').innerHTML = `
@@ -2115,7 +2559,7 @@ async function init() {
     await lCfg();
     await lSplits();
     await lTeams();
-    await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod()]);
+    await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), loadHomeSplitData(), loadScheduleAllSplits()]);
   } catch(e) {
     console.error('Init error:', e);
   } finally {
