@@ -323,7 +323,7 @@ footer{
 .th-tip:hover::before{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#111;margin-top:4px;z-index:30;pointer-events:none}
 .stt th{font-family:var(--ft);font-weight:900;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 14px;text-align:center;background:#0f0f0f}
 .stt th:first-child{text-align:left;padding-left:20px;border-radius:var(--r) 0 0 var(--r)}
-.stt th:nth-child(2){text-align:left}
+.stt th:nth-child(2){text-align:left;padding-left:6px}
 .stt th:last-child{border-radius:0 var(--r) var(--r) 0}
 .stt td{padding:14px 16px;text-align:center;font-family:var(--fi);font-weight:700;font-size:19px;background:var(--row);border-top:1px solid rgba(255,255,255,.02)}
 .stt td:first-child{padding-left:20px;text-align:left;font-family:var(--ft);font-size:20px;font-weight:900}
@@ -334,6 +334,47 @@ footer{
 .stt tr.champ td{background:var(--champ)}
 .rn{font-family:var(--ft);font-weight:900;font-size:21px;display:inline-block;width:34px;text-align:center}
 .tc{display:flex;align-items:center;gap:12px;min-width:190px}
+
+/* Rank + logo share one continuous panel: the rank cell drops its right padding
+   and the logo cell its left, so the two read as a single block. */
+.stt td.rank-cell{padding-right:0}
+/* The logo cell is the positioning context for the absolutely-placed panel. */
+.stt td.team-cell{padding-left:0;position:relative}
+
+/* Tilted logo cell. Both the logo and the window that crops it are angled at 15deg:
+   the logo via rotate(), the window via a skewed clip-path polygon, so the crop
+   edges run diagonally instead of vertically. No filter is applied: filters
+   rasterize SVG logos at layout size before transforms, which visibly softens them. */
+.tlogo-box{
+  /* 14px over the 52px row height gives the reference's ~15deg lean. Expressed in
+     px because clip-path percentages on the x-axis resolve against width, not height. */
+  --tilt:14px;
+  /* Absolutely placed and stretched to the cell's padding box, so the panel meets
+     the top and bottom edges of the row while contributing nothing to its height.
+     Shifted slightly left so it tucks further under the rank block. */
+  position:absolute;top:0;bottom:0;left:-6px;
+  /* Wide enough that the slanted right edge falls inside the box rather than being
+     clipped flat by it. */
+  width:100px;
+  overflow:hidden;
+  /* Parallelogram leaning left towards the bottom: both edges shift by the same
+     amount, so the sides stay parallel like the reference shape. */
+  clip-path:polygon(var(--tilt) 0, 100% 0, calc(100% - var(--tilt)) 100%, 0 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+/* Reserves the horizontal space the absolute panel occupies, plus a little extra
+   so the team name sits clear of the panel's diagonal edge. */
+.tc{padding-left:108px}
+.tlogo-box>*{
+  /* Sized directly: SVG logos stay vector-sharp under rotation, so no overscale
+     trick is needed. Avoid adding any CSS filter here, which would rasterize them. */
+  width:90px !important;height:90px !important;
+  transform:rotate(15deg);
+  transform-origin:center;
+}
+/* 10px gap between rows, per the reference spacing. */
+.stt{border-spacing:0 10px !important}
+.stt td{border-top:none !important}
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
 .tc-n{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .pts{font-family:var(--ft);font-weight:900;font-size:18px;color:var(--acc)}
@@ -1539,9 +1580,9 @@ function stTab(rows, div) {
   const trs = rows.map(r => {
     const z = zone(r.rank, r.champion);
     const diff = r.track_diff!=null ? (+r.track_diff>0?'+':'')+r.track_diff : '—';
-    const logo = tlogo(r.team, 28);
+    const logo = `<div class="tlogo-box">${tlogo(r.team, 90)}</div>`;
     const teamName = `${r.team?.team_name||r.team_id||'?'}`;
-    return `<tr class="${z}"><td><span class="rn">${r.rank}</span></td><td><div class="tc">${logo}<span class="tc-n">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
+    return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="tc-n">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
   }).join('');
   return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trs}</tbody></table></div>`;
 }
