@@ -26,7 +26,6 @@
 })();
 </script>
 <link rel="stylesheet" href="https://use.typekit.net/ejz8nvd.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ━━━ TOKENS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 :root{
@@ -42,8 +41,7 @@
   --r:0px; --r-sm:0px;
   /* area-extended = headings, area = everything else */
   --ft:area-extended,area,sans-serif;
-  --fb:area,sans-serif;
-  --fi:'Inter',sans-serif;
+  --fb:area-extended,area,sans-serif;
   --hh:70px;
   --section-gap:120px;
   --block-gap:120px;
@@ -116,7 +114,7 @@ body::before{
 .dd::before{content:'';position:absolute;top:-12px;left:-12px;right:-12px;height:14px}
 .ddi{
   padding:9px 14px;font-family:var(--ft);font-weight:500;
-  font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#fff;
   cursor:pointer;transition:all .15s;white-space:nowrap;
 }
 .ddi:hover{color:var(--acc);background:var(--acc-dim)}
@@ -160,9 +158,9 @@ footer{
 .fl2 a{color:rgba(255,255,255,.92);text-decoration:none;cursor:pointer;transition:color .15s}
 .fl2 a:hover{color:#fff;text-decoration:underline}
 .fl{display:flex;gap:18px;flex-wrap:wrap}
-.fl a{color:var(--muted);font-family:var(--fb);font-size:12px;font-weight:500;transition:color .15s}
+.fl a{color:var(--muted);font-family:var(--ft);font-size:12px;font-weight:500;transition:color .15s}
 .fl a:hover{color:var(--txt)}
-.fc{color:var(--dim);font-family:var(--fb);font-size:12px}
+.fc{color:var(--dim);font-family:var(--ft);font-size:12px}
 
 /* ━━━ HOME MATCH CARD ━━━━━━━━━━━━━━━━━━━━━━ */
 .hmc{background:var(--bg-c);border:1px solid var(--brd);padding:10px 16px;margin-bottom:8px;cursor:default;transition:border-color .15s}
@@ -215,7 +213,94 @@ footer{
 @media(max-width:900px){.ab-wrap{width:100%;grid-template-columns:1fr;padding:56px 20px;gap:32px}}
 .ab-h1{font-family:var(--ft);font-weight:900;font-size:40px;text-transform:uppercase;line-height:.95;margin-bottom:26px}
 .ab-h1 em{font-style:normal;color:var(--acc)}
-.ab-p{font-family:var(--fb);font-weight:300;font-size:13px;line-height:1.85;color:var(--muted);margin-bottom:12px}
+.ab-p{font-family:var(--ft);font-weight:300;font-size:13px;line-height:1.85;color:var(--muted);margin-bottom:12px}
+
+/* ━━━ POWER RANKING EXPLAINER ━━━━━━━━━━━━━ */
+.pr-exp{margin-top:64px;padding-top:44px;border-top:1px solid var(--brd)}
+.pr-intro{font-family:var(--ft);font-weight:300;font-size:15px;line-height:1.8;color:var(--muted);max-width:640px;margin-bottom:44px}
+/* Numbered section heads: the accent rule and index echo the match-card treatment. */
+.pr-sec{display:flex;align-items:center;gap:12px;margin:0 0 20px}
+.pr-sec-i{font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.1em;color:var(--acc)}
+.pr-sec-t{font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt)}
+.pr-sec-r{flex:1;height:1px;background:var(--brd)}
+.pr-block{margin-bottom:52px}
+.pr-note{font-family:var(--ft);font-weight:300;font-size:13px;line-height:1.8;color:var(--muted);margin-top:16px;max-width:640px}
+.pr-note b{font-weight:700;color:var(--txt)}
+
+/* Base-score cards, styled like the About page stat boxes. */
+.pr-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.pr-card{background:var(--bg-c);border:1px solid var(--brd);padding:22px 24px}
+.pr-card-n{font-family:var(--ft);font-weight:900;font-size:32px;line-height:1;margin-bottom:8px}
+.pr-card-l{font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* The four scoring criteria. */
+.pr-crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pr-crit-i{background:var(--bg-c);border:1px solid var(--brd);border-left:2px solid var(--acc);padding:18px 20px}
+.pr-crit-h{font-family:var(--ft);font-weight:900;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt);margin-bottom:7px}
+.pr-crit-d{font-family:var(--ft);font-weight:300;font-size:12.5px;line-height:1.7;color:var(--muted)}
+.pr-crit-d b{font-weight:700;color:var(--txt)}
+
+/* Stage multipliers: a bar chart reads the weighting faster than a plain list. */
+.pr-mult{display:flex;flex-direction:column;gap:2px;margin-top:14px}
+.pr-m{display:grid;grid-template-columns:170px 1fr 58px;align-items:center;gap:14px;padding:9px 16px;background:rgba(255,255,255,.03)}
+.pr-m-l{font-family:var(--ft);font-weight:500;font-size:12px;color:var(--muted)}
+.pr-m-bar{height:6px;background:rgba(255,255,255,.06);position:relative;overflow:hidden}
+.pr-m-fill{position:absolute;inset:0 auto 0 0;background:var(--acc)}
+.pr-m-v{font-family:var(--ft);font-weight:900;font-size:13px;color:var(--acc);text-align:right}
+@media(max-width:600px){.pr-m{grid-template-columns:120px 1fr 48px;gap:10px;padding:9px 12px}}
+
+/* ━━━ HOME MATCH CARD ━━━━━━━━━━━━━━━━━━━━━━ */
+.hmc{background:var(--bg-c);border:1px solid var(--brd);padding:10px 16px;margin-bottom:8px;cursor:default;transition:border-color .15s}
+.hmc-done{border-left:3px solid var(--acc);cursor:pointer}
+.hmc-done:hover{border-color:var(--acc)}
+.hmc-date{font-family:var(--ft);font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+.hmc-teams{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.hmc-team{display:flex;align-items:center;gap:8px;flex:1}
+.hmc-team-r{flex-direction:row-reverse;text-align:right}
+.hmc-tn{font-family:var(--ft);font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.hmc-score{font-family:var(--ft);font-size:26px;font-weight:900;color:var(--txt);min-width:80px;text-align:center;flex-shrink:0}
+.hmc-foot{display:flex;align-items:center;justify-content:flex-end;margin-top:8px;gap:8px}
+
+/* ━━━ LOADING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ldg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:70vh;gap:16px}
+.sp{width:32px;height:32px;border:2.5px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ldg-l{font-family:var(--ft);font-weight:900;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* ━━━ PAGE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.pg{width:66%;max-width:3200px;margin:0 auto;padding:var(--section-gap) 40px}
+@media(max-width:768px){.pg{width:100%;padding:56px 20px}}
+
+/* ━━━ TITLE SYSTEM ━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* section eyebrow – area normale */
+.sl{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--txt);opacity:.65;margin-bottom:5px}
+.sl-label{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+/* big titles – area extended uniquement */
+.dt{font-family:var(--ft);font-weight:900;font-size:54px;text-transform:uppercase;line-height:.9;margin-bottom:32px}
+
+/* ━━━ SCHEDULE DAY NAVIGATOR ━━━━━━━━━━━━━━━━ */
+.sch-nav{display:flex;align-items:center;margin-bottom:28px}
+.sch-list{max-height:900px;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-right:8px}
+.sch-list::-webkit-scrollbar{width:6px}
+.sch-list::-webkit-scrollbar-track{background:transparent}
+.sch-list::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:99px}
+.sch-nav-dow{font-family:var(--ft);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.sch-nav-ctrl{display:inline-flex;align-items:center;background:rgba(255,255,255,.055);border-radius:999px;padding:5px;gap:3px;flex-shrink:0}
+.sch-arr{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--txt);font-size:19px;cursor:pointer;transition:background .15s;flex-shrink:0}
+.sch-arr:hover{background:rgba(255,255,255,.08)}
+.sch-today{padding:13px 30px;border-radius:999px;font-family:var(--ft);font-weight:900;font-size:16px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .15s}
+.sch-today.on{background:rgba(255,106,0,.88);color:#fff}
+.sch-today:not(.on):hover{color:var(--txt)}
+.dt em{font-style:normal;color:var(--acc)}
+.dt-md{font-family:var(--ft);font-weight:900;font-size:38px;text-transform:uppercase;line-height:.9}
+@media(max-width:600px){.dt{font-size:36px}.dt-md{font-size:26px}}
+
+/* ━━━ ABOUT SECTION ━━━━━━━━━━━━━━━━━━━━━━━ */
+.ab-wrap{width:66%;max-width:3200px;margin:0 auto;padding:var(--section-gap) 40px var(--block-gap);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:900px){.ab-wrap{width:100%;grid-template-columns:1fr;padding:56px 20px;gap:32px}}
+.ab-h1{font-family:var(--ft);font-weight:900;font-size:40px;text-transform:uppercase;line-height:.95;margin-bottom:26px}
+.ab-h1 em{font-style:normal;color:var(--acc)}
+
 .sl-label{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .ab-btns{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 .btn-w{padding:12px 22px;background:var(--txt);color:#000;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.07em;text-transform:uppercase;transition:opacity .15s;display:inline-block}
@@ -224,10 +309,10 @@ footer{
 .btn-d:hover{background:rgba(255,255,255,.12)}
 .ab-vid{position:relative;overflow:hidden;background:var(--bg-c);border:1px solid var(--brd2)}
 .ab-vid-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center}
-.ab-vid-sub{font-family:var(--fb);font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.ab-vid-sub{font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 .ab-vid-t{font-family:var(--ft);font-weight:900;font-size:26px;text-transform:uppercase;margin-bottom:4px}
-.ab-vid-d{font-family:var(--fb);font-weight:300;font-size:12px;color:var(--muted);line-height:1.65;max-width:380px}
-.ab-vid-lk{margin-top:8px;font-family:var(--fb);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);transition:opacity .15s}
+.ab-vid-d{font-family:var(--ft);font-weight:300;font-size:12px;color:var(--muted);line-height:1.65;max-width:380px}
+.ab-vid-lk{margin-top:8px;font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);transition:opacity .15s}
 .ab-vid-lk:hover{opacity:.7}
 
 /* ━━━ LIVE SECTION ━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -237,12 +322,12 @@ footer{
 .live-bar{
   background:rgba(0,0,0,.9);border-top:1px solid rgba(255,255,255,.08);
   padding:13px 20px;display:flex;align-items:center;justify-content:center;gap:10px;
-  font-family:var(--fb);font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+  font-family:var(--ft);font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
 }
 .live-bar em{font-style:normal;color:var(--txt);font-weight:700}
 .live-dot-r{width:8px;height:8px;background:#ff4444;border-radius:50%;flex-shrink:0;animation:blink 1.1s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
-.live-pill{display:inline-flex;align-items:center;gap:7px;padding:4px 14px;border-radius:20px;background:rgba(255,0,0,.13);border:1px solid rgba(255,0,0,.35);font-family:var(--fb);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#ff4444;margin-bottom:14px}
+.live-pill{display:inline-flex;align-items:center;gap:7px;padding:4px 14px;border-radius:20px;background:rgba(255,0,0,.13);border:1px solid rgba(255,0,0,.35);font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#ff4444;margin-bottom:14px}
 
 /* ━━━ MATCH CARD ━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .sb{padding:3px 10px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.08em;white-space:nowrap}
@@ -251,7 +336,7 @@ footer{
 .sb-up{background:rgba(96,165,250,.14);color:#60a5fa}
 .sb-tbd{background:rgba(255,186,74,.14);color:#FFBA4A}
 .sb-can{background:rgba(255,255,255,.05);color:var(--muted)}
-.tp{width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-weight:900;font-size:26px;color:var(--muted);flex-shrink:0;background:rgba(255,255,255,.06);border-radius:50%}
+.tp{width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:900;font-size:26px;color:var(--muted);flex-shrink:0;background:rgba(255,255,255,.06);border-radius:50%}
 @media(max-width:600px){.tp{width:52px;height:52px;font-size:18px}.mc-body{flex-wrap:wrap}.mc-team{width:auto;flex:1;min-width:0}}
 
 /* ━━━ MODAL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -274,7 +359,7 @@ footer{
 .mo-center-sub{font-family:var(--ft);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .mo-center{text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
 .mo-sc{font-family:var(--ft);font-weight:900;font-size:58px;line-height:1}
-.mo-ti{font-family:var(--fb);font-weight:900;font-size:58px;line-height:1;letter-spacing:.02em}
+.mo-ti{font-family:var(--ft);font-weight:900;font-size:58px;line-height:1;letter-spacing:.02em}
 .mo-date{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
 .mo-section{padding:0 28px 68px}
 .mo-sh{font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--txt);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--brd)}
@@ -302,7 +387,7 @@ footer{
 
 /* ━━━ SECTION HEADER ━━━━━━━━━━━━━━━━━━━━━━ */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
-.sa{font-family:var(--fb);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);cursor:pointer;transition:opacity .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.sa{font-family:var(--ft);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);cursor:pointer;transition:opacity .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .sa-arr{display:inline-flex;align-items:center}
 .sa:hover{opacity:.7}
 
@@ -317,22 +402,32 @@ footer{
 
 /* ━━━ STANDINGS ━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .st-wrap{overflow-x:auto}
+/* Ranking table: caps the visible height at about ten rows and scrolls the rest.
+   62px per row (52px row + 10px gap) plus the header. */
+.st-wrap.st-scroll{max-height:calc(62px * 10 + 44px);overflow-y:auto}
+.st-wrap.st-scroll .stt thead th{position:sticky;top:0;z-index:20}
 .stt{width:100%;border-collapse:separate;border-spacing:0 0}
 .th-tip{position:relative;cursor:help;border-bottom:1px dotted var(--muted);padding-bottom:1px}
 .th-tip:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none;white-space:nowrap;z-index:30;box-shadow:0 4px 14px rgba(0,0,0,.5);pointer-events:none}
+/* The last header's tooltip would overflow the table's horizontal scroll box and be
+   clipped, so it is anchored to the right edge instead of centred. */
+.stt th:last-child .th-tip:hover::after{left:auto;right:0;transform:none}
+.stt th:last-child .th-tip:hover::before{left:auto;right:12px;transform:none}
 .th-tip:hover::before{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#111;margin-top:4px;z-index:30;pointer-events:none}
 .stt th{font-family:var(--ft);font-weight:900;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 14px;text-align:center;background:#0f0f0f}
 .stt th:first-child{text-align:left;padding-left:20px;border-radius:var(--r) 0 0 var(--r)}
 .stt th:nth-child(2){text-align:left;padding-left:6px}
 .stt th:last-child{border-radius:0 var(--r) var(--r) 0}
-.stt td{padding:14px 16px;text-align:center;font-family:var(--fi);font-weight:700;font-size:19px;background:var(--row);border-top:1px solid rgba(255,255,255,.02)}
+/* tabular-nums keeps digits the same width so the numeric columns line up; without
+   it a row of 1s renders narrower than a row of 8s and the columns visibly shift. */
+.stt td{padding:14px 16px;text-align:center;font-family:var(--ft);font-weight:700;font-size:19px;font-variant-numeric:tabular-nums;background:var(--row);border-top:1px solid rgba(255,255,255,.02)}
 .stt td:first-child{padding-left:20px;text-align:left;font-family:var(--ft);font-size:20px;font-weight:900}
 .stt td:nth-child(2){text-align:left}.tc-n{font-family:var(--ft);font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
 .stt tr.pl td{background:var(--gold)}
 .stt tr.br td{background:var(--bar)}
 .stt tr.rl td{background:var(--rel)}
 .stt tr.champ td{background:var(--champ)}
-.rn{font-family:var(--ft);font-weight:900;font-size:21px;display:inline-block;width:34px;text-align:center}
+.rn{font-family:var(--ft);font-weight:900;font-size:21px;font-variant-numeric:tabular-nums;display:inline-block;width:34px;text-align:center}
 .tc{display:flex;align-items:center;gap:12px;min-width:190px}
 
 /* Rank + logo share one continuous panel: the rank cell drops its right padding
@@ -389,12 +484,12 @@ footer{
 .tb-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
 .fb3{padding:6px 14px;background:rgba(255,255,255,.055);font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);transition:all .15s;border-radius:999px}
 .fb3:hover,.fb3.on{background:var(--acc-dim);color:var(--acc)}
-.ss{background:rgba(255,255,255,.1);color:var(--txt);padding:12px 40px 12px 18px;border-radius:8px;font-family:var(--fb);font-weight:700;font-size:15px;cursor:pointer;outline:none;border:none;text-align:left;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6" stroke="%23FF6A00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');background-repeat:no-repeat;background-position:right 14px center;background-size:12px 7px}
+.ss{background:rgba(255,255,255,.1);color:var(--txt);padding:12px 40px 12px 18px;border-radius:8px;font-family:var(--ft);font-weight:700;font-size:15px;cursor:pointer;outline:none;border:none;text-align:left;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6" stroke="%23FF6A00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');background-repeat:no-repeat;background-position:right 14px center;background-size:12px 7px}
 .ss-cust{position:relative;display:inline-block}
 .ss-cust .ss{display:block;width:100%}
 .ss-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:100%;background:#161616;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:6px;display:none;flex-direction:column;gap:2px;box-shadow:0 20px 44px rgba(0,0,0,.55);z-index:80;white-space:nowrap}
 .ss-cust.open .ss-menu{display:flex}
-.ss-opt{padding:9px 16px;border-radius:6px;font-family:var(--fb);font-weight:700;font-size:13px;color:var(--txt);cursor:pointer;transition:background .15s,color .15s}
+.ss-opt{padding:9px 16px;border-radius:6px;font-family:var(--ft);font-weight:700;font-size:13px;color:var(--txt);cursor:pointer;transition:background .15s,color .15s}
 .ss-opt:hover{background:rgba(255,255,255,.07)}
 .ss-opt.on{background:var(--acc-dim);color:var(--acc)}
 .tb-bar-lg .ss{padding:15px 46px 15px 28px;font-size:18px;border-radius:8px;background-color:rgba(255,255,255,.1);background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8"><path d="M1 1l6 6 6-6" stroke="%23FF6A00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');background-repeat:no-repeat;background-position:right 18px center;background-size:14px 8px}
@@ -429,7 +524,7 @@ footer{
 .ac:hover .ac-play-btn{transform:scale(1.1);background:rgba(255,106,0,.85);border-color:transparent}
 /* Article detail page */
 /* Article content rendered from Google Doc */
-.art-content{max-width:720px;margin:0 auto;font-family:var(--fi);font-size:16px;line-height:1.8;color:#ccc}
+.art-content{max-width:720px;margin:0 auto;font-family:var(--ft);font-weight:500;font-size:16px;line-height:1.8;color:#ccc}
 .art-content p{margin-bottom:1.2em}
 .art-content h1,.art-content h2,.art-content h3{font-family:var(--ft);font-weight:900;text-transform:uppercase;color:#fff;margin:1.6em 0 .6em;letter-spacing:.03em}
 .art-content h1{font-size:24px}.art-content h2{font-size:20px}.art-content h3{font-size:16px}
@@ -451,7 +546,7 @@ footer{
 .art-hdr{margin-bottom:28px}
 .art-hdr-meta{display:flex;align-items:center;gap:10px;font-family:var(--ft);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .art-hdr-title{font-family:var(--ft);font-weight:900;font-size:28px;text-transform:uppercase;line-height:1.1;letter-spacing:.02em}
-.art-hdr-sub{margin-top:10px;font-family:var(--fi);font-size:13px;color:var(--muted)}
+.art-hdr-sub{margin-top:10px;font-family:var(--ft);font-weight:500;font-size:13px;color:var(--muted)}
 .art-divider{height:1px;background:var(--brd);margin:24px 0}
 .art-embed{width:100%;height:75vh;border:none;background:var(--bg-c)}
 .art-extlink{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--acc);color:#fff;font-family:var(--ft);font-weight:700;font-size:13px;letter-spacing:.06em;text-decoration:none;text-transform:uppercase}
@@ -469,33 +564,33 @@ footer{
 .vplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4);opacity:0;transition:opacity .15s;font-size:38px}
 .vc:hover .vplay{opacity:1}
 .vi{padding:14px 16px}
-.v-tms{font-family:var(--fb);font-weight:900;font-size:15px;text-transform:uppercase;margin-bottom:3px}
-.v-meta{font-family:var(--fb);font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.v-tms{font-family:var(--ft);font-weight:900;font-size:15px;text-transform:uppercase;margin-bottom:3px}
+.v-meta{font-family:var(--ft);font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase}
 
 /* ━━━ TEAMS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .tc-c{background:var(--bg-c);border:1px solid var(--brd);padding:24px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;transition:border-color .15s,transform .15s}
 .tc-c:hover{border-color:var(--brd2);transform:translateY(-2px)}
 .tc-logo{width:68px;height:68px;object-fit:contain}
-.tc-lph{width:68px;height:68px;display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-weight:900;font-size:24px;color:var(--muted)}
+.tc-lph{width:68px;height:68px;display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:900;font-size:24px;color:var(--muted)}
 .tc-n{font-family:var(--ft);font-weight:900;font-size:17px;text-transform:uppercase;text-align:center}
-.tc-d{font-family:var(--fb);font-weight:700;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--acc)}
+.tc-d{font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--acc)}
 .tc-pl{font-family:var(--ft);font-size:12px;font-weight:500;color:var(--muted);text-align:center;line-height:1.65}
 
 /* ━━━ ABOUT PAGE ━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .about-hero{background:linear-gradient(135deg,rgba(255,106,0,.09) 0%,transparent 55%);border:1px solid var(--brd);padding:52px;margin-bottom:22px}
 .about-hero h1{font-family:var(--ft);font-weight:900;font-size:62px;text-transform:uppercase;line-height:.86;margin-bottom:18px}
 .about-hero h1 em{font-style:normal;color:var(--acc)}
-.about-hero p{font-family:var(--fb);font-weight:300;font-size:14px;line-height:1.82;color:var(--muted);max-width:550px;margin-bottom:10px}
+.about-hero p{font-family:var(--ft);font-weight:300;font-size:14px;line-height:1.82;color:var(--muted);max-width:550px;margin-bottom:10px}
 .st-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:600px){.st-row{grid-template-columns:1fr 1fr}.about-hero{padding:28px}}
 .st-box{background:var(--bg-c);border:1px solid var(--brd);padding:26px}
 .st-n{font-family:var(--ft);font-weight:900;font-size:36px;margin-bottom:4px}
-.st-l{font-family:var(--fb);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.st-l{font-family:var(--ft);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
 
 /* ━━━ REGIONALS ━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .reg-tabs{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
-.reg-tab{padding:7px 18px;background:var(--bg-c);border:1px solid var(--brd);font-family:var(--fb);font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);transition:all .15s;cursor:pointer}
+.reg-tab{padding:7px 18px;background:var(--bg-c);border:1px solid var(--brd);font-family:var(--ft);font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);transition:all .15s;cursor:pointer}
 .reg-tab.on{background:var(--acc-dim);border-color:rgba(255,106,0,.3);color:var(--acc)}
 
 /* ━━━ EMPTY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -505,7 +600,7 @@ footer{
 .empty p{font-family:var(--ft);font-weight:500;color:var(--muted);font-size:16px}
 
 /* ━━━ PARTNERS PLACEHOLDER ━━━━━━━━━━━━━━━ */
-.partners-ph{min-height:90px;border:2px dashed rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-weight:600;color:var(--dim);font-size:13px;letter-spacing:.06em}
+.partners-ph{min-height:90px;border:2px dashed rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:600;color:var(--dim);font-size:13px;letter-spacing:.06em}
 .sponsors-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:48px;min-height:100px;padding:20px 0}
 .sponsor-logo{height:56px;width:auto;object-fit:contain;opacity:.85;transition:opacity .15s}
 .sponsor-logo:hover{opacity:1}
@@ -562,7 +657,7 @@ footer{
             </div>
           </div>
           <div class="ddi" onclick="go('teams')">Teams</div>
-          <div class="ddi" onclick="go('players')">Players</div>
+          <div class="ddi" onclick="go('ranking')">Ranking</div>
         </div>
       </div>
 
@@ -659,7 +754,7 @@ const LOGOS = {
 const S = {
   cfg:{ pd:600, pm:60 },
   splits:[], act:'spring2026', configActiveSplit:'spring2026',
-  teams:{}, d1:[], d2:[], sched:[], res:[], art:[], vods:[], defaultLogo:'',
+  teams:{}, d1:[], d2:[], sched:[], res:[], art:[], vods:[], rank:[], rankDiv:'all', defaultLogo:'',
   homeSched:[], homeD1:[], homeD2:[],
   schedAllRows:[], schedSplit:'all', schedMode:'all', schedRegion:'EMEA', schedOQ:'',
   page:'home',
@@ -1082,6 +1177,39 @@ async function loadScheduleAllSplits() {
     S.schedAllRows = enrichScheduleRows(rows);
   } catch(e) { console.warn('[Sched-All] load failed:', e); }
 }
+// Power Ranking is a cross-division table keyed by display name rather than team_id,
+// so each row is matched back to a team record to recover its logo. Unmatched rows
+// (open-circuit teams with no entry in the Teams tab) still render, without a logo.
+async function lRank() {
+  const t = await gv('POWER RANKING');
+  if (!t) { S.rank = []; console.warn('[Rank] No data from GViz'); return; }
+  const norm = s => String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
+  const byName = {};
+  Object.values(S.teams).forEach(tm => {
+    if (tm.team_name)  byName[norm(tm.team_name)]  = tm;
+    if (tm.team_short) byName[norm(tm.team_short)] = tm;
+    if (tm.team_id)    byName[norm(tm.team_id)]    = tm;
+  });
+  S.rank = t.rows
+    .filter(r => r.c?.some(c => c?.v != null))
+    .map(r => {
+      const name = String(cv(r,1)||'').trim();
+      const rk = cv(r,0);
+      if (!name || rk == null || isNaN(+rk)) return null;
+      return {
+        rank: +rk,
+        team_name: name,
+        team: byName[norm(name)] || null,
+        division: String(cv(r,2)||'').trim(),
+        score: +cv(r,3) || 0,
+        win: +cv(r,4) || 0,
+        lose: +cv(r,5) || 0,
+        played: +cv(r,6) || 0
+      };
+    })
+    .filter(Boolean)
+    .sort((a,b) => a.rank - b.rank);
+}
 async function lArt() {
   const t = await gv('Articles');
   if (!t) { S.art = []; console.warn('[Art] No data from GViz'); return; }
@@ -1359,14 +1487,14 @@ async function openTeamModal(teamId) {
       const divSize = r.div === '1' ? r.d1Size : (r.div === '2' ? r.d2Size : null);
       const autoLabel2 = autoPromoRelegLabel(r.div, r.rank, divSize);
       const extraHtml = extra.map(x => `
-        <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--fb);font-size:13px;color:var(--muted)">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--ft);font-size:13px;color:var(--muted)">
           <span>${x.label}</span>
           <span style="color:var(--acc);font-weight:700">${x.value}</span>
         </div>`).join('');
       return `
       <div class="mo-map" style="flex-direction:column;align-items:stretch;gap:10px;padding:18px 20px">
         <div class="mo-map-name">${r.label}${r.div ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${divLabel(r.div)}</span>` : ''}</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--fb);font-size:13px;color:var(--muted)">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--ft);font-size:13px;color:var(--muted)">
           <span>Regular Season</span>
           <span style="color:var(--txt);font-weight:700">${reg.w}-${reg.l}${r.rank ? ` - ${ordinal(r.rank)}` : ''}${autoLabel2 ? ` - ${autoLabel2}` : ''}</span>
         </div>
@@ -1696,8 +1824,8 @@ function twitchSection() {
     ? `<div class="live-embed-ratio"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center">
         <svg width="44" height="44" viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
         <div style="font-family:var(--ft);font-weight:900;font-size:20px;text-transform:uppercase">OVERDRIVE LIVE</div>
-        <div style="font-family:var(--fb);font-size:13px;font-weight:300;color:var(--muted);max-width:340px;line-height:1.7">The Twitch embed requires a web server.<br>Locally, use the link below.</div>
-        <a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border-radius:10px;background:#9146FF;color:#fff;font-family:var(--fb);font-weight:700;font-size:13px;letter-spacing:.07em;text-transform:uppercase">
+        <div style="font-family:var(--ft);font-size:13px;font-weight:300;color:var(--muted);max-width:340px;line-height:1.7">The Twitch embed requires a web server.<br>Locally, use the link below.</div>
+        <a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" style="display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border-radius:10px;background:#9146FF;color:#fff;font-family:var(--ft);font-weight:700;font-size:13px;letter-spacing:.07em;text-transform:uppercase">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
           Watch on Twitch
         </a>
@@ -1734,7 +1862,7 @@ function pgHome() {
 <div>
 
 <h1 class="ab-h1">A PREMIUM<br><em>2V2</em> SCENE</h1>
-<p class="ab-p">OverDrive is a Trackmania event project driven by recognized community members. The ambition is to build a competitive scene that matters for everyone involved : players, organizations, and fans.</p>
+<p class="ab-p">OverDrive is a Trackmania event project driven by recognized community members. The ambition is to build a competitive scene that matters for everyone involved – players, organizations, and fans.</p>
 <p class="ab-p">The 2v2 format is at the heart of this vision, building on World Tour 2025 momentum with clearer, more strategic, and more impactful gameplay in decisive moments.</p>
 <div class="ab-btns">
 <a href="https://www.youtube.com" target="_blank" class="btn-w">Watch on YouTube</a>
@@ -2162,24 +2290,120 @@ ${ts.length ? `<div class="tg">${cards}</div>` : `<div class="empty"><h3>No team
 </div>`;
 }
 
-function pgPlayers() {
-  const teams = Object.values(S.teams);
-  const cards = teams.filter(t => t.player1 || t.player2).flatMap(t => {
-    const players = [];
-    if (t.player1) players.push({name:t.player1,team:t.team_name,logo:t.logo_url,div:t.division,role:'Player'});
-    if (t.player2) players.push({name:t.player2,team:t.team_name,logo:t.logo_url,div:t.division,role:'Player'});
-    if (t.sub1) players.push({name:t.sub1,team:t.team_name,logo:t.logo_url,div:t.division,role:'Sub'});
-    if (t.sub2) players.push({name:t.sub2,team:t.team_name,logo:t.logo_url,div:t.division,role:'Sub'});
-    return players;
-  });
-  const html = cards.map(p => `<div class="tc-c">
-<div class="tc-lph">${p.name[0]||'?'}</div>
-<div class="tc-n">${p.name}</div>
-<div class="tc-d">${p.team} - ${divLabel(p.div)}</div>
-<div class="tc-pl">${p.role}</div>
-</div>`).join('');
-  return `<div class="pg"><div class="dt">PLAYERS</div>
-${cards.length ? `<div class="tg">${html}</div>` : `<div class="empty"><h3>No players</h3></div>`}
+function pgRanking() {
+  const rows = S.rank || [];
+  if (!rows.length) {
+    return `<div class="pg"><div class="dt">RANKING</div>
+<div class="empty"><h3>Data not available</h3><p>Add the data in the POWER RANKING tab of the Google Sheet.</p></div>
+</div>`;
+  }
+  const divFilter = S.rankDiv || 'all';
+  // Fixed display order rather than order of appearance in the sheet, so the
+  // filters read the same way every time regardless of who currently tops the table.
+  const ORDER = ['Div 1', 'Div 2', 'Open'];
+  const divsPresent = [...new Set(rows.map(r => r.division).filter(Boolean))]
+    .sort((a, b) => {
+      const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b);
+    });
+  const shown = divFilter === 'all' ? rows : rows.filter(r => r.division === divFilter);
+  const btns = ['all', ...divsPresent].map(d => {
+    const label = d === 'all' ? 'All Div' : d;
+    return `<button class="dtb${divFilter===d?' on':''}" onclick="setRankDiv('${d.replace(/'/g,"\\'")}')">${label}</button>`;
+  }).join('');
+
+  const trs = shown.map(r => {
+    // Teams absent from the Teams tab (open-circuit entrants) fall back to the
+    // shared "no_logo" mark, the same default the schedule uses.
+    const teamForLogo = r.team || { team_name: r.team_name, logo_url: S.defaultLogo };
+    const logo = `<div class="tlogo-box">${tlogo(teamForLogo, 90)}</div>`;
+    const clickable = r.team ? ` style="cursor:pointer" onclick="openTeamModal('${r.team.team_id}')"` : '';
+    return `<tr${clickable}>
+<td class="rank-cell"><span class="rn">${r.rank}</span></td>
+<td class="team-cell"><div class="tc">${logo}<span class="tc-n">${r.team_name}</span></div></td>
+<td>${r.division||'-'}</td>
+<td>${r.played}</td>
+<td>${r.win}</td>
+<td>${r.lose}</td>
+<td class="pts">${r.score}</td>
+</tr>`;
+  }).join('');
+
+  // Only the top ten are shown at rest; the rest of the table scrolls.
+  const scrollCls = shown.length > 10 ? ' st-scroll' : '';
+
+  return `<div class="pg">
+<div class="dt">RANKING</div>
+<div class="dtog">${btns}</div>
+<div class="st-wrap${scrollCls}"><table class="stt"><thead><tr>
+<th>Rank</th><th>Team</th><th>Division</th>
+<th><span class="th-tip" data-tip="Match Played">P</span></th>
+<th><span class="th-tip" data-tip="Match Win">W</span></th>
+<th><span class="th-tip" data-tip="Match Loss">L</span></th>
+<th><span class="th-tip" data-tip="Power Ranking Score">SCORE</span></th>
+</tr></thead><tbody>${trs}</tbody></table></div>
+${rankExplainer()}
+</div>`;
+}
+function setRankDiv(d) { S.rankDiv = d; renderInPlace(); }
+
+// Explains how the Power Ranking score is derived. Static copy: the values here
+// mirror the formula used to produce the POWER RANKING sheet.
+function rankExplainer() {
+  const bases = [
+    { n: '1,000', l: 'Division 1' },
+    { n: '700',   l: 'Division 2' },
+    { n: '400',   l: 'OQ / Continentals' }
+  ];
+  const crits = [
+    { h: 'The result',    d: 'A win is worth <b>+100 pts</b>, a loss <b>-60 pts</b>.' },
+    { h: 'The opponent',  d: 'Beating a stronger team earns a bonus of up to <b>+45</b>. Losing to a weaker team carries an extra penalty.' },
+    { h: 'The scoreline', d: 'A <b>3-0</b> is worth more than a 3-2, and losing <b>2-3</b> costs less than losing 0-3.' },
+    { h: 'The stage',     d: 'High-stakes matches weigh far more, from playoffs down to open qualifiers.' }
+  ];
+  const mults = [
+    { l: 'Playoffs / Promotion', v: 1.75 },
+    { l: 'Barrage',              v: 1.50 },
+    { l: 'Division 1',           v: 1.00 },
+    { l: 'Division 2',           v: 0.75 },
+    { l: 'Continentals',         v: 0.30 },
+    { l: 'Open Qualifier',       v: 0.10 }
+  ];
+  const floors = [
+    { n: '750', l: 'Division 1 floor' },
+    { n: '450', l: 'Division 2 floor' }
+  ];
+  const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span><span class="pr-sec-r"></span></div>`;
+  const card = c => `<div class="pr-card"><div class="pr-card-n">${c.n}</div><div class="pr-card-l">${c.l}</div></div>`;
+  // Bars are scaled against the largest multiplier so the relative weighting is legible.
+  const maxV = Math.max(...mults.map(m => m.v));
+
+  return `<div class="pr-exp">
+<div class="dt-md" style="font-family:var(--ft);margin-bottom:14px">HOW IT WORKS</div>
+<p class="pr-intro">The Power Ranking puts every team - Division 1, Division 2 and Open Qualifiers - into a single table, measuring a team's real strength beyond the league it happens to play in.</p>
+
+<div class="pr-block">
+${sec('01', 'Starting point')}
+<div class="pr-cards">${bases.map(card).join('')}</div>
+<p class="pr-note">Every team enters the ranking with a base score set by its league.</p>
+</div>
+
+<div class="pr-block">
+${sec('02', 'Four things count in every match')}
+<div class="pr-crit">${crits.map(c => `<div class="pr-crit-i"><div class="pr-crit-h">${c.h}</div><div class="pr-crit-d">${c.d}</div></div>`).join('')}</div>
+<div class="pr-mult">${mults.map(m => `<div class="pr-m">
+  <span class="pr-m-l">${m.l}</span>
+  <span class="pr-m-bar"><span class="pr-m-fill" style="width:${(m.v/maxV*100).toFixed(0)}%"></span></span>
+  <span class="pr-m-v">x${m.v.toFixed(2)}</span>
+</div>`).join('')}</div>
+<p class="pr-note">Open qualifiers weigh least because of the number of forfeits and the wide spread in level.</p>
+</div>
+
+<div class="pr-block" style="margin-bottom:0">
+${sec('03', 'The hierarchy is preserved')}
+<div class="pr-cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));max-width:400px">${floors.map(card).join('')}</div>
+<p class="pr-note">A Division 1 team on a poor run cannot fall below Division 2 level. For example, <b>Team USAK</b> (0W-9L) and <b>Navi</b> (2W-7L) both stay at 750 pts, above every Division 2 team.</p>
+</div>
 </div>`;
 }
 
@@ -2247,11 +2471,11 @@ function pgPrivacy() {
 const PAGES = {
   home: pgHome, leagues: pgLeagues, standings: pgStandings,
   schedule: pgSchedule, news: pgNews, articles: pgArticles, article: pgArticle, vods: pgVODs,
-  teams: pgTeams, players: pgPlayers, about: pgAbout,
+  teams: pgTeams, ranking: pgRanking, about: pgAbout,
   contact: pgContact, legal: pgLegal, privacy: pgPrivacy,
 };
 // Map page → parent nav item
-const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',players:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
+const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
 
 // renderInPlace – updates content WITHOUT scrolling (toggles, filters…)
 function renderInPlace() {
@@ -2286,7 +2510,7 @@ const PAGE_TITLES = {
   home:'OverDrive', leagues:'Standings – OverDrive', standings:'Standings – OverDrive',
   schedule:'Schedule – OverDrive', news:'News – OverDrive', articles:'News – OverDrive',
   article:'News – OverDrive', vods:'VODs – OverDrive',
-  teams:'Teams – OverDrive', players:'Players – OverDrive', about:'About – OverDrive',
+  teams:'Teams – OverDrive', ranking:'Ranking – OverDrive', about:'About – OverDrive',
   contact:'Contact – OverDrive', legal:'Legal Notice – OverDrive', privacy:'Privacy – OverDrive',
 };
 let _navigatingViaGo = false;
@@ -2341,7 +2565,7 @@ async function changeSplit(sp) {
 // ─── POLLING ───────────────────────────────────────────────────────────────
 async function refresh() {
   _allSchedCache = null; // force a fresh combined-tab fetch this cycle (see loadScheduleAllSplits)
-  await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), loadHomeSplitData(), loadScheduleAllSplits()]);
+  await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), loadHomeSplitData(), loadScheduleAllSplits()]);
   render(); poll();
 }
 function poll() { if (pollT) clearTimeout(pollT); pollT = setTimeout(refresh, (todayMatch()?S.cfg.pm:S.cfg.pd)*1000); }
@@ -2486,7 +2710,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 // Driven by JS rather than CSS :hover, which closes the menu the instant the pointer
 // leaves the element and makes the submenu hard to reach. Open/close is explicit state
 // with a close delay, so imperfect pointer paths still work.
-const DD_CLOSE_DELAY = 400;   // ms of grace before a menu closes
+const DD_CLOSE_DELAY = 2000;  // ms the menu stays open after the pointer leaves it
+const DD_SUB_DELAY   = 400;   // ms before a nested submenu collapses
 const DD_OPEN_DELAY  = 60;    // ms before opening, avoids flicker when passing over
 
 function initNavDropdowns() {
@@ -2542,14 +2767,18 @@ function initNavDropdowns() {
           const overPanel = sub.classList.contains('open') && within(sm.getBoundingClientRect(), e.clientX, e.clientY);
           if (overRow || overPanel) { clearTimeout(sub._t); sub.classList.add('open'); }
           else if (sub.classList.contains('open') && !sub._t) {
-            sub._t = setTimeout(() => { sub.classList.remove('open'); sub._t = null; }, DD_CLOSE_DELAY);
+            sub._t = setTimeout(() => { sub.classList.remove('open'); sub._t = null; }, DD_SUB_DELAY);
           }
         });
       }
     });
 
-    // Clicking a destination should dismiss the menu straight away.
-    dd.addEventListener('click', () => { clearTimeout(closeTimer); clearTimeout(openTimer); closeAll(); });
+    // Clicking a destination should dismiss the menu straight away. Delegated from
+    // the nav item so it survives re-renders, and using capture so it still fires
+    // for submenu entries that call stopPropagation.
+    item.addEventListener('click', () => {
+      clearTimeout(closeTimer); clearTimeout(openTimer); closeAll();
+    }, true);
     const label = item.querySelector('.nlk');
     if (label) label.addEventListener('focus', open);
   });
@@ -2600,7 +2829,7 @@ async function init() {
     await lCfg();
     await lSplits();
     await lTeams();
-    await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), loadHomeSplitData(), loadScheduleAllSplits()]);
+    await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), loadHomeSplitData(), loadScheduleAllSplits()]);
   } catch(e) {
     console.error('Init error:', e);
   } finally {
