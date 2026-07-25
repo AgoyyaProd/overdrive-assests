@@ -122,7 +122,7 @@ body::before{
 /* Submenu expands vertically below its parent row, inside the dropdown's flow,
    so it reads as a nested list rather than a second floating panel. */
 .ddi-sub{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0}
-.ddi-sub-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+.ddi-sub-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;cursor:default}
 .dd-sub-arr{display:inline-flex;align-items:center;opacity:.7;transition:transform .2s}
 .ddi-sub.open .dd-sub-arr{transform:rotate(90deg)}
 .dd-sub{
@@ -217,14 +217,14 @@ footer{
 
 /* ━━━ POWER RANKING EXPLAINER ━━━━━━━━━━━━━ */
 .pr-exp{margin-top:64px;padding-top:44px;border-top:1px solid var(--brd)}
-.pr-intro{font-family:var(--ft);font-weight:300;font-size:15px;line-height:1.8;color:var(--muted);max-width:640px;margin-bottom:44px}
+.pr-intro{font-family:var(--ft);font-weight:500;font-size:15px;line-height:1.75;color:var(--muted);margin-bottom:44px;text-wrap:pretty}
 /* Numbered section heads: the accent rule and index echo the match-card treatment. */
 .pr-sec{display:flex;align-items:center;gap:12px;margin:0 0 20px}
 .pr-sec-i{font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.1em;color:var(--acc)}
 .pr-sec-t{font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt)}
 .pr-sec-r{flex:1;height:1px;background:var(--brd)}
 .pr-block{margin-bottom:52px}
-.pr-note{font-family:var(--ft);font-weight:300;font-size:13px;line-height:1.8;color:var(--muted);margin-top:16px;max-width:640px}
+.pr-note{font-family:var(--ft);font-weight:500;font-size:13px;line-height:1.75;color:var(--muted);margin-top:16px;text-wrap:pretty}
 .pr-note b{font-weight:700;color:var(--txt)}
 
 /* Base-score cards, styled like the About page stat boxes. */
@@ -234,10 +234,15 @@ footer{
 .pr-card-l{font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* The four scoring criteria. */
-.pr-crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.pr-crit-i{background:var(--bg-c);border:1px solid var(--brd);border-left:2px solid var(--acc);padding:18px 20px}
-.pr-crit-h{font-family:var(--ft);font-weight:900;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt);margin-bottom:7px}
-.pr-crit-d{font-family:var(--ft);font-weight:300;font-size:12.5px;line-height:1.7;color:var(--muted)}
+/* Four across on one row. Each card is narrow at this width, so the copy is kept
+   short and the type stepped down to match. Below ~1200px four columns squeeze the
+   cards under 180px, so it drops to two, then one. */
+.pr-crit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:1200px){.pr-crit{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.pr-crit{grid-template-columns:1fr}}
+.pr-crit-i{background:var(--bg-c);border:1px solid var(--brd);border-left:2px solid var(--acc);padding:16px 16px}
+.pr-crit-h{font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt);margin-bottom:7px}
+.pr-crit-d{font-family:var(--ft);font-weight:500;font-size:12px;line-height:1.65;color:var(--muted);text-wrap:pretty}
 .pr-crit-d b{font-weight:700;color:var(--txt)}
 
 /* Stage multipliers: a bar chart reads the weighting faster than a plain list. */
@@ -424,6 +429,11 @@ footer{
 .stt td:first-child{padding-left:20px;text-align:left;font-family:var(--ft);font-size:20px;font-weight:900}
 .stt td:nth-child(2){text-align:left}.tc-n{font-family:var(--ft);font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
 .stt tr.pl td{background:var(--gold)}
+/* Overpoints qualification bands: top 4 straight to the playoffs (same gold the
+   standings use), 5th to 32nd into the wildcards, tinted lighter to read as a
+   weaker qualification. */
+.stt tr.ov-po td{background:var(--gold)}
+.stt tr.ov-wc td{background:rgba(255,186,74,.17)}
 .stt tr.br td{background:var(--bar)}
 .stt tr.rl td{background:var(--rel)}
 .stt tr.champ td{background:var(--champ)}
@@ -467,8 +477,11 @@ footer{
   transform:rotate(15deg);
   transform-origin:center;
 }
-/* 10px gap between rows, per the reference spacing. */
+/* 10px gap between rows, per the reference spacing. border-spacing also inserts
+   that gap between thead and tbody, so the body is pulled back up to sit flush
+   against the header. */
 .stt{border-spacing:0 10px !important}
+.stt tbody{position:relative;top:-10px}
 .stt td{border-top:none !important}
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
 .tc-n{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
@@ -649,7 +662,7 @@ footer{
         <span class="nlk" data-p="leagues" onclick="go('leagues')">Leagues <span class="dd-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span></span>
         <div class="dd">
           <div class="ddi ddi-sub">
-            <div class="ddi-sub-row" onclick="go('standings')">Standings <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></div>
+            <div class="ddi-sub-row">Standings <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></div>
             <div class="dd-sub">
               <div class="ddi" onclick="event.stopPropagation();goStandingsDiv('1')">Division 1</div>
               <div class="ddi" onclick="event.stopPropagation();goStandingsDiv('2')">Division 2</div>
@@ -657,7 +670,13 @@ footer{
             </div>
           </div>
           <div class="ddi" onclick="go('teams')">Teams</div>
-          <div class="ddi" onclick="go('ranking')">Ranking</div>
+          <div class="ddi ddi-sub">
+            <div class="ddi-sub-row">Ranking <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></div>
+            <div class="dd-sub">
+              <div class="ddi" onclick="event.stopPropagation();go('overpoints')">Overpoints</div>
+              <div class="ddi" onclick="event.stopPropagation();go('ranking')">Power Ranking</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -754,7 +773,7 @@ const LOGOS = {
 const S = {
   cfg:{ pd:600, pm:60 },
   splits:[], act:'spring2026', configActiveSplit:'spring2026',
-  teams:{}, d1:[], d2:[], sched:[], res:[], art:[], vods:[], rank:[], rankDiv:'all', defaultLogo:'',
+  teams:{}, d1:[], d2:[], sched:[], res:[], art:[], vods:[], rank:[], rankDiv:'all', over:[], overYear:'', seasonYear:'', defaultLogo:'',
   homeSched:[], homeD1:[], homeD2:[],
   schedAllRows:[], schedSplit:'all', schedMode:'all', schedRegion:'EMEA', schedOQ:'',
   page:'home',
@@ -823,6 +842,7 @@ async function lCfg() {
   const t = await gv('Config'); if (!t) return;
   t2o(t).forEach(r => {
     if (r.key === 'active_split') { S.act = r.value || 'spring2026'; S.configActiveSplit = S.act; }
+    if (r.key === 'season_year') S.seasonYear = String(r.value || '').trim();
     if (r.key === 'polling_interval_default') S.cfg.pd = +r.value || 600;
     if (r.key === 'polling_interval_match_day') S.cfg.pm = +r.value || 60;
   });
@@ -1130,21 +1150,32 @@ async function buildStandingsForSplit(sp) {
   const tab = split?.standings_tab || 'Standings_Spring2026';
   const t = await gv(tab); if (!t) return { d1: [], d2: [] };
   const allRows = t.rows.filter(r => r.c?.some(c => c?.v != null));
-  const d1rows = allRows.filter(r => { const v = cv(r,1); return v!=null && !isNaN(+v) && +v>0; });
-  const d2rows = allRows.filter(r => { const v = cv(r,12); return v!=null && !isNaN(+v) && +v>0; });
-  const d1 = d1rows.map(r => en({
-    rank:cv(r,1), team_id:(cv(r,2)||'').toLowerCase(),
-    matches_p:cv(r,3), matches_w:cv(r,4), matches_l:cv(r,5),
-    tracks_w:cv(r,6), tracks_l:cv(r,7), track_diff:cv(r,8), points:cv(r,9),
-    champion: String(cv(r,10)||'').trim().toLowerCase()==='x'
-  })).filter(r => r.team_id).sort((a,b) => +a.rank - +b.rank);
-  const d2 = d2rows.map(r => en({
-    rank:cv(r,12), team_id:(cv(r,13)||'').toLowerCase(),
-    matches_p:cv(r,14), matches_w:cv(r,15), matches_l:cv(r,16),
-    tracks_w:cv(r,17), tracks_l:cv(r,18), track_diff:cv(r,19), points:cv(r,20),
-    champion: String(cv(r,21)||'').trim().toLowerCase()==='x'
-  })).filter(r => r.team_id).sort((a,b) => +a.rank - +b.rank);
-  return { d1, d2 };
+
+  // Standings tabs do not all share the same column layout: some carry extra
+  // Champ/OVPTS columns in the Div 1 block, shifting Div 2 to the right. Find each
+  // block from its header labels so both layouts read correctly.
+  const labels = (t.cols || []).map(c => String(c?.label || '').trim().toLowerCase());
+  const at = name => { const out = []; labels.forEach((l,i) => { if (l === name) out.push(i); }); return out; };
+  const ranks = at('rank'), teams = at('team_id'), champs = at('champ');
+  const d1c = { rank: ranks[0] ?? 1,  team: teams[0] ?? 2,  champ: champs[0] ?? 10 };
+  const d2c = { rank: ranks[1] ?? 12, team: teams[1] ?? 13, champ: champs[1] ?? 21 };
+  // The stat columns always follow team_id in the same order within each block.
+  const stats = c => ({ p: c.team+1, w: c.team+2, l: c.team+3, tw: c.team+4, tl: c.team+5, td: c.team+6, pts: c.team+7 });
+
+  const build = c => {
+    const s = stats(c);
+    return allRows
+      .filter(r => { const v = cv(r, c.rank); return v != null && !isNaN(+v) && +v > 0; })
+      .map(r => en({
+        rank: cv(r, c.rank), team_id: (cv(r, c.team) || '').toLowerCase(),
+        matches_p: cv(r, s.p), matches_w: cv(r, s.w), matches_l: cv(r, s.l),
+        tracks_w: cv(r, s.tw), tracks_l: cv(r, s.tl), track_diff: cv(r, s.td), points: cv(r, s.pts),
+        champion: String(cv(r, c.champ) || '').trim().toLowerCase() === 'x'
+      }))
+      .filter(r => r.team_id)
+      .sort((a,b) => +a.rank - +b.rank);
+  };
+  return { d1: build(d1c), d2: build(d2c) };
 }
 async function lStand(sp) {
   const { d1, d2 } = await buildStandingsForSplit(sp);
@@ -1209,6 +1240,117 @@ async function lRank() {
     })
     .filter(Boolean)
     .sort((a,b) => a.rank - b.rank);
+}
+// Overpoints are spread across several blocks of each standings tab: the Div 1 and
+// Div 2 tables each end with an OVPTS column, and three further Continentals blocks
+// (AMERICAS / EMEA / APAC) list region points. Column positions differ between tabs,
+// so every block is located from its header labels and the totals summed per team.
+//
+// Totals cover one season only: the splits of a single year (spring + fall) add up,
+// and the count restarts when the next season begins. The Power Ranking is career-wide
+// and deliberately not filtered this way.
+function splitYear(sp) {
+  const m = String(sp?.split_id || '').match(/(20\d{2})/) || String(sp?.label || '').match(/(20\d{2})/);
+  return m ? m[1] : null;
+}
+function currentSeasonYear() {
+  // Prefer the year of the active split, since it is what the league is actually
+  // playing; fall back to Config's season_year, then to today's year.
+  const active = (S.splits || []).find(s => s.split_id === (S.configActiveSplit || S.act));
+  return splitYear(active) || S.seasonYear || String(new Date().getFullYear());
+}
+async function lOver(forYear) {
+  const norm = s => String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
+  const byName = {};
+  Object.values(S.teams).forEach(tm => {
+    if (tm.team_name)  byName[norm(tm.team_name)]  = tm;
+    if (tm.team_short) byName[norm(tm.team_short)] = tm;
+    if (tm.team_id)    byName[norm(tm.team_id)]    = tm;
+  });
+
+  const year = forYear || S.overYear || currentSeasonYear();
+  S.overYear = year;
+
+  const totals = {};   // normalised name -> { name, pts, sources[] }
+  const seen = new Set();   // guards against a row being read by two detection paths
+  const add = (rawName, pts, source, rowIdx) => {
+    const name = String(rawName||'').trim();
+    const p = +pts;
+    if (!name || !isFinite(p) || p === 0) return;
+    const key = norm(name);
+    if (!key) return;
+    // The divisional mapping and the region scan can both land on the same cell, so
+    // an identical team/points pair from the same row is only counted once.
+    const dedupe = `${source}|${rowIdx}|${key}|${p}`;
+    if (seen.has(dedupe)) return;
+    seen.add(dedupe);
+    if (!totals[key]) totals[key] = { team_name: name, pts: 0, sources: [] };
+    totals[key].pts += p;
+    if (!totals[key].sources.includes(source)) totals[key].sources.push(source);
+  };
+
+  // Only this season's splits count towards the total.
+  const seasonSplits = (S.splits || []).filter(sp => splitYear(sp) === year);
+  for (const sp of seasonSplits) {
+    const t = await gv(sp.standings_tab || 'Standings_Spring2026');
+    if (!t) continue;
+    const labels = (t.cols || []).map(c => String(c?.label || '').trim().toLowerCase());
+    const rows = t.rows.filter(r => r.c?.some(c => c?.v != null));
+
+    // Pairs each OVPTS column with the nearest team_id column to its left.
+    const pairFrom = labelList => {
+      const teamCols = [], ovCols = [];
+      labelList.forEach((l, i) => {
+        if (l === 'team_id') teamCols.push(i);
+        if (l === 'ovpts')   ovCols.push(i);
+      });
+      return ovCols.map(ov => ({ ov, team: [...teamCols].reverse().find(c => c < ov) }))
+                   .filter(p => p.team != null);
+    };
+
+    // The sheet stacks several tables in one tab. The Div 1 / Div 2 block at the top
+    // supplies the real column headers, but the Continentals blocks below sit in their
+    // own columns and their header rows do not always survive as readable labels.
+    // Two passes therefore run over the rows:
+    //   1. the header-derived mapping, for the divisional blocks;
+    //   2. a content-driven scan, which recognises a Continentals row by its region
+    //      name and reads the team and points that follow on the same row.
+    const REGIONS = ['americas', 'emea', 'apac', 'ncsa'];
+    const headerMapping = pairFrom(labels);
+    let embedded = null;   // mapping picked up from an in-data header row, if any
+
+    rows.forEach((r, ri) => {
+      const cells = (r.c || []).map(c => String(c?.v ?? '').trim().toLowerCase());
+      if (cells.includes('team_id') && cells.includes('ovpts')) { embedded = pairFrom(cells); return; }
+
+      // Divisional blocks, via the tab's real headers.
+      headerMapping.forEach(p => add(cv(r, p.team), cv(r, p.ov), sp.split_id, ri));
+      // Continentals block, via an in-data header row when one was seen.
+      if (embedded) embedded.forEach(p => add(cv(r, p.team), cv(r, p.ov), sp.split_id, ri));
+
+      // Fallback for region rows that no header row announced: locate the region
+      // label, then read the first text cell after it as the team and the first
+      // number after that as the points (layout: division | rank | team_id | OVPTS).
+      const regionAt = cells.findIndex(v => REGIONS.includes(v));
+      if (regionAt === -1) return;
+      let team = null, pts = null;
+      for (let i = regionAt + 1; i < cells.length; i++) {
+        const raw = cv(r, i);
+        if (raw == null || String(raw).trim() === '') continue;
+        if (team == null) {
+          if (isNaN(+raw)) team = raw;        // skip the rank number, take the name
+          continue;
+        }
+        if (!isNaN(+raw)) { pts = +raw; break; }
+      }
+      if (team != null && pts != null) add(team, pts, sp.split_id, ri);
+    });
+  }
+
+  S.over = Object.values(totals)
+    .map(o => ({ ...o, team: byName[norm(o.team_name)] || null }))
+    .sort((a, b) => b.pts - a.pts || a.team_name.localeCompare(b.team_name))
+    .map((o, i) => ({ ...o, rank: i + 1 }));
 }
 async function lArt() {
   const t = await gv('Articles');
@@ -1291,8 +1433,12 @@ function getRes(mid) {
 }
 // A team's completed, scored matches across every split, sorted chronologically
 // (date + time, falling back to match_id): the basis for career-wide stats.
+// Normalises a team id for comparison: the standings tabs are lowercased on read,
+// but schedule rows are used verbatim, so an id typed with different casing or a
+// stray space would silently drop that match from the team's record.
+const sameTeamId = (a, b) => String(a||'').trim().toLowerCase() === String(b||'').trim().toLowerCase();
 function teamMatchHistory(teamId, allRows) {
-  const done = allRows.filter(m => (m.team_a_id === teamId || m.team_b_id === teamId)
+  const done = allRows.filter(m => (sameTeamId(m.team_a_id, teamId) || sameTeamId(m.team_b_id, teamId))
     && (m.status||'').toString().trim().toLowerCase() === 'done'
     && m.score_a != null && m.score_b != null && m.score_a !== '' && m.score_b !== '');
   const ts = m => {
@@ -1308,7 +1454,7 @@ function teamMatchHistory(teamId, allRows) {
 function computeCareerRecord(teamId, allRows) {
   let w = 0, l = 0;
   teamMatchHistory(teamId, allRows).forEach(m => {
-    const isA = m.team_a_id === teamId;
+    const isA = sameTeamId(m.team_a_id, teamId);
     const my = +(isA ? m.score_a : m.score_b), opp = +(isA ? m.score_b : m.score_a);
     if (isNaN(my) || isNaN(opp)) return;
     if (my > opp) w++; else if (my < opp) l++;
@@ -1319,7 +1465,7 @@ function computeCareerRecord(teamId, allRows) {
 function computeBiggestStreak(teamId, allRows) {
   let best = 0, cur = 0;
   teamMatchHistory(teamId, allRows).forEach(m => {
-    const isA = m.team_a_id === teamId;
+    const isA = sameTeamId(m.team_a_id, teamId);
     const my = +(isA ? m.score_a : m.score_b), opp = +(isA ? m.score_b : m.score_a);
     if (isNaN(my) || isNaN(opp)) return;
     if (my > opp) { cur++; best = Math.max(best, cur); } else if (my < opp) { cur = 0; }
@@ -1332,11 +1478,11 @@ function computeTeamRecordByPeriod(teamId, sched) {
   const buckets = {};
   let totalW = 0, totalL = 0;
   list.forEach(m => {
-    if (m.team_a_id !== teamId && m.team_b_id !== teamId) return;
+    if (!sameTeamId(m.team_a_id, teamId) && !sameTeamId(m.team_b_id, teamId)) return;
     if ((m.status||'').toUpperCase() !== 'DONE') return;
     const r = getRes(m.match_id);
     if (!r || r.score_a == null || r.score_b == null || r.score_a === '' || r.score_b === '') return;
-    const isA = m.team_a_id === teamId;
+    const isA = sameTeamId(m.team_a_id, teamId);
     const myScore = +(isA ? r.score_a : r.score_b);
     const oppScore = +(isA ? r.score_b : r.score_a);
     if (isNaN(myScore) || isNaN(oppScore)) return;
@@ -1354,11 +1500,33 @@ async function fetchSplitStandings(splitId) {
   const t = await gv(tab);
   if (!t) return { d1: [], d2: [] };
   const allRows = t.rows.filter(r => r.c?.some(c => c?.v != null));
-  const d1rows = allRows.filter(r => { const v = cv(r,1); return v!=null && !isNaN(+v) && +v>0; });
-  const d2rows = allRows.filter(r => { const v = cv(r,12); return v!=null && !isNaN(+v) && +v>0; });
-  const d1 = d1rows.map(r => ({ rank: cv(r,1), team_id: (cv(r,2)||'').toLowerCase(), champion: String(cv(r,10)||'').trim().toLowerCase()==='x' })).filter(r => r.team_id);
-  const d2 = d2rows.map(r => ({ rank: cv(r,12), team_id: (cv(r,13)||'').toLowerCase(), champion: String(cv(r,21)||'').trim().toLowerCase()==='x' })).filter(r => r.team_id);
-  return { d1, d2 };
+
+  // Column positions differ between standings tabs: some carry extra Champ/OVPTS
+  // columns in the Div 1 block, which shifts the Div 2 block right. Locate both
+  // blocks from the header labels rather than assuming fixed indices.
+  const labels = (t.cols || []).map(c => String(c?.label || '').trim().toLowerCase());
+  const rankCols = [], teamCols = [], champCols = [];
+  labels.forEach((l, i) => {
+    if (l === 'rank') rankCols.push(i);
+    if (l === 'team_id') teamCols.push(i);
+    if (l === 'champ') champCols.push(i);
+  });
+  // Fall back to the historical layout if the headers cannot be read.
+  const d1Rank = rankCols[0] ?? 1, d1Team = teamCols[0] ?? 2;
+  const d2Rank = rankCols[1] ?? 12, d2Team = teamCols[1] ?? 13;
+  const d1Champ = champCols[0] ?? 10, d2Champ = champCols[1] ?? 21;
+
+  const isRank = (r, c) => { const v = cv(r, c); return v != null && !isNaN(+v) && +v > 0; };
+  const build = (rankCol, teamCol, champCol) => allRows
+    .filter(r => isRank(r, rankCol))
+    .map(r => ({
+      rank: cv(r, rankCol),
+      team_id: (cv(r, teamCol) || '').toLowerCase(),
+      champion: String(cv(r, champCol) || '').trim().toLowerCase() === 'x'
+    }))
+    .filter(r => r.team_id);
+
+  return { d1: build(d1Rank, d1Team, d1Champ), d2: build(d2Rank, d2Team, d2Champ) };
 }
 // Schedule_Results is a single tab shared across all splits (a "split" column tags each row).
 // Fetch it once (reusing whatever is already cached) and keep every row, regardless of split.
@@ -1384,10 +1552,10 @@ function computeSplitPeriodRecord(teamId, splitId, allRows) {
   const buckets = {};
   allRows.forEach(m => {
     if (splitId && m.split && m.split !== splitId) return;
-    if (m.team_a_id !== teamId && m.team_b_id !== teamId) return;
+    if (!sameTeamId(m.team_a_id, teamId) && !sameTeamId(m.team_b_id, teamId)) return;
     if ((m.status||'').toString().trim().toLowerCase() !== 'done') return;
     if (m.score_a == null || m.score_b == null || m.score_a === '' || m.score_b === '') return;
-    const isA = m.team_a_id === teamId;
+    const isA = sameTeamId(m.team_a_id, teamId);
     const myScore = +(isA ? m.score_a : m.score_b);
     const oppScore = +(isA ? m.score_b : m.score_a);
     if (isNaN(myScore) || isNaN(oppScore)) return;
@@ -1658,6 +1826,21 @@ function schedAnchorIdx(groups) {
 function todayMatch() {
   const n = new Date();
   return S.sched.some(m => { if (!m.dO||isNaN(m.dO)) return false; const d=m.dO; return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth()&&d.getDate()===n.getDate()&&((()=>{const _s=(m.status||'').toUpperCase();return _s==='CONFIRMED'||_s==='LIVE';})()); });
+}
+// Lists the seasons (years) that have splits, newest first, for the Overpoints selector.
+function seasonYears() {
+  const years = [...new Set((S.splits || []).map(splitYear).filter(Boolean))];
+  return years.sort((a, b) => b.localeCompare(a));
+}
+function seasonSel(val, fn) {
+  const years = seasonYears();
+  if (years.length < 2) return '';   // nothing to choose between
+  const uid = 'ssy' + Math.random().toString(36).slice(2,9);
+  const items = years.map(y => `<div class="ss-opt${y===val?' on':''}" onclick="event.stopPropagation();${fn}('${y}');closeAllSs()">Season ${y}</div>`).join('');
+  return `<div class="ss-cust" id="${uid}">
+  <button type="button" class="ss" onclick="event.stopPropagation();toggleSs('${uid}')">Season ${val}</button>
+  <div class="ss-menu">${items}</div>
+</div>`;
 }
 function splitSel(val, fn) {
   if (!S.splits.length) return '';
@@ -2293,7 +2476,7 @@ ${ts.length ? `<div class="tg">${cards}</div>` : `<div class="empty"><h3>No team
 function pgRanking() {
   const rows = S.rank || [];
   if (!rows.length) {
-    return `<div class="pg"><div class="dt">RANKING</div>
+    return `<div class="pg"><div class="dt">POWER RANKING</div>
 <div class="empty"><h3>Data not available</h3><p>Add the data in the POWER RANKING tab of the Google Sheet.</p></div>
 </div>`;
   }
@@ -2333,7 +2516,7 @@ function pgRanking() {
   const scrollCls = shown.length > 10 ? ' st-scroll' : '';
 
   return `<div class="pg">
-<div class="dt">RANKING</div>
+<div class="dt">POWER RANKING</div>
 <div class="dtog">${btns}</div>
 <div class="st-wrap${scrollCls}"><table class="stt"><thead><tr>
 <th>Rank</th><th>Team</th><th>Division</th>
@@ -2346,6 +2529,69 @@ ${rankExplainer()}
 </div>`;
 }
 function setRankDiv(d) { S.rankDiv = d; renderInPlace(); }
+// Switching season reloads the totals for that year, since Overpoints do not carry over.
+async function setOverYear(y) {
+  if (S.overYear === y) return;
+  S.overYear = y;
+  renderInPlace();
+  await lOver(y);
+  renderInPlace();
+}
+
+// Overpoints: a single cross-region table of accumulated OVPTS. The top 4 qualify
+// directly for the playoffs, places 5 to 32 for the wildcards, so both bands are
+// tinted the same way the standings mark their qualification zones.
+const OVER_PLAYOFF_CUT  = 4;
+const OVER_WILDCARD_CUT = 32;
+function pgOverpoints() {
+  const rows = S.over || [];
+  if (!rows.length) {
+    const yr0 = S.overYear || currentSeasonYear();
+    return `<div class="pg">
+<div class="sh"><div class="dt" style="margin-bottom:0">OVERPOINTS</div>${seasonSel(yr0, 'setOverYear')}</div>
+<div class="empty"><h3>Data not available</h3><p>No Overpoints recorded for season ${yr0} yet.</p></div>
+</div>`;
+  }
+  const trs = rows.map(r => {
+    const zone = r.rank <= OVER_PLAYOFF_CUT ? 'ov-po'
+               : r.rank <= OVER_WILDCARD_CUT ? 'ov-wc' : '';
+    const teamForLogo = r.team || { team_name: r.team_name, logo_url: S.defaultLogo };
+    const logo = `<div class="tlogo-box">${tlogo(teamForLogo, 90)}</div>`;
+    const clickable = r.team ? ` style="cursor:pointer" onclick="openTeamModal('${r.team.team_id}')"` : '';
+    return `<tr class="${zone}"${clickable}>
+<td class="rank-cell"><span class="rn">${r.rank}</span></td>
+<td class="team-cell"><div class="tc">${logo}<span class="tc-n">${r.team_name}</span></div></td>
+<td class="pts">${r.pts}</td>
+</tr>`;
+  }).join('');
+
+  const scrollCls = rows.length > 10 ? ' st-scroll' : '';
+  const yr = S.overYear || currentSeasonYear();
+  return `<div class="pg">
+<div class="sh"><div class="dt" style="margin-bottom:0">OVERPOINTS</div>${seasonSel(yr, 'setOverYear')}</div>
+<div class="st-wrap${scrollCls}"><table class="stt"><thead><tr>
+<th>Rank</th><th>Team</th>
+<th><span class="th-tip" data-tip="Overdrive Points">OVPTS</span></th>
+</tr></thead><tbody>${trs}</tbody></table></div>
+<div class="lgd">
+  <span class="lgd-i"><span class="lgd-c" style="background:#FFD84A"></span>Playoffs qualified</span>
+  <span class="lgd-i"><span class="lgd-c" style="background:#FFE9A0"></span>Wildcard qualified</span>
+</div>
+${overExplainer()}
+</div>`;
+}
+// Short note on how Overpoints accumulate, mirroring the Power Ranking explainer.
+function overExplainer() {
+  return `<div class="pr-exp">
+<div class="dt-md" style="font-family:var(--ft);margin-bottom:14px">HOW IT WORKS</div>
+<p class="pr-intro">Overpoints are awarded on results across the season: divisional finishes and Continentals placements all feed the same total. They decide who reaches the finals.</p>
+<div class="pr-cards" style="max-width:520px">
+<div class="pr-card"><div class="pr-card-n">1-4</div><div class="pr-card-l">Direct to playoffs</div></div>
+<div class="pr-card"><div class="pr-card-n">5-32</div><div class="pr-card-l">Wildcard slot</div></div>
+</div>
+<p class="pr-note">Points from both splits of the season are added together. Totals reset when the next season starts.</p>
+</div>`;
+}
 
 // Explains how the Power Ranking score is derived. Static copy: the values here
 // mirror the formula used to produce the POWER RANKING sheet.
@@ -2356,10 +2602,10 @@ function rankExplainer() {
     { n: '400',   l: 'OQ / Continentals' }
   ];
   const crits = [
-    { h: 'The result',    d: 'A win is worth <b>+100 pts</b>, a loss <b>-60 pts</b>.' },
-    { h: 'The opponent',  d: 'Beating a stronger team earns a bonus of up to <b>+45</b>. Losing to a weaker team carries an extra penalty.' },
-    { h: 'The scoreline', d: 'A <b>3-0</b> is worth more than a 3-2, and losing <b>2-3</b> costs less than losing 0-3.' },
-    { h: 'The stage',     d: 'High-stakes matches weigh far more, from playoffs down to open qualifiers.' }
+    { h: 'Result',    d: 'A win adds <b>100 pts</b>, a loss takes <b>60</b>.' },
+    { h: 'Opponent',  d: 'Beating a higher-ranked side adds up to <b>45</b> more.' },
+    { h: 'Scoreline', d: 'A <b>3-0</b> counts for more than a 3-2.' },
+    { h: 'Stage',     d: 'When it is played decides how much of that lands.' }
   ];
   const mults = [
     { l: 'Playoffs / Promotion', v: 1.75 },
@@ -2380,29 +2626,29 @@ function rankExplainer() {
 
   return `<div class="pr-exp">
 <div class="dt-md" style="font-family:var(--ft);margin-bottom:14px">HOW IT WORKS</div>
-<p class="pr-intro">The Power Ranking puts every team - Division 1, Division 2 and Open Qualifiers - into a single table, measuring a team's real strength beyond the league it happens to play in.</p>
+<p class="pr-intro">One table for every team, from Division 1 down to the Open Qualifiers. It answers what the standings cannot: how good is a team really, whichever division it plays in?</p>
 
 <div class="pr-block">
-${sec('01', 'Starting point')}
+${sec('01', 'Where teams start')}
 <div class="pr-cards">${bases.map(card).join('')}</div>
-<p class="pr-note">Every team enters the ranking with a base score set by its league.</p>
+<p class="pr-note">Where a team starts depends on the league it qualified into.</p>
 </div>
 
 <div class="pr-block">
-${sec('02', 'Four things count in every match')}
+${sec('02', 'What each match is worth')}
 <div class="pr-crit">${crits.map(c => `<div class="pr-crit-i"><div class="pr-crit-h">${c.h}</div><div class="pr-crit-d">${c.d}</div></div>`).join('')}</div>
 <div class="pr-mult">${mults.map(m => `<div class="pr-m">
   <span class="pr-m-l">${m.l}</span>
   <span class="pr-m-bar"><span class="pr-m-fill" style="width:${(m.v/maxV*100).toFixed(0)}%"></span></span>
   <span class="pr-m-v">x${m.v.toFixed(2)}</span>
 </div>`).join('')}</div>
-<p class="pr-note">Open qualifiers weigh least because of the number of forfeits and the wide spread in level.</p>
+<p class="pr-note">Open Qualifier results barely move the needle: too many forfeits, and too wide a gap between the teams involved.</p>
 </div>
 
 <div class="pr-block" style="margin-bottom:0">
-${sec('03', 'The hierarchy is preserved')}
+${sec('03', 'The floor')}
 <div class="pr-cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));max-width:400px">${floors.map(card).join('')}</div>
-<p class="pr-note">A Division 1 team on a poor run cannot fall below Division 2 level. For example, <b>Team USAK</b> (0W-9L) and <b>Navi</b> (2W-7L) both stay at 750 pts, above every Division 2 team.</p>
+<p class="pr-note">No Division 1 side drops below Division 2 on results alone. <b>Team USAK</b> finished 0-9 and <b>Navi</b> 2-7; both sit at 750, clear of the division below.</p>
 </div>
 </div>`;
 }
@@ -2471,11 +2717,11 @@ function pgPrivacy() {
 const PAGES = {
   home: pgHome, leagues: pgLeagues, standings: pgStandings,
   schedule: pgSchedule, news: pgNews, articles: pgArticles, article: pgArticle, vods: pgVODs,
-  teams: pgTeams, ranking: pgRanking, about: pgAbout,
+  teams: pgTeams, ranking: pgRanking, overpoints: pgOverpoints, about: pgAbout,
   contact: pgContact, legal: pgLegal, privacy: pgPrivacy,
 };
 // Map page → parent nav item
-const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
+const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',overpoints:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
 
 // renderInPlace – updates content WITHOUT scrolling (toggles, filters…)
 function renderInPlace() {
@@ -2510,7 +2756,7 @@ const PAGE_TITLES = {
   home:'OverDrive', leagues:'Standings – OverDrive', standings:'Standings – OverDrive',
   schedule:'Schedule – OverDrive', news:'News – OverDrive', articles:'News – OverDrive',
   article:'News – OverDrive', vods:'VODs – OverDrive',
-  teams:'Teams – OverDrive', ranking:'Ranking – OverDrive', about:'About – OverDrive',
+  teams:'Teams – OverDrive', ranking:'Power Ranking – OverDrive', overpoints:'Overpoints – OverDrive', about:'About – OverDrive',
   contact:'Contact – OverDrive', legal:'Legal Notice – OverDrive', privacy:'Privacy – OverDrive',
 };
 let _navigatingViaGo = false;
@@ -2565,7 +2811,7 @@ async function changeSplit(sp) {
 // ─── POLLING ───────────────────────────────────────────────────────────────
 async function refresh() {
   _allSchedCache = null; // force a fresh combined-tab fetch this cycle (see loadScheduleAllSplits)
-  await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), loadHomeSplitData(), loadScheduleAllSplits()]);
+  await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), lOver(), loadHomeSplitData(), loadScheduleAllSplits()]);
   render(); poll();
 }
 function poll() { if (pollT) clearTimeout(pollT); pollT = setTimeout(refresh, (todayMatch()?S.cfg.pm:S.cfg.pd)*1000); }
@@ -2763,9 +3009,13 @@ function initNavDropdowns() {
         item.querySelectorAll('.ddi-sub').forEach(sub => {
           const sm = sub.querySelector('.dd-sub');
           if (!sm) return;
-          const overRow = within(sub.getBoundingClientRect(), e.clientX, e.clientY);
+          // Measured against the row, not the container: an open container includes
+          // its expanded panel, whose box would overlap the row of the next submenu
+          // down and keep the wrong one open.
+          const rowEl = sub.querySelector('.ddi-sub-row') || sub;
+          const overRow = within(rowEl.getBoundingClientRect(), e.clientX, e.clientY);
           const overPanel = sub.classList.contains('open') && within(sm.getBoundingClientRect(), e.clientX, e.clientY);
-          if (overRow || overPanel) { clearTimeout(sub._t); sub.classList.add('open'); }
+          if (overRow || overPanel) { clearTimeout(sub._t); sub._t = null; sub.classList.add('open'); }
           else if (sub.classList.contains('open') && !sub._t) {
             sub._t = setTimeout(() => { sub.classList.remove('open'); sub._t = null; }, DD_SUB_DELAY);
           }
@@ -2829,7 +3079,7 @@ async function init() {
     await lCfg();
     await lSplits();
     await lTeams();
-    await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), loadHomeSplitData(), loadScheduleAllSplits()]);
+    await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), lOver(), loadHomeSplitData(), loadScheduleAllSplits()]);
   } catch(e) {
     console.error('Init error:', e);
   } finally {
