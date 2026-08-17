@@ -1300,33 +1300,29 @@ async function lOver(forYear) {
     if (!totals[key].sources.includes(source)) totals[key].sources.push(source);
   };
 
-  // Only this season's splits count towards the total.
-  const seasonSplits = (S.splits || []).filter(sp => splitYear(sp) === year);
-  for (const sp of seasonSplits) {
-    const t = await gv(sp.standings_tab || 'Standings_Spring2026');
-    if (!t) continue;
+  // Pairs each OVPTS column with the nearest team_id column to its left.
+  const pairFrom = labelList => {
+    const teamCols = [], ovCols = [];
+    labelList.forEach((l, i) => {
+      if (l === 'team_id') teamCols.push(i);
+      if (l === 'ovpts')   ovCols.push(i);
+    });
+    return ovCols.map(ov => ({ ov, team: [...teamCols].reverse().find(c => c < ov) }))
+                 .filter(p => p.team != null);
+  };
+  const REGIONS = ['americas', 'emea', 'apac', 'ncsa'];
+
+  // Scans one GViz table for OVPTS, wherever it lives in the tab. A tab can carry:
+  //   1. header-labelled team_id/ovpts columns (divisional blocks, or a Continentals
+  //      tab that has real headers of its own);
+  //   2. an in-data header row announcing team_id/ovpts further down the sheet;
+  //   3. bare region rows (division | rank | team_id | OVPTS) with no header at all.
+  // All three are checked for every tab so Continentals data is picked up regardless
+  // of which tab (or block within a tab) it currently lives in.
+  const scanTabForOvpts = (t, source) => {
+    if (!t) return;
     const labels = (t.cols || []).map(c => String(c?.label || '').trim().toLowerCase());
     const rows = t.rows.filter(r => r.c?.some(c => c?.v != null));
-
-    // Pairs each OVPTS column with the nearest team_id column to its left.
-    const pairFrom = labelList => {
-      const teamCols = [], ovCols = [];
-      labelList.forEach((l, i) => {
-        if (l === 'team_id') teamCols.push(i);
-        if (l === 'ovpts')   ovCols.push(i);
-      });
-      return ovCols.map(ov => ({ ov, team: [...teamCols].reverse().find(c => c < ov) }))
-                   .filter(p => p.team != null);
-    };
-
-    // The sheet stacks several tables in one tab. The Div 1 / Div 2 block at the top
-    // supplies the real column headers, but the Continentals blocks below sit in their
-    // own columns and their header rows do not always survive as readable labels.
-    // Two passes therefore run over the rows:
-    //   1. the header-derived mapping, for the divisional blocks;
-    //   2. a content-driven scan, which recognises a Continentals row by its region
-    //      name and reads the team and points that follow on the same row.
-    const REGIONS = ['americas', 'emea', 'apac', 'ncsa'];
     const headerMapping = pairFrom(labels);
     let embedded = null;   // mapping picked up from an in-data header row, if any
 
@@ -1334,10 +1330,8 @@ async function lOver(forYear) {
       const cells = (r.c || []).map(c => String(c?.v ?? '').trim().toLowerCase());
       if (cells.includes('team_id') && cells.includes('ovpts')) { embedded = pairFrom(cells); return; }
 
-      // Divisional blocks, via the tab's real headers.
-      headerMapping.forEach(p => add(cv(r, p.team), cv(r, p.ov), sp.split_id, ri));
-      // Continentals block, via an in-data header row when one was seen.
-      if (embedded) embedded.forEach(p => add(cv(r, p.team), cv(r, p.ov), sp.split_id, ri));
+      headerMapping.forEach(p => add(cv(r, p.team), cv(r, p.ov), source, ri));
+      if (embedded) embedded.forEach(p => add(cv(r, p.team), cv(r, p.ov), source, ri));
 
       // Fallback for region rows that no header row announced: locate the region
       // label, then read the first text cell after it as the team and the first
@@ -1354,8 +1348,24 @@ async function lOver(forYear) {
         }
         if (!isNaN(+raw)) { pts = +raw; break; }
       }
-      if (team != null && pts != null) add(team, pts, sp.split_id, ri);
+      if (team != null && pts != null) add(team, pts, source, ri);
     });
+  };
+
+  // Only this season's splits count towards the total.
+  const seasonSplits = (S.splits || []).filter(sp => splitYear(sp) === year);
+  for (const sp of seasonSplits) {
+    const standingsTabName = sp.standings_tab || 'Standings_Spring2026';
+    scanTabForOvpts(await gv(standingsTabName), sp.split_id);
+
+    // Continentals now live in their own tab (e.g. "Continentals_Spring2026"), named
+    // by swapping the "Standing(s)" prefix of the standings tab for "Continentals".
+    // A tab can also declare it explicitly via a 'continentals_tab' column in Splits.
+    const continentalsTabName = sp.continentals_tab
+      || standingsTabName.replace(/^Standings?/i, 'Continentals');
+    if (continentalsTabName && continentalsTabName !== standingsTabName) {
+      scanTabForOvpts(await gv(continentalsTabName), sp.split_id);
+    }
   }
 
   S.over = Object.values(totals)
