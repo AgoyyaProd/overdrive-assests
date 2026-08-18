@@ -601,24 +601,21 @@ footer{
    Threshold widened from 600 to 700px, and every size pulled down further, since
    even the first compact pass still read as cramped in some mobile browsers. */
 @media(max-width:700px){
-  /* The tilted-panel logo treatment (15deg rotation + diagonal clip-path) is
-     calibrated in fixed pixels for the ~100px desktop panel. Shrunk down to
-     mobile size, that same 14px tilt eats over half the box and the clip
-     mangles the logo instead of just angling it — which is exactly the
-     "doesn't look like the web version" distortion. Mobile drops the tilt
-     entirely: a small plain square logo, in normal flow next to the name,
-     reads far cleaner at this size than a shrunk version of the desktop panel. */
+  /* Same tilted-panel treatment as desktop — logo, diagonal crop and lean — just
+     scaled down proportionally (tilt, panel width, inner logo size, and the left
+     offset all scaled by the same ~0.32 ratio as the panel itself). Previously
+     the panel shrank but --tilt stayed a fixed 14px, so the diagonal ate more
+     than half the box and mangled the logo instead of just angling it; keeping
+     the same ratio as desktop reproduces the same clean lean at any size. */
   .tlogo-box{
-    position:static;width:22px;height:22px;left:auto;top:auto;bottom:auto;
-    clip-path:none;overflow:visible;flex-shrink:0;
+    --tilt:4.5px;
+    width:32px;left:-2px;
   }
   .tlogo-box>*{
-    width:22px !important;height:22px !important;
-    transform:none;
+    width:29px !important;height:29px !important;
   }
-  .stt td.team-cell{padding-left:6px}
-  .tc{padding-left:0;min-width:0;gap:6px}
-  .tc-n{font-size:8.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;letter-spacing:0}
+  .tc{padding-left:34px;min-width:0}
+  .tc-n{font-size:8.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   .stt{table-layout:fixed}
   .stt th{padding:6px 2px;font-size:7px;letter-spacing:0;overflow:hidden;white-space:nowrap}
   .stt th:first-child{padding-left:6px}
