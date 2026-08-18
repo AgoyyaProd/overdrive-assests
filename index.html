@@ -440,6 +440,30 @@ footer{
 .mo-map{background:var(--bg-c2);display:flex;align-items:center;justify-content:space-between;padding:30px 20px;border:1px solid var(--brd)}
 .mo-map-name{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .mo-map-score{font-family:var(--ft);font-weight:900;font-size:20px}
+
+/* ━━━ BARRAGE / PROMOTION-RELEGATION CARD ━━━━━━━━━━━━━━━━━━━━━━ */
+/* Two teams + a pair of outcome chevrons in a 3-column grid (logo/name/placement/
+   outcome stacked per team). Every size below is fluid (clamp) rather than fixed,
+   since this card previously used hardcoded 72px SVGs and 32px gaps that were never
+   adapted for mobile and overflowed the viewport outright. */
+.prel-card{cursor:pointer;padding:30px 20px}
+.prel-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;justify-items:center;column-gap:clamp(10px,4vw,32px);row-gap:12px;width:100%}
+.prel-logo-a{grid-column:1;grid-row:1}
+.prel-logo-b{grid-column:3;grid-row:1}
+.prel-tlogo{width:clamp(38px,9vw,68px);height:clamp(38px,9vw,68px);flex-shrink:0}
+.prel-arrows{grid-column:2;grid-row:1/span 4;display:flex;align-items:center;gap:clamp(4px,2vw,12px)}
+.prel-chevron{width:clamp(22px,6vw,56px);height:clamp(22px,6vw,56px);flex-shrink:0}
+.prel-name{grid-row:2;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:clamp(12px,3.2vw,16px)}
+.prel-name-a{grid-column:1}
+.prel-name-b{grid-column:3}
+.prel-plc{width:100%;text-align:center;font-size:clamp(9px,2.4vw,13px)}
+.prel-plc-a{grid-column:1;grid-row:3}
+.prel-plc-b{grid-column:3;grid-row:3}
+.prel-outcome{grid-row:4;width:100%;text-align:center;font-size:clamp(9px,2.4vw,14px);font-weight:600}
+.prel-outcome-a{grid-column:1}
+.prel-outcome-b{grid-column:3}
+@media(max-width:480px){.prel-card{padding:18px 12px}}
+
 @media(max-width:480px){
   .mo-main{padding:28px 12px;gap:6px}
   .mo-logo,.mo-lph{width:54px;height:54px;font-size:20px}
@@ -568,6 +592,22 @@ footer{
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
 .tc-n{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .pts{font-family:var(--ft);font-weight:900;font-size:18px;color:var(--acc)}
+/* Below 600px the 90px tilted logo panel alone ate more width than the whole
+   Rank+Team cell has available, forcing team names onto two lines and every
+   row up to ~120px tall (ten of those makes the standings table scroll forever).
+   Shrinking the whole rank+logo+name block and truncating the name to one line
+   with an ellipsis keeps row height compact and consistent instead. */
+@media(max-width:600px){
+  .tlogo-box{width:52px;left:-2px}
+  .tlogo-box>*{width:46px !important;height:46px !important}
+  .tc{padding-left:52px;min-width:0;gap:8px}
+  .tc-n{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+  .stt th{padding:8px 8px;font-size:9px}
+  .stt th:first-child{padding-left:14px}
+  .stt td{padding:10px 8px;font-size:15px}
+  .stt td:first-child{padding-left:14px;font-size:15px}
+  .pts{font-size:15px}
+}
 
 /* legend */
 .leg{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0 0}
@@ -2067,7 +2107,7 @@ function legend(div) {
 function promoRelChevron(dir) {
   const color = dir === 'up' ? 'var(--acc)' : dir === 'down' ? '#fff' : 'var(--muted)';
   const path = dir === 'up' ? 'M4 16l8-9 8 9' : dir === 'down' ? 'M4 8l8 9 8-9' : 'M4 12h16';
-  return `<svg viewBox="0 0 24 24" width="72" height="72" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><path d="${path}"/></svg>`;
+  return `<svg class="prel-chevron" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><path d="${path}"/></svg>`;
 }
 function promoRelOutcomeColor(outcome) {
   return outcome ? 'var(--acc)' : 'var(--muted)';
@@ -2129,17 +2169,17 @@ function promoRelSection(title, periodKey) {
     };
     // Grid rows: logo / name / placement / outcome: identical row heights across both
     // teams (via CSS Grid), so everything lines up vertically regardless of content length.
-    return `<div class="mo-map" style="cursor:pointer;padding:32px 20px" onclick="openMatchModal('${m.match_id}')">
-      <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;justify-items:center;column-gap:32px;row-gap:14px;width:100%">
-        <div style="grid-column:1;grid-row:1">${tlogo(m.A,68)}</div>
-        <div style="grid-column:3;grid-row:1">${tlogo(m.B,68)}</div>
-        <div style="grid-column:2;grid-row:1/span 4;display:flex;align-items:center;gap:12px">${promoRelChevron(dirOf(aWin))}${promoRelChevron(dirOf(!aWin))}</div>
-        <div class="mo-tname" style="grid-column:1;grid-row:2;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.A?.team_name||m.team_a_id||'?'}</div>
-        <div class="mo-tname" style="grid-column:3;grid-row:2;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.B?.team_name||m.team_b_id||'?'}</div>
-        <div class="mo-players" style="grid-column:1;grid-row:3;font-size:13px">${placement(aRank, m.A, m.team_a_id)}</div>
-        <div class="mo-players" style="grid-column:3;grid-row:3;font-size:13px">${placement(bRank, m.B, m.team_b_id)}</div>
-        <div style="grid-column:1;grid-row:4;font-size:14px;font-weight:600;color:${promoRelOutcomeColor(aOutcome)}">${aOutcome||''}</div>
-        <div style="grid-column:3;grid-row:4;font-size:14px;font-weight:600;color:${promoRelOutcomeColor(bOutcome)}">${bOutcome||''}</div>
+    return `<div class="mo-map prel-card" onclick="openMatchModal('${m.match_id}')">
+      <div class="prel-grid">
+        <div class="prel-logo prel-logo-a">${tlogo(m.A,68,'prel-tlogo')}</div>
+        <div class="prel-logo prel-logo-b">${tlogo(m.B,68,'prel-tlogo')}</div>
+        <div class="prel-arrows">${promoRelChevron(dirOf(aWin))}${promoRelChevron(dirOf(!aWin))}</div>
+        <div class="mo-tname prel-name prel-name-a">${m.A?.team_name||m.team_a_id||'?'}</div>
+        <div class="mo-tname prel-name prel-name-b">${m.B?.team_name||m.team_b_id||'?'}</div>
+        <div class="mo-players prel-plc prel-plc-a">${placement(aRank, m.A, m.team_a_id)}</div>
+        <div class="mo-players prel-plc prel-plc-b">${placement(bRank, m.B, m.team_b_id)}</div>
+        <div class="prel-outcome prel-outcome-a" style="color:${promoRelOutcomeColor(aOutcome)}">${aOutcome||''}</div>
+        <div class="prel-outcome prel-outcome-b" style="color:${promoRelOutcomeColor(bOutcome)}">${bOutcome||''}</div>
       </div>
     </div>`;
   }).join('');
