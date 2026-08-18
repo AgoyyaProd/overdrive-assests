@@ -138,6 +138,57 @@ body::before{
   opacity:1;visibility:visible;pointer-events:auto;
 }
 
+/* ━━━ MOBILE NAV ━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.nav-burger{display:none;flex-direction:column;justify-content:center;align-items:flex-end;gap:5px;width:36px;height:36px;margin-left:auto;flex-shrink:0}
+.nav-burger span{display:block;width:22px;height:2px;background:#fff;transition:transform .2s ease,opacity .15s ease,width .2s ease}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);width:22px}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);width:22px}
+
+.mnav-backdrop{position:fixed;left:0;right:0;bottom:0;top:var(--hh);background:rgba(0,0,0,.62);z-index:999;opacity:0;visibility:hidden;transition:opacity .18s ease;backdrop-filter:blur(2px)}
+.mnav-backdrop.open{opacity:1;visibility:visible}
+.mnav{
+  position:fixed;top:var(--hh);left:0;right:0;z-index:1000;background:#0a0a0a;
+  border-bottom:1px solid var(--brd2);max-height:calc(100vh - var(--hh));overflow-y:auto;
+  transform:translateY(-6px);opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .18s ease,opacity .18s ease;
+}
+.mnav.open{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto}
+.mnav-item{border-bottom:1px solid var(--brd)}
+.mnav-lk{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:17px 24px;font-family:var(--ft);font-weight:700;font-size:14px;
+  letter-spacing:.08em;text-transform:uppercase;color:#fff;cursor:pointer;
+}
+.mnav-lk.on{color:var(--acc)}
+.mnav-arr{display:inline-flex;align-items:center;flex-shrink:0;opacity:.8;transition:transform .2s ease}
+.mnav-item.open>.mnav-lk .mnav-arr{transform:rotate(180deg)}
+.mnav-sub{max-height:0;overflow:hidden;background:rgba(255,255,255,.025);transition:max-height .22s ease}
+.mnav-item.open .mnav-sub{max-height:600px}
+.mnav-lk-parent2{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 24px 14px 36px;font-family:var(--ft);font-weight:700;font-size:12px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;
+}
+.mnav-sub2{max-height:0;overflow:hidden;transition:max-height .2s ease}
+.mnav-sub2.open{max-height:260px}
+.mnav-lk-parent2:has(+ .mnav-sub2.open) .mnav-arr{transform:rotate(180deg)}
+.mnav-lk-sub{
+  display:block;padding:12px 24px 12px 48px;font-family:var(--ft);font-weight:500;
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);cursor:pointer;
+}
+.mnav-lk-sub-top{padding-left:36px}
+.mnav-lk-sub:active{color:var(--acc)}
+
+@media(max-width:900px){
+  .nl{display:none}
+  .nav-burger{display:flex}
+  .ni{width:100%}
+}
+@media(min-width:901px){
+  .mnav,.mnav-backdrop{display:none}
+}
+
 /* ━━━ APP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 #app{padding-top:var(--hh);min-height:100vh}
 
@@ -342,7 +393,7 @@ footer{
 .sb-tbd{background:rgba(255,186,74,.14);color:#FFBA4A}
 .sb-can{background:rgba(255,255,255,.05);color:var(--muted)}
 .tp{width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:900;font-size:26px;color:var(--muted);flex-shrink:0;background:rgba(255,255,255,.06);border-radius:50%}
-@media(max-width:600px){.tp{width:52px;height:52px;font-size:18px}.mc-body{flex-wrap:wrap}.mc-team{width:auto;flex:1;min-width:0}}
+@media(max-width:600px){.tp{width:52px;height:52px;font-size:18px}}
 
 /* ━━━ MODAL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 #modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
@@ -389,6 +440,16 @@ footer{
 .mo-map{background:var(--bg-c2);display:flex;align-items:center;justify-content:space-between;padding:30px 20px;border:1px solid var(--brd)}
 .mo-map-name{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .mo-map-score{font-family:var(--ft);font-weight:900;font-size:20px}
+@media(max-width:480px){
+  .mo-main{padding:28px 12px;gap:6px}
+  .mo-logo,.mo-lph{width:54px;height:54px;font-size:20px}
+  .mo-tname{font-size:15px}
+  .mo-players{font-size:9px}
+  .mo-sc,.mo-ti{font-size:32px}
+  .mo-form{gap:8px}
+  .mo-form-col{padding:10px}
+  .mo-map{padding:18px 14px}
+}
 
 /* ━━━ SECTION HEADER ━━━━━━━━━━━━━━━━━━━━━━ */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
@@ -401,12 +462,33 @@ footer{
 .cal-sub em{font-style:normal;color:var(--txt)}
 
 /* ━━━ DIV TOGGLE ━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.dtog{display:inline-flex;background:rgba(255,255,255,.055);border-radius:999px;padding:3px;gap:3px;margin-bottom:22px}
-.dtb{padding:8px 20px;border-radius:999px;font-family:var(--ft);font-weight:900;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);transition:all .15s;cursor:pointer}
+/* flex-wrap so a row with many pills (mode/division/region filters) wraps onto a
+   second line on narrow screens instead of forcing the whole page to widen to fit
+   it on one line – that silent overflow was inflating the mobile viewport itself. */
+.dtog{display:inline-flex;flex-wrap:wrap;background:rgba(255,255,255,.055);border-radius:999px;padding:3px;gap:3px;margin-bottom:22px}
+.dtb{padding:8px 20px;border-radius:999px;font-family:var(--ft);font-weight:900;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);transition:all .15s;cursor:pointer;white-space:nowrap}
 .dtb.on{background:rgba(255,106,0,.88);color:#fff}
 
 /* ━━━ STANDINGS ━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.st-wrap{overflow-x:auto}
+/* The table itself never loses columns on mobile – every stat stays, the wrapper
+   just scrolls horizontally. -webkit-overflow-scrolling gives it momentum on iOS.
+   Below 900px a fading edge + one-time "swipe" hint signal that there's more to
+   see, since a full-width table with no visible cut-off column doesn't otherwise
+   read as scrollable. The hint is removed by JS the first time the user scrolls it. */
+.st-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
+@media(max-width:900px){
+  .st-wrap:not(.st-scrolled)::after{
+    content:'';position:absolute;top:0;right:0;bottom:0;width:32px;pointer-events:none;
+    background:linear-gradient(to right, transparent, var(--bg-c) 75%);
+  }
+  .st-wrap-hint{
+    display:flex;align-items:center;gap:6px;margin:10px 0 14px;
+    font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);opacity:1;transition:opacity .25s ease;
+  }
+  .st-wrap-hint.hide{opacity:0}
+}
+@media(min-width:901px){.st-wrap-hint{display:none}}
 /* Ranking table: caps the visible height at about ten rows and scrolls the rest.
    62px per row (52px row + 10px gap) plus the header. */
 .st-wrap.st-scroll{max-height:calc(62px * 10 + 44px);overflow-y:auto}
@@ -592,7 +674,7 @@ footer{
 
 /* ━━━ ABOUT PAGE ━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .about-hero{background:linear-gradient(135deg,rgba(255,106,0,.09) 0%,transparent 55%);border:1px solid var(--brd);padding:52px;margin-bottom:22px}
-.about-hero h1{font-family:var(--ft);font-weight:900;font-size:62px;text-transform:uppercase;line-height:.86;margin-bottom:18px}
+.about-hero h1{font-family:var(--ft);font-weight:900;font-size:clamp(32px,9vw,62px);text-transform:uppercase;line-height:.86;margin-bottom:18px}
 .about-hero h1 em{font-style:normal;color:var(--acc)}
 .about-hero p{font-family:var(--ft);font-weight:300;font-size:14px;line-height:1.82;color:var(--muted);max-width:550px;margin-bottom:10px}
 .st-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -626,6 +708,16 @@ footer{
 .mc-body{display:flex;align-items:center;justify-content:center;gap:20px;padding:4px 24px 32px}
 .mc-team{width:380px;flex:none;display:flex;align-items:center;gap:16px}
 .mc-team.right{}
+/* Below ~950px the two 380px team blocks plus the center column no longer fit on
+   one line. They first go fluid (still side-by-side, shrinking together instead of
+   overflowing), then below 520px the card stacks: team A, score, team B, each on
+   its own full-width row — same information, just reflowed for a narrow screen. */
+@media(max-width:950px){.mc-team{width:auto;flex:1 1 0;min-width:0;max-width:380px}}
+@media(max-width:520px){
+  .mc-body{flex-direction:column;align-items:stretch;gap:10px;padding:8px 18px 22px}
+  .mc-team{width:100%;max-width:none}
+  .mc-center{min-width:0;padding:2px 0}
+}
 .mc-tname{font-family:var(--ft);font-weight:900;font-size:clamp(16px,1vw,22px);text-transform:uppercase;letter-spacing:.02em;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-center{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;min-width:140px}
 .mc-center-main{font-family:var(--ft);font-weight:900;font-size:clamp(32px,2.2vw,48px);line-height:1;color:var(--txt)}
@@ -696,10 +788,52 @@ footer{
       </div>
     </div>
 
-    <!-- right: empty (no lang switcher for now) -->
-    <div></div>
+    <!-- Mobile menu toggle (hidden on desktop) -->
+    <button class="nav-burger" id="nav-burger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE NAV PANEL -->
+<div class="mnav-backdrop" id="mnav-backdrop" onclick="closeMobileNav()"></div>
+<div class="mnav" id="mnav">
+  <div class="mnav-item">
+    <span class="mnav-lk nlk" data-p="home" onclick="mnavGo('home')">Home</span>
+  </div>
+  <div class="mnav-item">
+    <div class="mnav-lk nlk" data-p="leagues" onclick="mnavToggleItem(this)">Leagues
+      <span class="mnav-arr"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span>
+    </div>
+    <div class="mnav-sub">
+      <div class="mnav-lk-parent2" onclick="mnavToggleSub(this)">Standings
+        <span class="mnav-arr"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span>
+      </div>
+      <div class="mnav-sub2">
+        <span class="mnav-lk-sub" onclick="mnavGoStd('1')">Division 1</span>
+        <span class="mnav-lk-sub" onclick="mnavGoStd('2')">Division 2</span>
+        <span class="mnav-lk-sub" onclick="mnavGo('leagues')">Regionals</span>
+      </div>
+      <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGo('teams')">Teams</span>
+      <div class="mnav-lk-parent2" onclick="mnavToggleSub(this)">Ranking
+        <span class="mnav-arr"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span>
+      </div>
+      <div class="mnav-sub2">
+        <span class="mnav-lk-sub" onclick="mnavGo('overpoints')">Overpoints</span>
+        <span class="mnav-lk-sub" onclick="mnavGo('ranking')">Power Ranking</span>
+      </div>
+    </div>
+  </div>
+  <div class="mnav-item">
+    <span class="mnav-lk nlk" data-p="schedule" onclick="mnavGo('schedule')">Schedule</span>
+  </div>
+  <div class="mnav-item">
+    <span class="mnav-lk nlk" data-p="news" onclick="mnavGo('news')">News</span>
+  </div>
+  <div class="mnav-item">
+    <span class="mnav-lk nlk" data-p="about" onclick="mnavGo('about')">About</span>
+  </div>
+</div>
 
 <!-- APP -->
 <main id="app">
@@ -1900,6 +2034,11 @@ document.addEventListener('click', closeAllSs);
 function liveMatch() { return S.homeSched.find(m => (m.status||'').toUpperCase() === 'LIVE'); }
 
 // ─── STANDINGS TABLE ───────────────────────────────────────────────────────
+// One-time "swipe for more" hint shown under a horizontally-scrollable table on
+// mobile, removed the first time the user actually scrolls it (see initStWrapHints).
+function stWrapHint() {
+  return `<div class="st-wrap-hint"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l-5 7 5 7M16 5l5 7-5 7"/></svg>Swipe for more stats</div>`;
+}
 function stTab(rows, div) {
   if (!rows?.length) return `<div class="empty"><h3>Data not available</h3><p>Add the data in the Standings_Spring2026 tab of the Google Sheet.</p></div>`;
   const n = rows.length;
@@ -1916,7 +2055,7 @@ function stTab(rows, div) {
     const teamName = `${r.team?.team_name||r.team_id||'?'}`;
     return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="tc-n">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
   }).join('');
-  return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trs}</tbody></table></div>`;
+  return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}`;
 }
 function legend(div) {
   if (div==1) return `<div class="leg"><div class="li"><div class="ld3 ld-champ"></div>Split Champion</div><div class="li"><div class="ld3 ld-pl"></div>Playoffs qualified</div><div class="li"><div class="ld3 ld-br"></div>Play-in qualified</div><div class="li"><div class="ld3 ld-rl"></div>Relegated to Div 2</div></div>`;
@@ -2545,7 +2684,7 @@ function pgRanking() {
 <th><span class="th-tip" data-tip="Match Win">W</span></th>
 <th><span class="th-tip" data-tip="Match Loss">L</span></th>
 <th><span class="th-tip" data-tip="Power Ranking Score">SCORE</span></th>
-</tr></thead><tbody>${trs}</tbody></table></div>
+</tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}
 ${rankExplainer()}
 </div>`;
 }
@@ -2593,7 +2732,7 @@ function pgOverpoints() {
 <div class="st-wrap${scrollCls}"><table class="stt"><thead><tr>
 <th>Rank</th><th>Team</th>
 <th><span class="th-tip" data-tip="Overdrive Points">OVPTS</span></th>
-</tr></thead><tbody>${trs}</tbody></table></div>
+</tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}
 <div class="lgd">
   <span class="lgd-i"><span class="lgd-c" style="background:#FFD84A"></span>Playoffs qualified</span>
   <span class="lgd-i"><span class="lgd-c" style="background:#FFE9A0"></span>Wildcard qualified</span>
@@ -2745,11 +2884,28 @@ const PAGES = {
 const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',overpoints:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
 
 // renderInPlace – updates content WITHOUT scrolling (toggles, filters…)
+// Marks a scrollable table wrapper as "already scrolled" (hiding the edge fade and
+// swipe hint) once the user has actually moved it, and skips the hint entirely when
+// the table already fits without scrolling. Re-run after every render, since the
+// wrappers are fresh DOM nodes each time.
+function initStWrapHints() {
+  document.querySelectorAll('.st-wrap').forEach(w => {
+    if (w.scrollWidth <= w.clientWidth + 2) { w.classList.add('st-scrolled'); return; }
+    w.addEventListener('scroll', () => {
+      if (w.scrollLeft > 4) {
+        w.classList.add('st-scrolled');
+        const hint = w.nextElementSibling;
+        if (hint && hint.classList.contains('st-wrap-hint')) hint.classList.add('hide');
+      }
+    }, { passive: true });
+  });
+}
 function renderInPlace() {
   const parent = NAV_PARENT[S.page] || S.page;
   document.querySelectorAll('.nlk').forEach(el => el.classList.toggle('on', el.dataset.p === parent));
   const fn = PAGES[S.page] || pgHome;
   document.getElementById('app').innerHTML = fn();
+  initStWrapHints();
   if (S.page === 'home') { _ytReady = false; _ytPlayer = null; _ytMuted = true; setTimeout(initYTPlayer, 150); }
   if (S.page === 'schedule') {
     const schTargetIdx = schIdx;
@@ -2769,6 +2925,45 @@ function go(page) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   syncHash(page);
 }
+
+// ─── MOBILE NAV ────────────────────────────────────────────────────────────
+function toggleMobileNav() {
+  const opening = !document.getElementById('mnav').classList.contains('open');
+  if (opening) openMobileNav(); else closeMobileNav();
+}
+function openMobileNav() {
+  document.getElementById('nav-burger').classList.add('open');
+  document.getElementById('nav-burger').setAttribute('aria-expanded', 'true');
+  document.getElementById('mnav').classList.add('open');
+  document.getElementById('mnav-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+  document.getElementById('nav-burger').classList.remove('open');
+  document.getElementById('nav-burger').setAttribute('aria-expanded', 'false');
+  document.getElementById('mnav').classList.remove('open');
+  document.getElementById('mnav-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+  document.querySelectorAll('.mnav-item.open').forEach(i => i.classList.remove('open'));
+  document.querySelectorAll('.mnav-sub2.open').forEach(s => s.classList.remove('open'));
+}
+// Only one top-level section (Leagues) open at a time, mirroring the desktop dropdown.
+function mnavToggleItem(el) {
+  const item = el.closest('.mnav-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.mnav-item.open').forEach(i => { if (i !== item) i.classList.remove('open'); });
+  item.classList.toggle('open', !wasOpen);
+}
+// Nested submenu (Standings / Ranking) inside Leagues – same one-at-a-time rule.
+function mnavToggleSub(el) {
+  const sub = el.nextElementSibling;
+  const wasOpen = sub.classList.contains('open');
+  document.querySelectorAll('.mnav-sub2.open').forEach(s => { if (s !== sub) s.classList.remove('open'); });
+  sub.classList.toggle('open', !wasOpen);
+}
+function mnavGo(page) { closeMobileNav(); go(page); }
+function mnavGoStd(d) { closeMobileNav(); goStandingsDiv(d); }
+window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobileNav(); });
 
 // ─── HASH ROUTING ──────────────────────────────────────────────────────────
 // Reflects the current page in the URL (e.g. yoursite.com/#schedule) so pages can be
@@ -2794,6 +2989,7 @@ function syncHash(page) {
   }
 }
 window.addEventListener('hashchange', () => {
+  closeMobileNav();
   if (_navigatingViaGo) { _navigatingViaGo = false; return; } // already handled by go()
   const p = pageFromHash();
   if (p === S.page) return;
