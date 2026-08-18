@@ -583,11 +583,15 @@ footer{
   transform:rotate(15deg);
   transform-origin:center;
 }
-/* 10px gap between rows, per the reference spacing. border-spacing also inserts
-   that gap between thead and tbody, so the body is pulled back up to sit flush
-   against the header. */
-.stt{border-spacing:0 10px !important}
-.stt tbody{position:relative;top:-10px}
+/* Row gap via explicit spacer rows (stRowGap), not border-spacing. border-spacing
+   would add the same gap between thead and tbody's first row too, and the usual
+   fix for that — offsetting tbody with position:relative — is silently ignored by
+   Safari/WebKit, which doesn't support positioning table row groups. A real empty
+   row between data rows sidesteps the whole issue: it needs no special-casing, and
+   renders identically everywhere since it's just an ordinary row, not a table
+   layout hack. */
+.stt{border-spacing:0}
+.stt-spacer td{padding:0 !important;border:none !important;background:transparent !important;height:10px}
 .stt td{border-top:none !important}
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
 .st-tname{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
@@ -619,23 +623,23 @@ footer{
     width:36px !important;height:36px !important;
   }
   .tc{padding-left:42px;min-width:0}
-  .st-tname{font-size:9px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .st-tname{font-size:9px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   .stt{table-layout:fixed}
-  .stt th{padding:4px 2px;font-size:7px;letter-spacing:0;overflow:hidden;white-space:nowrap}
+  .stt th{padding:4px 1px;font-size:6.5px;letter-spacing:0;overflow:hidden;white-space:nowrap}
   .stt th:first-child{padding-left:6px}
-  .stt td{padding:6px 2px;font-size:9px}
+  .stt td{padding:6px 1px;font-size:9px}
   .stt td:first-child{padding-left:6px;font-size:9px}
   .rn{font-size:9px;width:auto}
   .pts{font-size:9px}
   .stt th:nth-child(1),.stt td:nth-child(1){width:8%}
-  .stt th:nth-child(2),.stt td:nth-child(2){width:30%}
-  .stt th:nth-child(3),.stt td:nth-child(3){width:8%}
-  .stt th:nth-child(4),.stt td:nth-child(4){width:8%}
-  .stt th:nth-child(5),.stt td:nth-child(5){width:8%}
-  .stt th:nth-child(6),.stt td:nth-child(6){width:10%}
-  .stt th:nth-child(7),.stt td:nth-child(7){width:10%}
-  .stt th:nth-child(8),.stt td:nth-child(8){width:10%}
-  .stt th:nth-child(9),.stt td:nth-child(9){width:8%}
+  .stt th:nth-child(2),.stt td:nth-child(2){width:39%}
+  .stt th:nth-child(3),.stt td:nth-child(3){width:7%}
+  .stt th:nth-child(4),.stt td:nth-child(4){width:7%}
+  .stt th:nth-child(5),.stt td:nth-child(5){width:7%}
+  .stt th:nth-child(6),.stt td:nth-child(6){width:8%}
+  .stt th:nth-child(7),.stt td:nth-child(7){width:8%}
+  .stt th:nth-child(8),.stt td:nth-child(8){width:9%}
+  .stt th:nth-child(9),.stt td:nth-child(9){width:7%}
 }
 
 /* legend */
@@ -2117,6 +2121,13 @@ function liveMatch() { return S.homeSched.find(m => (m.status||'').toUpperCase()
 function stWrapHint() {
   return `<div class="st-wrap-hint"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l-5 7 5 7M16 5l5 7-5 7"/></svg>Swipe for more stats</div>`;
 }
+// Joins row HTML strings with a real spacer <tr> between each pair (none before
+// the first, none after the last) instead of relying on border-spacing, so the
+// header sits flush against the first row on every browser — see the .stt-spacer
+// CSS comment for why border-spacing's usual thead/tbody fix doesn't hold up.
+function stRowGap(rowsArr, colspan) {
+  return rowsArr.join(`<tr class="stt-spacer"><td colspan="${colspan}"></td></tr>`);
+}
 function stTab(rows, div) {
   if (!rows?.length) return `<div class="empty"><h3>Data not available</h3><p>Add the data in the Standings_Spring2026 tab of the Google Sheet.</p></div>`;
   const n = rows.length;
@@ -2132,8 +2143,9 @@ function stTab(rows, div) {
     const logo = `<div class="tlogo-box">${tlogo(r.team, 90)}</div>`;
     const teamName = `${r.team?.team_name||r.team_id||'?'}`;
     return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="st-tname">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
-  }).join('');
-  return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}`;
+  });
+  const trsJoined = stRowGap(trs, 9);
+  return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trsJoined}</tbody></table></div>${stWrapHint()}`;
 }
 function legend(div) {
   if (div==1) return `<div class="leg"><div class="li"><div class="ld3 ld-champ"></div>Split Champion</div><div class="li"><div class="ld3 ld-pl"></div>Playoffs qualified</div><div class="li"><div class="ld3 ld-br"></div>Play-in qualified</div><div class="li"><div class="ld3 ld-rl"></div>Relegated to Div 2</div></div>`;
@@ -2293,7 +2305,7 @@ function pgHome() {
 <div class="ab-vid" id="yt-wrapper">
 <div class="live-embed-ratio" style="background:#000">
   <iframe id="yt-player"
-    src="https://www.youtube.com/embed/VvAXoYVUpWE?autoplay=1&loop=1&playlist=VvAXoYVUpWE&mute=1&controls=0&rel=0&modestbranding=1&showinfo=0&enablejsapi=1&origin=http://localhost"
+    src="https://www.youtube.com/embed/VvAXoYVUpWE?autoplay=1&loop=1&playlist=VvAXoYVUpWE&mute=1&controls=0&rel=0&modestbranding=1&showinfo=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}"
     allow="autoplay; fullscreen"
     allowfullscreen
     style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block">
@@ -2748,7 +2760,8 @@ function pgRanking() {
 <td>${r.lose}</td>
 <td class="pts">${r.score}</td>
 </tr>`;
-  }).join('');
+  });
+  const trsJoined = stRowGap(trs, 7);
 
   // Only the top ten are shown at rest; the rest of the table scrolls.
   const scrollCls = shown.length > 10 ? ' st-scroll' : '';
@@ -2762,7 +2775,7 @@ function pgRanking() {
 <th><span class="th-tip" data-tip="Match Win">W</span></th>
 <th><span class="th-tip" data-tip="Match Loss">L</span></th>
 <th><span class="th-tip" data-tip="Power Ranking Score">SCORE</span></th>
-</tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}
+</tr></thead><tbody>${trsJoined}</tbody></table></div>${stWrapHint()}
 ${rankExplainer()}
 </div>`;
 }
@@ -2801,8 +2814,9 @@ function pgOverpoints() {
 <td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span></div></td>
 <td class="pts">${r.pts}</td>
 </tr>`;
-  }).join('');
+  });
 
+  const trsJoined = stRowGap(trs, 3);
   const scrollCls = rows.length > 10 ? ' st-scroll' : '';
   const yr = S.overYear || currentSeasonYear();
   return `<div class="pg">
@@ -2810,7 +2824,7 @@ function pgOverpoints() {
 <div class="st-wrap${scrollCls}"><table class="stt"><thead><tr>
 <th>Rank</th><th>Team</th>
 <th><span class="th-tip" data-tip="Overdrive Points">OVPTS</span></th>
-</tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}
+</tr></thead><tbody>${trsJoined}</tbody></table></div>${stWrapHint()}
 <div class="lgd">
   <span class="lgd-i"><span class="lgd-c" style="background:#FFD84A"></span>Playoffs qualified</span>
   <span class="lgd-i"><span class="lgd-c" style="background:#FFE9A0"></span>Wildcard qualified</span>
