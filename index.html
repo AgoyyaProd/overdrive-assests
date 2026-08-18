@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OverDrive – 2v2 Trackmania League</title>
+<title>OverDrive – Event Organizer</title>
 <link id="favicon" rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/favicon.svg">
 <script>
 // The logo is white-on-transparent by default (visible on dark browser tabs/OS themes)
@@ -592,23 +592,26 @@ footer{
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
 .tc-n{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .pts{font-family:var(--ft);font-weight:900;font-size:18px;color:var(--acc)}
-/* Below 600px, the standings table must fit the screen width entirely — no
+/* Below 700px, the standings table must fit the screen width entirely — no
    horizontal scroll. table-layout:fixed with percentage column widths makes
    this a structural guarantee rather than a hope: the 9 columns always sum to
    100% of the available width, so nothing can push the table wider than the
    viewport. Content that doesn't fit (a long team name) truncates with an
-   ellipsis instead of forcing the row, or the whole table, to overflow. */
-@media(max-width:600px){
-  .tlogo-box{width:34px;left:0}
-  .tlogo-box>*{width:30px !important;height:30px !important}
-  .tc{padding-left:34px;min-width:0;gap:5px}
-  .tc-n{font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+   ellipsis instead of forcing the row, or the whole table, to overflow.
+   Threshold widened from 600 to 700px, and every size pulled down further, since
+   even the first compact pass still read as cramped in some mobile browsers. */
+@media(max-width:700px){
+  .tlogo-box{width:26px;left:0}
+  .tlogo-box>*{width:22px !important;height:22px !important}
+  .tc{padding-left:26px;min-width:0;gap:4px}
+  .tc-n{font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;letter-spacing:0}
   .stt{table-layout:fixed}
-  .stt th{padding:7px 2px;font-size:8px;letter-spacing:.02em;overflow:hidden;white-space:nowrap}
-  .stt th:first-child{padding-left:8px}
-  .stt td{padding:9px 2px;font-size:12px}
-  .stt td:first-child{padding-left:8px;font-size:13px}
-  .pts{font-size:12px}
+  .stt th{padding:6px 2px;font-size:7px;letter-spacing:0;overflow:hidden;white-space:nowrap}
+  .stt th:first-child{padding-left:6px}
+  .stt td{padding:7px 2px;font-size:10.5px}
+  .stt td:first-child{padding-left:6px;font-size:11px}
+  .rn{font-size:14px;width:auto}
+  .pts{font-size:10.5px}
   .stt th:nth-child(1),.stt td:nth-child(1){width:9%}
   .stt th:nth-child(2),.stt td:nth-child(2){width:35%}
   .stt th:nth-child(3),.stt td:nth-child(3){width:7%}
@@ -755,7 +758,16 @@ footer{
 .mc-card{background:var(--bg-c);border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px;cursor:pointer;transition:background .15s,border-color .15s}
 .mc-card:hover{background:rgba(255,255,255,.03);border-color:var(--brd2)}
 .mc-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;font-family:var(--ft);font-weight:700;font-size:clamp(9px,0.45vw,10px);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mc-hd span{white-space:nowrap}
 .mc-hd-right{display:flex;align-items:center;gap:18px}
+/* Below 480px, four meta items (date / division / split / status) in one row no
+   longer fit and, without help, each one's own text wraps mid-phrase ("SUNDAY 31"
+   breaking onto its own line above "MAY"). white-space:nowrap keeps each item on
+   one line; flex-wrap then lets whole items drop to a second row as a unit instead. */
+@media(max-width:480px){
+  .mc-hd{flex-wrap:wrap;gap:6px 14px;padding:10px 16px}
+  .mc-hd-right{flex-wrap:wrap;gap:6px 14px}
+}
 .mc-body{display:flex;align-items:center;justify-content:center;gap:20px;padding:4px 24px 32px}
 .mc-team{width:380px;flex:none;display:flex;align-items:center;gap:16px}
 .mc-team.right{}
