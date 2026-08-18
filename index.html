@@ -533,7 +533,7 @@ footer{
    it a row of 1s renders narrower than a row of 8s and the columns visibly shift. */
 .stt td{padding:14px 16px;text-align:center;font-family:var(--ft);font-weight:700;font-size:19px;font-variant-numeric:tabular-nums;background:var(--row);border-top:1px solid rgba(255,255,255,.02)}
 .stt td:first-child{padding-left:20px;text-align:left;font-family:var(--ft);font-size:20px;font-weight:900}
-.stt td:nth-child(2){text-align:left}.tc-n{font-family:var(--ft);font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.stt td:nth-child(2){text-align:left}.st-tname{font-family:var(--ft);font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
 .stt tr.pl td{background:var(--gold)}
 /* Overpoints qualification bands: top 4 straight to the playoffs (same gold the
    standings use), 5th to 32nd into the wildcards, tinted lighter to read as a
@@ -590,7 +590,7 @@ footer{
 .stt tbody{position:relative;top:-10px}
 .stt td{border-top:none !important}
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
-.tc-n{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
+.st-tname{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .pts{font-family:var(--ft);font-weight:900;font-size:18px;color:var(--acc)}
 /* Below 700px, the standings table must fit the screen width entirely — no
    horizontal scroll. table-layout:fixed with percentage column widths makes
@@ -619,11 +619,11 @@ footer{
     width:36px !important;height:36px !important;
   }
   .tc{padding-left:42px;min-width:0}
-  .tc-n{font-size:9px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .st-tname{font-size:9px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
   .stt{table-layout:fixed}
   .stt th{padding:4px 2px;font-size:7px;letter-spacing:0;overflow:hidden;white-space:nowrap}
   .stt th:first-child{padding-left:6px}
-  .stt td{padding:1px 2px;font-size:9px}
+  .stt td{padding:6px 2px;font-size:9px}
   .stt td:first-child{padding-left:6px;font-size:9px}
   .rn{font-size:9px;width:auto}
   .pts{font-size:9px}
@@ -2131,7 +2131,7 @@ function stTab(rows, div) {
     const diff = r.track_diff!=null ? (+r.track_diff>0?'+':'')+r.track_diff : '—';
     const logo = `<div class="tlogo-box">${tlogo(r.team, 90)}</div>`;
     const teamName = `${r.team?.team_name||r.team_id||'?'}`;
-    return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="tc-n">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
+    return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="st-tname">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
   }).join('');
   return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trs}</tbody></table></div>${stWrapHint()}`;
 }
@@ -2741,7 +2741,7 @@ function pgRanking() {
     const clickable = r.team ? ` style="cursor:pointer" onclick="openTeamModal('${r.team.team_id}')"` : '';
     return `<tr${clickable}>
 <td class="rank-cell"><span class="rn">${r.rank}</span></td>
-<td class="team-cell"><div class="tc">${logo}<span class="tc-n">${r.team_name}</span></div></td>
+<td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span></div></td>
 <td>${r.division||'-'}</td>
 <td>${r.played}</td>
 <td>${r.win}</td>
@@ -2798,7 +2798,7 @@ function pgOverpoints() {
     const clickable = r.team ? ` style="cursor:pointer" onclick="openTeamModal('${r.team.team_id}')"` : '';
     return `<tr class="${zone}"${clickable}>
 <td class="rank-cell"><span class="rn">${r.rank}</span></td>
-<td class="team-cell"><div class="tc">${logo}<span class="tc-n">${r.team_name}</span></div></td>
+<td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span></div></td>
 <td class="pts">${r.pts}</td>
 </tr>`;
   }).join('');
