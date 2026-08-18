@@ -481,6 +481,10 @@ footer{
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
 .sa{font-family:var(--ft);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);cursor:pointer;transition:opacity .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .sa-arr{display:inline-flex;align-items:center}
+@media(max-width:600px){
+  .sa{font-size:10px;gap:3px}
+  .sa-arr svg{width:12px;height:12px}
+}
 .sa:hover{opacity:.7}
 
 /* subsection label */
@@ -649,15 +653,17 @@ footer{
 .leg{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0 0}
 .li{display:flex;align-items:center;gap:8px;font-family:var(--ft);font-size:14px;font-weight:400;color:var(--muted)}
 /* All four items must always read on a single line, so this scales down together
-   rather than wrapping: smaller swatches, tighter gaps, and a font size chosen to
-   fit the longest realistic combination (four ~18-char phrases) at the narrowest
-   supported width. flex-wrap:nowrap forces the single line rather than hoping the
-   sizes below happen to fit — shrink further here first if a translation is longer. */
+   rather than wrapping: smaller swatches, tighter gaps, and a conservatively small
+   font size, since the branded condensed font renders noticeably wider than the
+   fallback system font a headless browser without that font installed substitutes
+   — sizing that "just fits" in a quick check can still truncate on a real device.
+   text-overflow:ellipsis stays on as a safety net for any edge case beyond this,
+   rather than letting the row overflow or wrap. */
 @media(max-width:600px){
-  .leg{flex-wrap:nowrap;gap:6px;margin:8px 0 0;overflow:hidden}
-  .li{gap:3px;font-size:7px;letter-spacing:0;white-space:nowrap;flex-shrink:1;min-width:0}
+  .leg{flex-wrap:nowrap;gap:4px;margin:8px 0 0;overflow:hidden}
+  .li{gap:2px;font-size:6px;letter-spacing:0;white-space:nowrap;flex-shrink:1;min-width:0}
   .li span:not(.ld3){overflow:hidden;text-overflow:ellipsis}
-  .ld3{width:8px;height:8px}
+  .ld3{width:6px;height:6px}
 }
 .ld3{width:16px;height:16px;flex-shrink:0}
 .ld-pl{background:var(--gold-leg)}.ld-br{background:var(--bar-leg)}.ld-rl{background:var(--rel-leg)}.ld-champ{background:var(--champ-leg)}
