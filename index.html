@@ -2078,7 +2078,16 @@ function oqGroups(regionKey) {
       const played = matches.filter(hasScore);
       const last = played.length ? played[played.length - 1] : null;
       const winnerId = last ? (+last.score_a > +last.score_b ? last.team_a_id : last.team_b_id) : null;
-      const winnerTeam = winnerId ? (S.teams[winnerId] || S.teams[(winnerId || '').toLowerCase()]) : null;
+      // Open Qualifier entrants are often not in the Teams roster at all (they're
+      // qualifier-only participants, not registered league teams), so team_a_id/
+      // team_b_id here can be a plain display name ("Loading Pink") rather than a
+      // normalized slug. Falling back to null when the id isn't a known team_id
+      // was wrongly treated as "no winner yet" even when the match had a real,
+      // valid score — this builds a minimal stand-in so the card still renders
+      // (with a letter-placeholder logo) instead of reporting "in progress".
+      const winnerTeam = winnerId
+        ? (S.teams[winnerId] || S.teams[(winnerId || '').toLowerCase()] || { team_id: winnerId, team_name: winnerId, logo_url: '' })
+        : null;
       const roundNum = +((id.match(/(\d+)\s*$/) || [])[1] || 0);
       return { id, region: region.key, regionLabel: region.label, roundNum, matches, winnerId, winnerTeam };
     });
