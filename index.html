@@ -785,6 +785,44 @@ footer{
 .reg-tab{padding:7px 18px;background:var(--bg-c);border:1px solid var(--brd);font-family:var(--ft);font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);transition:all .15s;cursor:pointer}
 .reg-tab.on{background:var(--acc-dim);border-color:rgba(255,106,0,.3);color:var(--acc)}
 
+/* ━━━ OPEN QUALIFIER RESULTS (one card per bracket, on the Regionals page) ━━━ */
+.oq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;margin-bottom:8px}
+.oq-card{background:var(--bg-c2);border:1px solid var(--brd);padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .15s}
+.oq-card:hover{border-color:var(--brd2)}
+.oq-card-pending{cursor:default}
+/* Same tilted-diamond treatment as the standings table logos (clip-path + 15deg
+   rotate), but standalone and centered rather than absolutely positioned inside a
+   table cell, since this card stacks the logo above the name instead of beside it. */
+.oq-logo-box{
+  --tilt:12px;
+  width:76px;height:76px;margin:0 auto 16px;overflow:hidden;
+  clip-path:polygon(var(--tilt) 0, 100% 0, calc(100% - var(--tilt)) 100%, 0 100%);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg-c);
+}
+.oq-logo-box>*{width:66px !important;height:66px !important;transform:rotate(15deg);transform-origin:center}
+.oq-name{font-family:var(--ft);font-weight:900;font-size:17px;text-transform:uppercase;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oq-round{font-family:var(--ft);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.oq-status{font-family:var(--ft);font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--acc)}
+.oq-status-pending{color:var(--muted)}
+@media(max-width:600px){
+  .oq-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .oq-card{padding:16px 10px}
+  .oq-logo-box{--tilt:6px;width:40px;height:40px;margin-bottom:10px}
+  .oq-logo-box>*{width:34px !important;height:34px !important}
+  .oq-name{font-size:12px;margin-bottom:5px}
+  .oq-round{font-size:8px;margin-bottom:6px}
+  .oq-status{font-size:8.5px}
+}
+.mo-map.oqm-row{padding:14px 18px}
+.mo-map.oqm-row .mo-map-name{font-size:13px;flex:1}
+.mo-map.oqm-row .mo-map-name:last-child{text-align:right}
+@media(max-width:600px){
+  .mo-map.oqm-row{padding:10px 12px}
+  .mo-map.oqm-row .mo-map-name{font-size:10px}
+  .mo-map.oqm-row .mo-map-score{font-size:15px}
+}
+
 /* ━━━ EMPTY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .empty{text-align:center;padding:60px 20px}
 .empty-i{font-size:32px;margin-bottom:12px}
@@ -2015,6 +2053,57 @@ const OQ_REGIONS = [
   { key:'APAC', label:'APAC', prefix:'APAC' },
   { key:'AMERICAS', label:'AMERICAS', prefix:'NCSA' },
 ];
+// Groups a region's Open Qualifier rows by match_id (e.g. all "APAC 1" rows are one
+// bracket's games, not one match each — unlike Div 1/2 where match_id is per-match).
+// The winner of each bracket is read off the LAST game in that group, per row order
+// as loaded from the sheet: there's no reliable per-row time to sort by (OQ rows
+// share one date with no kickoff time), so sheet order is the only ordering signal,
+// same as how a human reading the sheet top-to-bottom would find the final result.
+function oqGroups(regionKey) {
+  const region = OQ_REGIONS.find(r => r.key === regionKey);
+  if (!region) return [];
+  const rows = (S.schedAllRows || []).filter(m =>
+    m.split === S.act &&
+    schedCatMatches(m, 'oq') &&
+    String(m.match_id || '').trim().toUpperCase().startsWith(region.prefix.toUpperCase() + ' ')
+  );
+  const byId = {};
+  rows.forEach(m => {
+    const id = String(m.match_id).trim();
+    (byId[id] = byId[id] || []).push(m);
+  });
+  const hasScore = m => m && m.score_a !== '' && m.score_a != null && m.score_b !== '' && m.score_b != null;
+  return Object.keys(byId)
+    .sort((a, b) => {
+      const na = +((a.match(/(\d+)\s*$/) || [])[1] || 0);
+      const nb = +((b.match(/(\d+)\s*$/) || [])[1] || 0);
+      return na - nb;
+    })
+    .map(id => {
+      const matches = byId[id];
+      const played = matches.filter(hasScore);
+      const last = played.length ? played[played.length - 1] : null;
+      const winnerId = last ? (+last.score_a > +last.score_b ? last.team_a_id : last.team_b_id) : null;
+      const winnerTeam = winnerId ? (S.teams[winnerId] || S.teams[(winnerId || '').toLowerCase()]) : null;
+      const roundNum = +((id.match(/(\d+)\s*$/) || [])[1] || 0);
+      return { id, region: region.key, regionLabel: region.label, roundNum, matches, winnerId, winnerTeam };
+    });
+}
+function oqCard(group) {
+  if (!group.winnerTeam) {
+    return `<div class="oq-card oq-card-pending">
+  <div class="oq-round">${group.regionLabel} Open Qualifier ${group.roundNum}</div>
+  <div class="oq-status oq-status-pending">In progress</div>
+</div>`;
+  }
+  const logo = `<div class="oq-logo-box">${tlogo(group.winnerTeam, 90)}</div>`;
+  return `<div class="oq-card" onclick="openOQModal('${group.region}','${group.id.replace(/'/g, "\\'")}')">
+  ${logo}
+  <div class="oq-name">${group.winnerTeam.team_name}</div>
+  <div class="oq-round">${group.regionLabel} Open Qualifier ${group.roundNum}</div>
+  <div class="oq-status">Qualified to Continentals</div>
+</div>`;
+}
 function schedCatMatches(m, mode) {
   const d = String(m.division||'').toLowerCase().trim();
   // Matches "Div 1", "Division 1", "Div1", "Div 1 Playoffs", "Division 1 Playoffs"…
@@ -2403,13 +2492,20 @@ function pgLeagues() {
   const regionDef = OQ_REGIONS.find(r => r.key === region) || OQ_REGIONS[0];
   const tabHtml = OQ_REGIONS.map(r => `<button class="dtb${region===r.key?' on':''}" onclick="setReg('${r.key}')">${r.label}</button>`).join('');
 
+  const groups = oqGroups(region);
+  const oqSection = groups.length
+    ? `<div class="oq-grid">${groups.map(oqCard).join('')}</div>`
+    : `<div class="empty"><h3>No qualifiers yet</h3><p>Open Qualifier results for ${regionDef.label} will appear here once matches are played.</p></div>`;
+
   return `<div class="pg">
-<div class="dt">STANDINGS</div>
+<div class="dt">REGIONALS</div>
 <div class="tb-bar lg-ctrl-row">
   <div class="dt-md" style="font-family:var(--ft);margin:0">OPEN QUALIFIER</div>
   <span class="ss-pill">${splitSel(S.act,'changeSplit')}</span>
 </div>
 <div class="dtog">${tabHtml}</div>
+
+${oqSection}
 
 <div class="dt-md" style="font-family:var(--ft);margin:52px 0 20px">CONTINENTALS</div>
 <div class="empty"><h3>Coming soon</h3><p>Continentals bracket and results will be available soon.</p></div>
@@ -3282,6 +3378,47 @@ ${detailSection}`;
   document.body.style.overflow = 'hidden';
 }
 
+// Shows every game played within one Open Qualifier bracket (e.g. all "APAC 1"
+// rows), with the qualified team called out at the top — the click-through from
+// an oq-card.
+function openOQModal(regionKey, groupId) {
+  const groups = oqGroups(regionKey);
+  const group = groups.find(g => g.id === groupId);
+  if (!group) return;
+
+  const rows = group.matches.map(m => {
+    const teamA = S.teams[m.team_a_id] || S.teams[(m.team_a_id||'').toLowerCase()] || { team_name: m.team_a_id || '?' };
+    const teamB = S.teams[m.team_b_id] || S.teams[(m.team_b_id||'').toLowerCase()] || { team_name: m.team_b_id || '?' };
+    const hasScore = m.score_a !== '' && m.score_a != null && m.score_b !== '' && m.score_b != null;
+    const aWon = hasScore && +m.score_a > +m.score_b;
+    const bWon = hasScore && +m.score_b > +m.score_a;
+    const scoreHtml = hasScore
+      ? `<span style="color:${aWon?'var(--txt)':'var(--muted)'}">${m.score_a}</span> <span style="color:var(--dim)">-</span> <span style="color:${bWon?'var(--txt)':'var(--muted)'}">${m.score_b}</span>`
+      : `<span style="color:var(--muted)">${m.time_cest||'—:——'}</span>`;
+    return `<div class="mo-map oqm-row">
+  <div class="mo-map-name" style="color:${aWon?'var(--txt)':'var(--muted)'}">${teamA.team_name}</div>
+  <div class="mo-map-score">${scoreHtml}</div>
+  <div class="mo-map-name" style="color:${bWon?'var(--txt)':'var(--muted)'}">${teamB.team_name}</div>
+</div>`;
+  }).join('');
+
+  const winnerLine = group.winnerTeam
+    ? `<div class="mo-bc" style="margin-top:8px">Qualified to Continentals: <span style="color:var(--acc)">${group.winnerTeam.team_name}</span></div>`
+    : `<div class="mo-bc" style="margin-top:8px">In progress</div>`;
+
+  document.getElementById('modal-content').innerHTML = `
+<div class="mo-hd">
+  <div class="mo-bc">${group.regionLabel} - Open Qualifier ${group.roundNum}</div>
+  <button class="mo-close" onclick="closeModal()">Close</button>
+</div>
+<div class="mo-section" style="padding-top:20px">
+${winnerLine}
+<div class="mo-sh" style="margin-top:18px">Matches</div>
+<div class="mo-maps">${rows || '<div style="color:var(--dim);font-size:12px;padding:8px 0">No matches recorded yet</div>'}</div>
+</div>`;
+  document.getElementById('modal-ov').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 function closeModal() {
   document.getElementById('modal-ov').classList.remove('open');
   document.body.style.overflow = '';
