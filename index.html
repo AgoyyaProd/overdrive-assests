@@ -843,6 +843,13 @@ footer{
 .swiss-rd-cell.loss{background:rgba(190,70,70,.16)}
 .swiss-rd-logo{width:20px;height:20px}
 .swiss-rd-score{font-size:11px;font-weight:700;color:var(--muted)}
+/* Divider row marking the Playoffs qualification cutoff — full width, sitting
+   right after the last qualifying row, labelled on both sides so it reads clearly
+   regardless of which team's row it's adjacent to. */
+.swiss-cut td{padding:10px 14px !important;background:#000;border-bottom:1px solid var(--brd)}
+.swiss-cut-q,.swiss-cut-e{display:inline-block;font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.swiss-cut-q{color:#5fbf6a;float:left}
+.swiss-cut-e{color:#e0605a;float:right}
 @media(max-width:600px){
   .ct-sh{font-size:13px;margin-bottom:10px}
   .swiss-tbl th{padding:7px 8px;font-size:8px}
@@ -852,6 +859,8 @@ footer{
   .swiss-rd-cell{padding:4px 6px;min-width:40px}
   .swiss-rd-logo{width:16px;height:16px}
   .swiss-rd-score{font-size:9px}
+  .swiss-cut td{padding:8px 10px !important}
+  .swiss-cut-q,.swiss-cut-e{font-size:8px}
 }
 
 /* ━━━ CONTINENTALS: PLAYOFFS DOUBLE-ELIM BRACKET ━━━━━━━━━━━━━━━━━━━━━ */
@@ -1153,6 +1162,13 @@ async function gv(name) {
 
 function cv(row, i) {
   const cell = row?.c?.[i];
+  // Google Sheets/GViz infers a whole column's type from its cell FORMAT, not just
+  // its content. If score_a/score_b are formatted as "Number" (the sheet's default
+  // for a column that's mostly 0/1/2/3...), GViz silently returns the entire cell
+  // as null — not even a formatted-text fallback — for any row where that cell
+  // holds "W"/"FF" instead of a number. There's no way to recover that value from
+  // here since the API never sends it; the fix is on the sheet side, formatting
+  // those columns as Format > Number > Plain text so GViz stops coercing them.
   if (!cell) return null;
   const v = cell.v;
   // GViz returns dates as "Date(2026,3,10)" – month is 0-indexed
@@ -2222,41 +2238,27 @@ function parseMatchResult(scoreARaw, scoreBRaw) {
 // later results into the wrong Round column (or leaving the "true" round empty).
 // Kickoff time doesn't have that failure mode: it's the same literal value for
 // every match actually scheduled together, independent of who forfeited what.
+// Swiss stage: standings (rank/matches/games/GD) plus each team's per-round result,
+// for the Round 1..N columns. Round number is inferred by counting, per team, how
+// many Swiss matches they've already played as rows are scanned in the sheet's own
+// order — two teams paired in a match are necessarily both entering the same round.
 function swissData(regionKey) {
   const matches = continentalsMatches(regionKey, 'Swiss');
-  // Actual kickoff timestamp (date + time), not a plain string comparison — DD/MM
-  // string sorting would misorder across month boundaries, and single-digit hours
-  // ("9:00" vs "13:00") don't compare correctly as text either. pd()+regex mirrors
-  // the same date/time parsing already used for bracket reconstruction elsewhere.
-  const tsOf = m => {
-    const d = pd(m.date);
-    if (!d) return null;
-    const t = String(m.time_cest || '').match(/(\d{1,2}):(\d{2})/);
-    const hh = t ? +t[1] : 0, mm = t ? +t[2] : 0;
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm).getTime();
-  };
-  const distinctTimes = Array.from(new Set(matches.map(tsOf).filter(t => t != null))).sort((a, b) => a - b);
-  const roundOfTime = {};
-  distinctTimes.forEach((t, i) => { roundOfTime[t] = i + 1; });
-  let maxRound = distinctTimes.length;
-
   const teams = {};
+  const roundCounter = {};
+  let maxRound = 0;
   const getTeam = raw => {
     const key = ctKey(raw);
-    if (!teams[key]) teams[key] = { key, name: raw, wins: 0, losses: 0, gf: 0, ga: 0, rounds: {} };
+    if (!teams[key]) { teams[key] = { key, name: raw, wins: 0, losses: 0, gf: 0, ga: 0, rounds: {} }; roundCounter[key] = 0; }
     return teams[key];
   };
-  // Matches with no usable kickoff time (shouldn't happen in practice, but the
-  // sheet doesn't guarantee it) still count fully toward standings — they just
-  // can't be placed in a specific Round column, so they get the next free slot
-  // after all the time-dated rounds instead of being silently dropped.
-  let fallbackRound = maxRound;
   matches.forEach(m => {
     const a = getTeam(m.team_a_id), b = getTeam(m.team_b_id);
     const r = parseMatchResult(m.score_a, m.score_b);
-    if (!r.hasResult) return;
-    const tk = tsOf(m);
-    const round = (tk != null && roundOfTime[tk]) || (++fallbackRound);
+    if (!r.hasResult) return; // unplayed row — skip, doesn't consume a round slot
+    const round = Math.max(roundCounter[a.key], roundCounter[b.key]) + 1;
+    roundCounter[a.key] = round; roundCounter[b.key] = round;
+    maxRound = Math.max(maxRound, round);
     maxRound = Math.max(maxRound, round);
     a.gf += r.sa; a.ga += r.sb; b.gf += r.sb; b.ga += r.sa;
     if (r.aWon) { a.wins++; b.losses++; } else { b.wins++; a.losses++; }
@@ -2266,20 +2268,16 @@ function swissData(regionKey) {
     b.rounds[round] = { opponent: a.name, opponentTeam: S.teams[a.key] || S.teams[a.name] || null, score: bLabel, oppScore: aLabel, win: !r.aWon };
   });
   const list = Object.values(teams).map(t => ({ ...t, gd: t.gf - t.ga }));
-  // Most match wins first; game differential only breaks display order within a
-  // tie, not the rank NUMBER itself — teams level on wins share the same rank,
-  // matching how the reference standings table shows joint "3." placements.
   // Wins first; then fewer losses (an undefeated 3-0 record should always outrank
   // a 3-1 one even if the 3-1 team's game differential happens to be higher — teams
   // can be tied on wins while having played a different number of total rounds,
   // since not everyone is guaranteed the same round count mid-Swiss-stage); game
   // differential only settles it when both wins and losses are equal.
   list.sort((x, y) => y.wins - x.wins || x.losses - y.losses || y.gd - x.gd || y.gf - x.gf || x.name.localeCompare(y.name));
-  let rank = 0;
-  list.forEach((t, i) => {
-    if (i === 0 || t.wins !== list[i - 1].wins || t.losses !== list[i - 1].losses) rank = i + 1;
-    t.rank = rank;
-  });
+  // Every team gets its own place in the order (1, 2, 3, 4...) — no shared/joint
+  // ranks, even when two teams have an identical record; the sort above already
+  // gives a deterministic order for ties via game differential and then name.
+  list.forEach((t, i) => { t.rank = i + 1; });
   return { teams: list, maxRound };
 }
 
@@ -2718,7 +2716,12 @@ function swissTable(regionKey) {
     return `<div class="empty"><h3>No Swiss stage data yet</h3><p>Results will appear here once matches are played.</p></div>`;
   }
   const roundHeaders = Array.from({ length: maxRound }, (_, i) => `<th>Round ${i + 1}</th>`).join('');
-  const rows = teams.map(t => {
+  const totalCols = 5 + maxRound;
+  // Top half of the Swiss field advances to Playoffs, bottom half is eliminated —
+  // rounded up, so an odd team count favours qualifying (e.g. 15 teams → top 8 go
+  // through). A full-width divider row marks that cutoff directly in the table.
+  const qualifyCount = Math.ceil(teams.length / 2);
+  const rows = teams.map((t, i) => {
     const teamObj = S.teams[t.key] || { team_name: t.name, logo_url: S.defaultLogo };
     const logo = tlogo(teamObj, 28, 'swiss-team-logo');
     const roundCells = Array.from({ length: maxRound }, (_, i) => {
@@ -2729,7 +2732,7 @@ function swissTable(regionKey) {
       return `<td class="swiss-rd"><div class="swiss-rd-cell ${r.win ? 'win' : 'loss'}">${oppLogo}<div class="swiss-rd-score">${r.score}:${r.oppScore}</div></div></td>`;
     }).join('');
     const gdCls = t.gd > 0 ? 'gd-pos' : t.gd < 0 ? 'gd-neg' : '';
-    return `<tr>
+    const row = `<tr>
 <td class="swiss-rank">${t.rank}.</td>
 <td class="swiss-team"><div class="swiss-team-inner">${logo}<span>${t.name}</span></div></td>
 <td>${t.wins}-${t.losses}</td>
@@ -2737,6 +2740,13 @@ function swissTable(regionKey) {
 <td class="${gdCls}">${t.gd > 0 ? '+' : ''}${t.gd}</td>
 ${roundCells}
 </tr>`;
+    // The divider sits right after the last qualifying team, labelled on the side
+    // that's about to start (eliminated) so it reads correctly whichever row it's
+    // next to, rather than ambiguously between two teams.
+    const divider = (i === qualifyCount - 1 && i < teams.length - 1)
+      ? `<tr class="swiss-cut"><td colspan="${totalCols}"><span class="swiss-cut-q">Qualified for Playoffs</span><span class="swiss-cut-e">Eliminated from Continentals</span></td></tr>`
+      : '';
+    return row + divider;
   }).join('');
   return `<div class="st-wrap swiss-wrap"><table class="swiss-tbl"><thead><tr>
 <th>#</th><th>Team</th><th>Matches</th><th>Games</th><th>GD</th>${roundHeaders}
