@@ -786,22 +786,26 @@ footer{
 .reg-tab.on{background:var(--acc-dim);border-color:rgba(255,106,0,.3);color:var(--acc)}
 
 /* ━━━ OPEN QUALIFIER RESULTS (one card per bracket, on the Regionals page) ━━━ */
-.oq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px}
-.oq-card{background:var(--bg-c2);border:1px solid var(--brd);padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .15s}
+.oq-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:8px}
+/* Fixed height (not just fixed column width) so every card — whether it has a
+   logo+name+round+status, or is just a shorter "in progress" placeholder — lines
+   up identically across the row instead of each row's height depending on
+   whichever card in it happens to have the most content. */
+.oq-card{background:var(--bg-c2);border:1px solid var(--brd);padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .15s;min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .oq-card:hover{border-color:var(--brd2)}
 .oq-card-pending{cursor:default}
 /* Flat, unrotated logo — standalone and centered above the name rather than the
    tilted-diamond treatment used inside the standings table. */
-.oq-logo-box{width:76px;height:76px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:var(--bg-c)}
+.oq-logo-box{width:76px;height:76px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:var(--bg-c);flex-shrink:0}
 .oq-logo-box>*{width:66px !important;height:66px !important}
-.oq-name{font-family:var(--ft);font-weight:900;font-size:17px;text-transform:uppercase;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oq-round{font-family:var(--ft);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.oq-status{font-family:var(--ft);font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--acc)}
+.oq-name{font-family:var(--ft);font-weight:900;font-size:17px;text-transform:uppercase;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;min-width:0}
+.oq-round{font-family:var(--ft);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;min-width:0}
+.oq-status{font-family:var(--ft);font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;min-width:0}
 .oq-status-pending{color:var(--muted)}
-@media(max-width:900px){.oq-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.oq-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){
-  .oq-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .oq-card{padding:16px 10px}
+  .oq-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .oq-card{padding:16px 10px;min-height:150px}
   .oq-logo-box{width:40px;height:40px;margin-bottom:10px}
   .oq-logo-box>*{width:34px !important;height:34px !important}
   .oq-name{font-size:12px;margin-bottom:5px}
@@ -815,6 +819,66 @@ footer{
   .mo-map.oqm-row{padding:10px 12px}
   .mo-map.oqm-row .mo-map-name{font-size:10px}
   .mo-map.oqm-row .mo-map-score{font-size:15px}
+}
+
+/* ━━━ CONTINENTALS: SWISS STAGE TABLE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ct-sh{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase;letter-spacing:.04em;color:var(--txt);margin-bottom:16px}
+/* This table has a variable, potentially large number of Round N columns, so —
+   unlike the Standings table — it's never expected to fit one screen width; it
+   reuses .st-wrap purely for the horizontal-scroll + "swipe" hint mechanism, with
+   its own column styling (not the Standings table's fixed percentage layout). */
+.swiss-tbl{width:100%;border-collapse:separate;border-spacing:0;background:var(--bg-c2)}
+.swiss-tbl th{padding:10px 14px;text-align:center;font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:#000;white-space:nowrap}
+.swiss-tbl th:nth-child(2){text-align:left}
+.swiss-tbl td{padding:10px 14px;text-align:center;font-family:var(--ft);font-weight:700;font-size:13px;color:var(--txt);border-bottom:1px solid var(--brd);white-space:nowrap}
+.swiss-rank{color:var(--muted)}
+.swiss-team{text-align:left !important}
+.swiss-team-inner{display:flex;align-items:center;gap:10px;font-weight:900;text-transform:uppercase}
+.swiss-team-logo{width:26px;height:26px;flex-shrink:0}
+.gd-pos{color:#5fbf6a}
+.gd-neg{color:#e0605a}
+.swiss-rd{padding:6px !important}
+.swiss-rd-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 10px;border-radius:4px;min-width:52px}
+.swiss-rd-cell.win{background:rgba(80,180,90,.16)}
+.swiss-rd-cell.loss{background:rgba(190,70,70,.16)}
+.swiss-rd-logo{width:20px;height:20px}
+.swiss-rd-score{font-size:11px;font-weight:700;color:var(--muted)}
+@media(max-width:600px){
+  .ct-sh{font-size:13px;margin-bottom:10px}
+  .swiss-tbl th{padding:7px 8px;font-size:8px}
+  .swiss-tbl td{padding:7px 8px;font-size:11px}
+  .swiss-team-logo{width:20px;height:20px}
+  .swiss-team-inner{gap:6px}
+  .swiss-rd-cell{padding:4px 6px;min-width:40px}
+  .swiss-rd-logo{width:16px;height:16px}
+  .swiss-rd-score{font-size:9px}
+}
+
+/* ━━━ CONTINENTALS: PLAYOFFS DOUBLE-ELIM BRACKET ━━━━━━━━━━━━━━━━━━━━━ */
+.bkt-wrap{margin-top:4px}
+.bkt-section{margin-bottom:36px}
+.bkt-section-title{font-family:var(--ft);font-weight:900;font-size:14px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;color:var(--muted)}
+.bkt-row{display:flex;gap:22px;overflow-x:auto;padding-bottom:10px}
+.bkt-col{display:flex;flex-direction:column;justify-content:space-around;gap:16px;min-width:210px;flex-shrink:0}
+.bkt-col-hd{font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:2px}
+.bkt-match{background:var(--bg-c2);border:1px solid var(--brd)}
+.bkt-team{display:flex;align-items:center;gap:8px;padding:9px 12px;font-family:var(--ft);font-weight:700;font-size:12px;color:var(--muted)}
+.bkt-team:first-child{border-bottom:1px solid var(--brd)}
+.bkt-team.win{color:var(--txt);font-weight:900}
+.bkt-logo{width:20px;height:20px;flex-shrink:0}
+.bkt-tname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bkt-score{font-weight:900;font-variant-numeric:tabular-nums}
+.bkt-gf-wrap{max-width:260px;margin:0 auto}
+.bkt-match-gf{border-color:var(--acc)}
+@media(max-width:600px){
+  .bkt-section{margin-bottom:24px}
+  .bkt-section-title{font-size:11px;margin-bottom:10px}
+  .bkt-row{gap:14px}
+  .bkt-col{min-width:170px;gap:10px}
+  .bkt-col-hd{font-size:9px}
+  .bkt-team{padding:7px 9px;font-size:10px;gap:6px}
+  .bkt-logo{width:16px;height:16px}
+  .bkt-gf-wrap{max-width:220px}
 }
 
 /* ━━━ EMPTY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -2086,7 +2150,7 @@ function oqGroups(regionKey) {
       // valid score — this builds a minimal stand-in so the card still renders
       // (with a letter-placeholder logo) instead of reporting "in progress".
       const winnerTeam = winnerId
-        ? (S.teams[winnerId] || S.teams[(winnerId || '').toLowerCase()] || { team_id: winnerId, team_name: winnerId, logo_url: '' })
+        ? (S.teams[winnerId] || S.teams[(winnerId || '').toLowerCase()] || { team_id: winnerId, team_name: winnerId, logo_url: S.defaultLogo })
         : null;
       const roundNum = +((id.match(/(\d+)\s*$/) || [])[1] || 0);
       return { id, region: region.key, regionLabel: region.label, roundNum, matches, winnerId, winnerTeam };
@@ -2106,6 +2170,115 @@ function oqCard(group) {
   <div class="oq-round">${group.regionLabel} Open Qualifier ${group.roundNum}</div>
   <div class="oq-status">Qualified to Continentals</div>
 </div>`;
+}
+
+// ━━━ CONTINENTALS: SWISS STAGE + PLAYOFFS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Both stages share one quirk: match_id is the same literal string ("EMEA Swiss",
+// "EMEA Playoffs"...) for every game in that stage — there's no round/bracket-
+// position column at all. Both are reconstructed purely from row order + running
+// per-team counters, on the same trust-the-sheet-order basis the Open Qualifier
+// code already relies on.
+function continentalsMatches(regionKey, stage) {
+  const region = OQ_REGIONS.find(r => r.key === regionKey);
+  if (!region) return [];
+  const wantId = `${region.prefix} ${stage}`.trim().toLowerCase();
+  return (S.schedAllRows || []).filter(m =>
+    m.split === S.act &&
+    String(m.division || '').trim().toLowerCase() === 'continentals' &&
+    String(m.match_id || '').trim().toLowerCase() === wantId
+  );
+}
+// Team names on Continentals rows are free text (same as Open Qualifier), and not
+// always consistently cased in the sheet (e.g. "Eline Express" vs "eLine Express"
+// for what's almost certainly the same team) — grouping by a lowercased key avoids
+// splitting one team's record across two rows over a capitalization slip. The
+// first-seen casing is kept for display.
+function ctKey(name) { return String(name || '').trim().toLowerCase(); }
+
+// Swiss stage: standings (rank/matches/games/GD) plus each team's per-round result,
+// for the Round 1..N columns. Round number is inferred by counting, per team, how
+// many Swiss matches they've already played as rows are scanned in sheet order —
+// two teams paired in a match are necessarily both entering the same round number.
+function swissData(regionKey) {
+  const matches = continentalsMatches(regionKey, 'Swiss');
+  const teams = {};
+  const roundCounter = {};
+  let maxRound = 0;
+  const getTeam = raw => {
+    const key = ctKey(raw);
+    if (!teams[key]) { teams[key] = { key, name: raw, wins: 0, losses: 0, gf: 0, ga: 0, rounds: {} }; roundCounter[key] = 0; }
+    return teams[key];
+  };
+  matches.forEach(m => {
+    const a = getTeam(m.team_a_id), b = getTeam(m.team_b_id);
+    const sa = +m.score_a, sb = +m.score_b;
+    if (isNaN(sa) || isNaN(sb)) return; // unplayed row — skip, doesn't consume a round slot
+    const round = Math.max(roundCounter[a.key], roundCounter[b.key]) + 1;
+    roundCounter[a.key] = round; roundCounter[b.key] = round;
+    maxRound = Math.max(maxRound, round);
+    a.gf += sa; a.ga += sb; b.gf += sb; b.ga += sa;
+    const aWon = sa > sb;
+    if (aWon) { a.wins++; b.losses++; } else { b.wins++; a.losses++; }
+    a.rounds[round] = { opponent: b.name, opponentTeam: S.teams[b.key] || S.teams[b.name] || null, score: sa, oppScore: sb, win: aWon };
+    b.rounds[round] = { opponent: a.name, opponentTeam: S.teams[a.key] || S.teams[a.name] || null, score: sb, oppScore: sa, win: !aWon };
+  });
+  const list = Object.values(teams).map(t => ({ ...t, gd: t.gf - t.ga }));
+  // Most match wins first; game differential only breaks display order within a
+  // tie, not the rank NUMBER itself — teams level on wins share the same rank,
+  // matching how the reference standings table shows joint "3." placements.
+  list.sort((x, y) => y.wins - x.wins || y.gd - x.gd || y.gf - x.gf || x.name.localeCompare(y.name));
+  let rank = 0;
+  list.forEach((t, i) => {
+    if (i === 0 || t.wins !== list[i - 1].wins || t.losses !== list[i - 1].losses) rank = i + 1;
+    t.rank = rank;
+  });
+  return { teams: list, maxRound };
+}
+
+// Playoffs: a double-elimination bracket with no explicit round/position column
+// either. Reconstructed by tracking cumulative losses per team as matches are
+// scanned in order: while both participants still have zero losses, the match is
+// Upper Bracket; once either side already has one loss, it's Lower Bracket. The
+// very last row is always the Grand Final, per how these rows get entered.
+// Within each bracket, the round number is likewise inferred by counting each
+// team's prior matches in that specific bracket (UB or LB) — same technique as
+// the Swiss round numbers, kept separate per bracket.
+function playoffsBracket(regionKey) {
+  const matches = continentalsMatches(regionKey, 'Playoffs');
+  const lossCount = {}, ubCount = {}, lbCount = {};
+  const ensure = key => {
+    if (lossCount[key] == null) { lossCount[key] = 0; ubCount[key] = 0; lbCount[key] = 0; }
+  };
+  const processed = matches.map((m, idx) => {
+    const aKey = ctKey(m.team_a_id), bKey = ctKey(m.team_b_id);
+    ensure(aKey); ensure(bKey);
+    const isLast = idx === matches.length - 1;
+    const bothZero = lossCount[aKey] === 0 && lossCount[bKey] === 0;
+    const bracket = isLast ? 'GF' : (bothZero ? 'UB' : 'LB');
+    let round = 1;
+    if (bracket === 'UB') { round = Math.max(ubCount[aKey], ubCount[bKey]) + 1; ubCount[aKey] = round; ubCount[bKey] = round; }
+    else if (bracket === 'LB') { round = Math.max(lbCount[aKey], lbCount[bKey]) + 1; lbCount[aKey] = round; lbCount[bKey] = round; }
+    const sa = +m.score_a, sb = +m.score_b;
+    const hasScore = !isNaN(sa) && !isNaN(sb);
+    const aWon = hasScore && sa > sb;
+    if (hasScore) { if (aWon) lossCount[bKey]++; else lossCount[aKey]++; }
+    const teamA = S.teams[aKey] || { team_name: m.team_a_id };
+    const teamB = S.teams[bKey] || { team_name: m.team_b_id };
+    return { ...m, bracket, round, hasScore, aWon, teamA, teamB };
+  });
+  const ubRounds = {}, lbRounds = {};
+  processed.forEach(m => {
+    if (m.bracket === 'UB') (ubRounds[m.round] = ubRounds[m.round] || []).push(m);
+    else if (m.bracket === 'LB') (lbRounds[m.round] = lbRounds[m.round] || []).push(m);
+  });
+  const gf = processed.find(m => m.bracket === 'GF') || null;
+  return { ubRounds, lbRounds, gf, hasMatches: matches.length > 0 };
+}
+function bracketRoundName(roundsFromFinal) {
+  if (roundsFromFinal <= 0) return 'Final';
+  if (roundsFromFinal === 1) return 'Semifinals';
+  if (roundsFromFinal === 2) return 'Quarterfinals';
+  return `Round ${roundsFromFinal + 1}`;
 }
 function schedCatMatches(m, mode) {
   const d = String(m.division||'').toLowerCase().trim();
@@ -2490,6 +2663,77 @@ ${legend(S.homeStDiv)}
   return about + liveSection + upcomingSection + recentSection + standSection + newsSection;
 }
 
+// ━━━ CONTINENTALS RENDERING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function swissTable(regionKey) {
+  const { teams, maxRound } = swissData(regionKey);
+  if (!teams.length) {
+    return `<div class="empty"><h3>No Swiss stage data yet</h3><p>Results will appear here once matches are played.</p></div>`;
+  }
+  const roundHeaders = Array.from({ length: maxRound }, (_, i) => `<th>Round ${i + 1}</th>`).join('');
+  const rows = teams.map(t => {
+    const teamObj = S.teams[t.key] || { team_name: t.name, logo_url: S.defaultLogo };
+    const logo = tlogo(teamObj, 28, 'swiss-team-logo');
+    const roundCells = Array.from({ length: maxRound }, (_, i) => {
+      const r = t.rounds[i + 1];
+      if (!r) return `<td class="swiss-rd"></td>`;
+      const oppTeam = S.teams[ctKey(r.opponent)] || { team_name: r.opponent, logo_url: S.defaultLogo };
+      const oppLogo = tlogo(oppTeam, 20, 'swiss-rd-logo');
+      return `<td class="swiss-rd"><div class="swiss-rd-cell ${r.win ? 'win' : 'loss'}">${oppLogo}<div class="swiss-rd-score">${r.score}:${r.oppScore}</div></div></td>`;
+    }).join('');
+    const gdCls = t.gd > 0 ? 'gd-pos' : t.gd < 0 ? 'gd-neg' : '';
+    return `<tr>
+<td class="swiss-rank">${t.rank}.</td>
+<td class="swiss-team"><div class="swiss-team-inner">${logo}<span>${t.name}</span></div></td>
+<td>${t.wins}-${t.losses}</td>
+<td>${t.gf}-${t.ga}</td>
+<td class="${gdCls}">${t.gd > 0 ? '+' : ''}${t.gd}</td>
+${roundCells}
+</tr>`;
+  }).join('');
+  return `<div class="st-wrap swiss-wrap"><table class="swiss-tbl"><thead><tr>
+<th>#</th><th>Team</th><th>Matches</th><th>Games</th><th>GD</th>${roundHeaders}
+</tr></thead><tbody>${rows}</tbody></table></div>${stWrapHint()}`;
+}
+
+function playoffsBracketHtml(regionKey) {
+  const { ubRounds, lbRounds, gf, hasMatches } = playoffsBracket(regionKey);
+  if (!hasMatches) {
+    return `<div class="empty"><h3>No Playoffs data yet</h3><p>The bracket will appear here once matches are played.</p></div>`;
+  }
+  const matchCard = (m, extraCls) => {
+    const aWon = m.hasScore && m.aWon;
+    const bWon = m.hasScore && !m.aWon;
+    const scoreA = m.hasScore ? m.score_a : '–';
+    const scoreB = m.hasScore ? m.score_b : '–';
+    return `<div class="bkt-match${extraCls ? ' ' + extraCls : ''}">
+  <div class="bkt-team${aWon ? ' win' : ''}">${tlogo(m.teamA, 20, 'bkt-logo')}<span class="bkt-tname">${m.teamA.team_name}</span><span class="bkt-score">${scoreA}</span></div>
+  <div class="bkt-team${bWon ? ' win' : ''}">${tlogo(m.teamB, 20, 'bkt-logo')}<span class="bkt-tname">${m.teamB.team_name}</span><span class="bkt-score">${scoreB}</span></div>
+</div>`;
+  };
+  // Round names go by position relative to the final round, not by how many
+  // matches are in a round — a lower-bracket round can have just 1 match long
+  // before the actual LB Final, and match-count alone would mislabel it "Final".
+  const colsFor = rounds => {
+    const roundNums = Object.keys(rounds).map(Number).sort((a, b) => a - b);
+    const total = roundNums.length;
+    return roundNums.map((rn, idx) => {
+      const ms = rounds[rn];
+      const fromFinal = total - 1 - idx;
+      return `<div class="bkt-col"><div class="bkt-col-hd">${bracketRoundName(fromFinal)}</div>${ms.map(m => matchCard(m)).join('')}</div>`;
+    }).join('');
+  };
+  const ubHtml = colsFor(ubRounds);
+  const lbHtml = colsFor(lbRounds);
+  const gfHtml = gf
+    ? `<div class="bkt-gf-wrap"><div class="bkt-col-hd">Grand Final</div>${matchCard(gf, 'bkt-match-gf')}</div>`
+    : '';
+  return `<div class="bkt-wrap">
+${ubHtml ? `<div class="bkt-section"><div class="bkt-section-title">Upper Bracket</div><div class="bkt-row">${ubHtml}</div></div>` : ''}
+${lbHtml ? `<div class="bkt-section"><div class="bkt-section-title">Lower Bracket</div><div class="bkt-row">${lbHtml}</div></div>` : ''}
+${gfHtml}
+</div>`;
+}
+
 function pgLeagues() {
   const region = S.regTab || 'EMEA';
   const regionDef = OQ_REGIONS.find(r => r.key === region) || OQ_REGIONS[0];
@@ -2511,7 +2755,10 @@ function pgLeagues() {
 ${oqSection}
 
 <div class="dt-md" style="font-family:var(--ft);margin:52px 0 20px">CONTINENTALS</div>
-<div class="empty"><h3>Coming soon</h3><p>Continentals bracket and results will be available soon.</p></div>
+<div class="ct-sh">Swiss Stage</div>
+${swissTable(region)}
+<div class="ct-sh" style="margin-top:36px">Playoffs</div>
+${playoffsBracketHtml(region)}
 </div>`;
 }
 
