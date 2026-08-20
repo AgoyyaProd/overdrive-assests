@@ -3854,9 +3854,16 @@ function initNavDropdowns() {
     const within = (r, x, y) => x >= r.left-PAD && x <= r.right+PAD && y >= r.top-PAD && y <= r.bottom+PAD;
     document.addEventListener('mousemove', e => {
       const overItem = within(item.getBoundingClientRect(), e.clientX, e.clientY);
-      // Not gated on the menu being open: the panel keeps its geometry when hidden,
-      // and gating here would make it impossible to reopen by moving back onto it.
-      const overDD   = within(dd.getBoundingClientRect(), e.clientX, e.clientY);
+      const isOpen = item.classList.contains('open');
+      // Only checked once the panel is actually open (and thus actually visible):
+      // .dd keeps a measurable box even while hidden (needed so a closed menu can
+      // still be reopened by moving onto that box's own trigger), but that hidden
+      // box's geometry isn't guaranteed to be small or anywhere near the nav — on
+      // a long page it can end up overlapping content far down the screen, opening
+      // the menu just from moving the mouse near, say, a button on the Schedule
+      // page. Gating on isOpen keeps the coordinate check meaningful only while
+      // there's a real, visible panel for the mouse to be "inside" of.
+      const overDD = isOpen && within(dd.getBoundingClientRect(), e.clientX, e.clientY);
       let overSub = false;
       item.querySelectorAll('.ddi-sub').forEach(sub => {
         const sm = sub.querySelector('.dd-sub');
