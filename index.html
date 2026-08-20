@@ -2214,25 +2214,49 @@ function parseMatchResult(scoreARaw, scoreBRaw) {
 }
 
 // Swiss stage: standings (rank/matches/games/GD) plus each team's per-round result,
-// for the Round 1..N columns. Round number is inferred by counting, per team, how
-// many Swiss matches they've already played as rows are scanned in sheet order —
-// two teams paired in a match are necessarily both entering the same round number.
+// for the Round 1..N columns. Round number comes from the kickoff time (date+time)
+// shared by every match in that round, e.g. all Round 1 games at 13:00, Round 2 at
+// 13:45, etc. — a per-team match-count inference was tried first, but that drifts
+// out of alignment whenever a team's win comes from a forfeit against another team
+// that has itself played a different number of prior matches, silently shifting
+// later results into the wrong Round column (or leaving the "true" round empty).
+// Kickoff time doesn't have that failure mode: it's the same literal value for
+// every match actually scheduled together, independent of who forfeited what.
 function swissData(regionKey) {
   const matches = continentalsMatches(regionKey, 'Swiss');
+  // Actual kickoff timestamp (date + time), not a plain string comparison — DD/MM
+  // string sorting would misorder across month boundaries, and single-digit hours
+  // ("9:00" vs "13:00") don't compare correctly as text either. pd()+regex mirrors
+  // the same date/time parsing already used for bracket reconstruction elsewhere.
+  const tsOf = m => {
+    const d = pd(m.date);
+    if (!d) return null;
+    const t = String(m.time_cest || '').match(/(\d{1,2}):(\d{2})/);
+    const hh = t ? +t[1] : 0, mm = t ? +t[2] : 0;
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hh, mm).getTime();
+  };
+  const distinctTimes = Array.from(new Set(matches.map(tsOf).filter(t => t != null))).sort((a, b) => a - b);
+  const roundOfTime = {};
+  distinctTimes.forEach((t, i) => { roundOfTime[t] = i + 1; });
+  let maxRound = distinctTimes.length;
+
   const teams = {};
-  const roundCounter = {};
-  let maxRound = 0;
   const getTeam = raw => {
     const key = ctKey(raw);
-    if (!teams[key]) { teams[key] = { key, name: raw, wins: 0, losses: 0, gf: 0, ga: 0, rounds: {} }; roundCounter[key] = 0; }
+    if (!teams[key]) teams[key] = { key, name: raw, wins: 0, losses: 0, gf: 0, ga: 0, rounds: {} };
     return teams[key];
   };
+  // Matches with no usable kickoff time (shouldn't happen in practice, but the
+  // sheet doesn't guarantee it) still count fully toward standings — they just
+  // can't be placed in a specific Round column, so they get the next free slot
+  // after all the time-dated rounds instead of being silently dropped.
+  let fallbackRound = maxRound;
   matches.forEach(m => {
     const a = getTeam(m.team_a_id), b = getTeam(m.team_b_id);
     const r = parseMatchResult(m.score_a, m.score_b);
-    if (!r.hasResult) return; // unplayed row — skip, doesn't consume a round slot
-    const round = Math.max(roundCounter[a.key], roundCounter[b.key]) + 1;
-    roundCounter[a.key] = round; roundCounter[b.key] = round;
+    if (!r.hasResult) return;
+    const tk = tsOf(m);
+    const round = (tk != null && roundOfTime[tk]) || (++fallbackRound);
     maxRound = Math.max(maxRound, round);
     a.gf += r.sa; a.ga += r.sb; b.gf += r.sb; b.ga += r.sa;
     if (r.aWon) { a.wins++; b.losses++; } else { b.wins++; a.losses++; }
@@ -2245,7 +2269,12 @@ function swissData(regionKey) {
   // Most match wins first; game differential only breaks display order within a
   // tie, not the rank NUMBER itself — teams level on wins share the same rank,
   // matching how the reference standings table shows joint "3." placements.
-  list.sort((x, y) => y.wins - x.wins || y.gd - x.gd || y.gf - x.gf || x.name.localeCompare(y.name));
+  // Wins first; then fewer losses (an undefeated 3-0 record should always outrank
+  // a 3-1 one even if the 3-1 team's game differential happens to be higher — teams
+  // can be tied on wins while having played a different number of total rounds,
+  // since not everyone is guaranteed the same round count mid-Swiss-stage); game
+  // differential only settles it when both wins and losses are equal.
+  list.sort((x, y) => y.wins - x.wins || x.losses - y.losses || y.gd - x.gd || y.gf - x.gf || x.name.localeCompare(y.name));
   let rank = 0;
   list.forEach((t, i) => {
     if (i === 0 || t.wins !== list[i - 1].wins || t.losses !== list[i - 1].losses) rank = i + 1;
