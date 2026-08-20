@@ -244,7 +244,8 @@ footer{
 
 /* ━━━ SCHEDULE DAY NAVIGATOR ━━━━━━━━━━━━━━━━ */
 .sch-nav{display:flex;align-items:center;margin-bottom:28px}
-.sch-list{max-height:900px;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-right:8px}
+.sch-list{max-height:900px;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-right:8px;scrollbar-width:none;-ms-overflow-style:none}
+.sch-list::-webkit-scrollbar{display:none}
 .sch-list::-webkit-scrollbar{width:6px}
 .sch-list::-webkit-scrollbar-track{background:transparent}
 .sch-list::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:99px}
@@ -337,7 +338,8 @@ footer{
 
 /* ━━━ SCHEDULE DAY NAVIGATOR ━━━━━━━━━━━━━━━━ */
 .sch-nav{display:flex;align-items:center;margin-bottom:28px}
-.sch-list{max-height:900px;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-right:8px}
+.sch-list{max-height:900px;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-right:8px;scrollbar-width:none;-ms-overflow-style:none}
+.sch-list::-webkit-scrollbar{display:none}
 .sch-list::-webkit-scrollbar{width:6px}
 .sch-list::-webkit-scrollbar-track{background:transparent}
 .sch-list::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:99px}
@@ -506,7 +508,8 @@ footer{
    Below 900px a fading edge + one-time "swipe" hint signal that there's more to
    see, since a full-width table with no visible cut-off column doesn't otherwise
    read as scrollable. The hint is removed by JS the first time the user scrolls it. */
-.st-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
+.st-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative;scrollbar-width:none;-ms-overflow-style:none}
+.st-wrap::-webkit-scrollbar{display:none}
 @media(max-width:900px){
   .st-wrap:not(.st-scrolled)::after{
     content:'';position:absolute;top:0;right:0;bottom:0;width:32px;pointer-events:none;
@@ -522,7 +525,8 @@ footer{
 @media(min-width:901px){.st-wrap-hint{display:none}}
 /* Ranking table: caps the visible height at about ten rows and scrolls the rest.
    62px per row (52px row + 10px gap) plus the header. */
-.st-wrap.st-scroll{max-height:calc(62px * 10 + 44px);overflow-y:auto}
+.st-wrap.st-scroll{max-height:calc(62px * 10 + 44px);overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.st-wrap.st-scroll::-webkit-scrollbar{display:none}
 .st-wrap.st-scroll .stt thead th{position:sticky;top:0;z-index:20}
 .stt{width:100%;border-collapse:separate;border-spacing:0 0}
 .th-tip{position:relative;cursor:help;border-bottom:1px dotted var(--muted);padding-bottom:1px}
@@ -2156,7 +2160,7 @@ function mc(m) {
   } else {
     center = m.time_cest || '—:——';
   }
-  return `<div class="mc-card" onclick="openMatchModal('${m.match_id}')">
+  return `<div class="mc-card" onclick="openMatchModal('${matchKey(m).replace(/'/g,"\\'")}')">
 <div class="mc-hd">
   <span>${mcDateLabel(m)}</span>
   <span class="mc-hd-right"><span>${mcDivLabel(m)}</span><span>${splitLabelFor(m.split)}</span><span>${mcStatusLabel(m.status)}</span></span>
@@ -2266,6 +2270,15 @@ function ctKey(name) { return String(name || '').trim().toLowerCase(); }
 // as a display fallback ("unc_racing", "geng_x_weibo") or literal sheet text
 // with an underscore ("Different_Poles") both read as a normal space instead.
 function dn(s) { return String(s || '').replace(/_/g, ' '); }
+// Open Qualifier / Continentals rows share one match_id across every game in the
+// same bracket (all of "EMEA 1"'s matches carry that exact match_id), unlike Div
+// 1/2 rows where match_id is unique per game — so looking a match up by match_id
+// alone always resolves to whichever one happens to be first, regardless of which
+// card was actually clicked. This composite key adds the two teams and the
+// kickoff date/time, which together are effectively guaranteed unique per game.
+function matchKey(m) {
+  return [m?.match_id, m?.team_a_id, m?.team_b_id, m?.date, m?.time_cest].join('|');
+}
 // Some rows record a forfeit as "W" for the winning side and "FF" for the side
 // that didn't play, instead of a real game score. That still counts as a match
 // win/loss for records and brackets, but contributes zero games to the game
@@ -2609,7 +2622,7 @@ function promoRelSection(title, periodKey) {
     };
     // Grid rows: logo / name / placement / outcome: identical row heights across both
     // teams (via CSS Grid), so everything lines up vertically regardless of content length.
-    return `<div class="mo-map prel-card" onclick="openMatchModal('${m.match_id}')">
+    return `<div class="mo-map prel-card" onclick="openMatchModal('${matchKey(m).replace(/'/g,"\\'")}')">
       <div class="prel-grid">
         <div class="prel-logo prel-logo-a">${tlogo(m.A,68,'prel-tlogo')}</div>
         <div class="prel-logo prel-logo-b">${tlogo(m.B,68,'prel-tlogo')}</div>
@@ -3655,8 +3668,8 @@ function mlogoSm(team) {
 
 // ─── MODAL ─────────────────────────────────────────────────────────────────
 function openMatchModal(matchId) {
-  const fromMain = S.sched.find(x => x.match_id === matchId);
-  const m = fromMain || S.homeSched.find(x => x.match_id === matchId);
+  const fromMain = S.sched.find(x => matchKey(x) === matchId);
+  const m = fromMain || S.homeSched.find(x => matchKey(x) === matchId);
   if (!m) return;
   // Whichever array the match actually came from: keeps "recent form" consistent with
   // the same split, instead of assuming S.res (which tracks whatever S.act currently is).
