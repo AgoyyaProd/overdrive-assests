@@ -2744,7 +2744,7 @@ ${roundCells}
     // that's about to start (eliminated) so it reads correctly whichever row it's
     // next to, rather than ambiguously between two teams.
     const divider = (i === qualifyCount - 1 && i < teams.length - 1)
-      ? `<tr class="swiss-cut"><td colspan="${totalCols}"><span class="swiss-cut-q">Qualified for Playoffs</span><span class="swiss-cut-e">Eliminated from Continentals</span></td></tr>`
+      ? `<tr class="swiss-cut"><td colspan="${totalCols}"><span class="swiss-cut-q">▲ Qualified for Playoffs</span><span class="swiss-cut-e">▼ Eliminated from Continentals</span></td></tr>`
       : '';
     return row + divider;
   }).join('');
