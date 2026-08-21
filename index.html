@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OverDrive – Event Organizer</title>
+<title>OverDrive – 2v2 Trackmania League</title>
 <meta name="description" content="OverDrive is a competitive 2v2 Trackmania league — standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division.">
 <meta property="og:title" content="OverDrive – 2v2 Trackmania League">
 <meta property="og:description" content="Standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
@@ -1007,18 +1007,23 @@ footer{
    its own full-width row — same information, just reflowed for a narrow screen. */
 @media(max-width:950px){.mc-team{width:auto;flex:1 1 0;min-width:0;max-width:380px}}
 @media(max-width:520px){
-  .mc-body{flex-direction:column;align-items:stretch;gap:10px;padding:8px 18px 22px}
+  .mc-body{flex-direction:column;align-items:stretch;gap:8px;padding:8px 16px 18px}
   .mc-team{width:100%;max-width:none}
-  .mc-center{min-width:0;padding:2px 0}
-  /* Each team row is full-width with the logo on only one side, so simple
-     flex centering (text-align:center on a flex:1 name) isn't actually centered
-     on the row — the logo's width pulls it off to one side, which is exactly the
-     "everything's shifted" look. A 3-column grid with equal-width outer columns
-     keeps the name in the true middle regardless of which side the logo sits on. */
-  .mc-team{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px}
-  .mc-team .mc-tname{grid-column:2}
-  .mc-team:not(.right) .mc-logo{grid-column:1}
-  .mc-team.right .mc-logo{grid-column:3}
+  .mc-center{min-width:0;padding:2px 0;gap:8px}
+  /* The 3-column "mirror the logo's width on the empty side" approach centered the
+     name on the row, but left a wide dead gap between the logo and the name it
+     belongs to — reads as two unrelated pieces rather than one team. Centering the
+     pair itself (logo tight against its name) as a single flex group fixes that:
+     the whole "[logo] NAME" unit sits in the middle, with barely any gap between
+     the two parts of it. Source order already puts the logo after the name for
+     the second team, so this mirrors correctly on both sides without extra rules. */
+  .mc-team{display:flex;justify-content:center;align-items:center;gap:10px}
+  .mc-team .mc-tname{flex:0 1 auto;min-width:0;text-align:left}
+  .mc-team.right .mc-tname{text-align:right}
+  .mc-logo{width:32px;height:32px}
+  .tp.mc-logo{font-size:12px}
+  .mc-tname{font-size:15px}
+  .mc-center-main{font-size:28px}
 }
 .mc-tname{font-family:var(--ft);font-weight:900;font-size:clamp(16px,1vw,22px);text-transform:uppercase;letter-spacing:.02em;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-center{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;min-width:140px}
