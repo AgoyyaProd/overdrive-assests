@@ -3368,16 +3368,32 @@ function pgOverpoints() {
 ${overExplainer()}
 </div>`;
 }
-// Short note on how Overpoints accumulate, mirroring the Power Ranking explainer.
+// Mirrors the Power Ranking explainer's structure (numbered sections, card grid)
+// so the two pages read as one consistent system instead of Overpoints looking
+// like an afterthought next to Power Ranking's fuller breakdown.
 function overExplainer() {
+  const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span><span class="pr-sec-r"></span></div>`;
   return `<div class="pr-exp">
 <div class="dt-md" style="font-family:var(--ft);margin-bottom:14px">HOW IT WORKS</div>
-<p class="pr-intro">Overpoints are awarded on results across the season: divisional finishes and Continentals placements all feed the same total. They decide who reaches the finals.</p>
+<p class="pr-intro">One running total for the season, built from everything a team plays: division results and Continentals placements both add to the same score. It decides who's in the finals field, and who has to fight through the wildcard round to get there.</p>
+
+<div class="pr-block">
+${sec('01', 'Where the points come from')}
+<div class="pr-cards">
+<div class="pr-card"><div class="pr-card-n">Division</div><div class="pr-card-l">Where a team finishes in Div 1 or Div 2</div></div>
+<div class="pr-card"><div class="pr-card-n">Continentals</div><div class="pr-card-l">Placement in the regional Swiss + Playoffs stage</div></div>
+</div>
+<p class="pr-note">Both splits of the season count: points from Spring and Fall are added together, not just the most recent one.</p>
+</div>
+
+<div class="pr-block" style="margin-bottom:0">
+${sec('02', 'Who qualifies')}
 <div class="pr-cards" style="max-width:520px">
 <div class="pr-card"><div class="pr-card-n">1-4</div><div class="pr-card-l">Direct to playoffs</div></div>
 <div class="pr-card"><div class="pr-card-n">5-32</div><div class="pr-card-l">Wildcard slot</div></div>
 </div>
-<p class="pr-note">Points from both splits of the season are added together. Totals reset when the next season starts.</p>
+<p class="pr-note">Ranked 1st to 4th overall: straight into the playoffs field. 5th to 32nd: one more round to fight through first. Totals reset when the next season starts.</p>
+</div>
 </div>`;
 }
 
@@ -3425,6 +3441,7 @@ ${sec('01', 'Where teams start')}
 <div class="pr-block">
 ${sec('02', 'What each match is worth')}
 <div class="pr-crit">${crits.map(c => `<div class="pr-crit-i"><div class="pr-crit-h">${c.h}</div><div class="pr-crit-d">${c.d}</div></div>`).join('')}</div>
+<p class="pr-note" style="margin-top:16px;margin-bottom:0">That swing then gets scaled by how much the stage it was played in counts:</p>
 <div class="pr-mult">${mults.map(m => `<div class="pr-m">
   <span class="pr-m-l">${m.l}</span>
   <span class="pr-m-bar"><span class="pr-m-fill" style="width:${(m.v/maxV*100).toFixed(0)}%"></span></span>
