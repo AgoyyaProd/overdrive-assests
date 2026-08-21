@@ -208,6 +208,18 @@ footer{
 .fl2{color:rgba(255,255,255,.55);font-family:var(--ft);font-weight:500;font-size:13px;letter-spacing:.02em}
 .fl2 a{color:rgba(255,255,255,.92);text-decoration:none;cursor:pointer;transition:color .15s}
 .fl2 a:hover{color:#fff;text-decoration:underline}
+/* Below 768px the footer wraps to a stacked layout (logo, then copyright/links),
+   but it had never received its own sizing pass — it just kept the desktop gap,
+   padding and font sizes, sprawling well past the logo's own height. Centered,
+   tighter, and smaller so the whole block reads as one compact unit under the
+   logo instead of three loosely related rows. */
+@media(max-width:768px){
+  .fi{padding:16px 20px;gap:6px;justify-content:center}
+  .fb2 img{height:28px}
+  .fr-block{align-items:center;text-align:center;gap:3px}
+  .fc2{font-size:10px}
+  .fl2{font-size:10px}
+}
 .fl{display:flex;gap:18px;flex-wrap:wrap}
 .fl a{color:var(--muted);font-family:var(--ft);font-size:12px;font-weight:500;transition:color .15s}
 .fl a:hover{color:var(--txt)}
@@ -942,6 +954,7 @@ footer{
 .partners-ph{min-height:90px;border:2px dashed rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:600;color:var(--dim);font-size:13px;letter-spacing:.06em}
 .sponsors-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:48px;min-height:100px;padding:20px 0}
 .sponsor-logo{height:56px;width:auto;object-fit:contain;opacity:.85;transition:opacity .15s}
+@media(max-width:768px){.sponsor-logo{height:36px}}
 .sponsor-logo:hover{opacity:1}
 
 /* ━━━ MATCH CARD (unified: upcoming + result) ━━━━━━━━━━━━━━━━ */
