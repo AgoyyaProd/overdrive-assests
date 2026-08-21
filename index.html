@@ -3397,19 +3397,11 @@ ${sec('02', 'Who qualifies')}
 </div>`;
 }
 
-// Explains how the Power Ranking score is derived. Static copy: the values here
-// mirror the formula used to produce the POWER RANKING sheet.
 function rankExplainer() {
   const bases = [
     { n: '1,000', l: 'Division 1' },
     { n: '700',   l: 'Division 2' },
     { n: '400',   l: 'OQ / Continentals' }
-  ];
-  const crits = [
-    { h: 'Result',    d: 'A win adds <b>100 pts</b>, a loss takes <b>60</b>.' },
-    { h: 'Opponent',  d: 'Beating a higher-ranked side adds up to <b>45</b> more.' },
-    { h: 'Scoreline', d: 'A <b>3-0</b> counts for more than a 3-2.' },
-    { h: 'Stage',     d: 'When it is played decides how much of that lands.' }
   ];
   const mults = [
     { l: 'Playoffs / Promotion', v: 1.75 },
@@ -3425,35 +3417,31 @@ function rankExplainer() {
   ];
   const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span><span class="pr-sec-r"></span></div>`;
   const card = c => `<div class="pr-card"><div class="pr-card-n">${c.n}</div><div class="pr-card-l">${c.l}</div></div>`;
-  // Bars are scaled against the largest multiplier so the relative weighting is legible.
   const maxV = Math.max(...mults.map(m => m.v));
 
   return `<div class="pr-exp">
 <div class="dt-md" style="font-family:var(--ft);margin-bottom:14px">HOW IT WORKS</div>
-<p class="pr-intro">One table for every team, from Division 1 down to the Open Qualifiers. It answers what the standings cannot: how good is a team really, whichever division it plays in?</p>
+<p class="pr-intro">One ranking for every team, across every division.</p>
 
 <div class="pr-block">
-${sec('01', 'Where teams start')}
+${sec('01', 'Starting score')}
 <div class="pr-cards">${bases.map(card).join('')}</div>
-<p class="pr-note">Where a team starts depends on the league it qualified into.</p>
 </div>
 
 <div class="pr-block">
-${sec('02', 'What each match is worth')}
-<div class="pr-crit">${crits.map(c => `<div class="pr-crit-i"><div class="pr-crit-h">${c.h}</div><div class="pr-crit-d">${c.d}</div></div>`).join('')}</div>
-<p class="pr-note" style="margin-top:16px;margin-bottom:0">That swing then gets scaled by how much the stage it was played in counts:</p>
+${sec('02', 'What moves it')}
+<p class="pr-note" style="margin-top:0">Wins add points, losses take them away — more for beating a stronger team, more for a clean scoreline. How much of that counts depends on the stage:</p>
 <div class="pr-mult">${mults.map(m => `<div class="pr-m">
   <span class="pr-m-l">${m.l}</span>
   <span class="pr-m-bar"><span class="pr-m-fill" style="width:${(m.v/maxV*100).toFixed(0)}%"></span></span>
   <span class="pr-m-v">x${m.v.toFixed(2)}</span>
 </div>`).join('')}</div>
-<p class="pr-note">Open Qualifier results barely move the needle: too many forfeits, and too wide a gap between the teams involved.</p>
 </div>
 
 <div class="pr-block" style="margin-bottom:0">
 ${sec('03', 'The floor')}
 <div class="pr-cards" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr));max-width:400px">${floors.map(card).join('')}</div>
-<p class="pr-note">No Division 1 side drops below Division 2 on results alone. <b>Team USAK</b> finished 0-9 and <b>Navi</b> 2-7; both sit at 750, clear of the division below.</p>
+<p class="pr-note">No Division 1 team can fall below Division 2 on results alone.</p>
 </div>
 </div>`;
 }
