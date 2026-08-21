@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OverDrive – 2v2 Trackmania League</title>
+<title>OverDrive – Event Organizer</title>
+<meta name="description" content="OverDrive is a competitive 2v2 Trackmania league — standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division.">
+<meta property="og:title" content="OverDrive – 2v2 Trackmania League">
+<meta property="og:description" content="Standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
+<meta property="og:image" content="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link id="favicon" rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/favicon.svg">
 <script>
 // The logo is white-on-transparent by default (visible on dark browser tabs/OS themes)
@@ -439,15 +445,21 @@ footer{
 .team-modal .mo-hd{border-bottom:none}
 .team-modal .mo-sh{border-bottom:none;padding-bottom:0}
 .mo-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mo-form-col{background:var(--bg-c2);padding:14px}
-.mo-form-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.mo-form-hd img,.mo-form-hd .tp{width:26px;height:26px;font-size:9px}
-.mo-form-tname{font-family:var(--ft);font-weight:900;font-size:14px;text-transform:uppercase}
+.mo-form-col{background:var(--bg-c2);padding:14px;min-width:0}
+.mo-form-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px;min-width:0}
+.mo-form-hd img,.mo-form-hd .tp{width:26px;height:26px;font-size:9px;flex-shrink:0}
+.mo-form-tname{font-family:var(--ft);font-weight:900;font-size:14px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mo-form-sub{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.mo-result{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(255,255,255,.03);margin-bottom:5px}
+.mo-result{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(255,255,255,.03);margin-bottom:5px;gap:8px}
+.mo-result>div:first-child{min-width:0;overflow:hidden}
 .mo-res-meta{font-family:var(--ft);font-weight:500;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.mo-res-vs{font-family:var(--ft);font-weight:900;font-size:13px;text-transform:uppercase}
-.mo-res-right{display:flex;align-items:center;gap:7px}
+/* "vs OPPONENT_NAME" had no width limit or truncation, so a long name (Turkey and
+   the Cold Cuts, Who Let AIR Cook...) forced this 2-column grid past the viewport
+   width — the same min-width:auto grid trap seen elsewhere, just with a text
+   overflow this time instead of a fixed size. min-width:0 lets the grid actually
+   shrink; the ellipsis keeps a very long name from swallowing the whole row. */
+.mo-res-vs{font-family:var(--ft);font-weight:900;font-size:13px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.mo-res-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
 .mo-res-score{font-family:var(--ft);font-weight:900;font-size:13px}
 .mo-res-badge{font-family:var(--ft);font-weight:500;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px}
 .win-b{background:rgba(34,197,94,.12);color:#22c55e}
@@ -481,14 +493,29 @@ footer{
 @media(max-width:480px){.prel-card{padding:18px 12px}}
 
 @media(max-width:480px){
+  .mo-hd{padding:10px 16px}
+  .mo-bc{font-size:9px;gap:5px}
+  .mo-close{font-size:10px;padding:3px 5px}
   .mo-main{padding:28px 12px;gap:6px}
   .mo-logo,.mo-lph{width:54px;height:54px;font-size:20px}
   .mo-tname{font-size:15px}
   .mo-players{font-size:9px}
   .mo-sc,.mo-ti{font-size:32px}
+  .mo-date{font-size:9px}
+  .mo-section{padding:0 14px 32px}
+  .mo-sh{font-size:11px;margin-bottom:10px;padding-bottom:8px}
   .mo-form{gap:8px}
   .mo-form-col{padding:10px}
+  .mo-form-tname{font-size:11px}
+  .mo-form-sub{font-size:9px}
+  .mo-result{padding:6px 8px}
+  .mo-res-meta{font-size:8px}
+  .mo-res-vs{font-size:11px}
+  .mo-res-score{font-size:11px}
+  .mo-res-badge{font-size:8px;padding:2px 6px}
   .mo-map{padding:18px 14px}
+  .mo-map-name{font-size:12px}
+  .mo-map-score{font-size:15px}
 }
 
 /* ━━━ SECTION HEADER ━━━━━━━━━━━━━━━━━━━━━━ */
@@ -983,6 +1010,15 @@ footer{
   .mc-body{flex-direction:column;align-items:stretch;gap:10px;padding:8px 18px 22px}
   .mc-team{width:100%;max-width:none}
   .mc-center{min-width:0;padding:2px 0}
+  /* Each team row is full-width with the logo on only one side, so simple
+     flex centering (text-align:center on a flex:1 name) isn't actually centered
+     on the row — the logo's width pulls it off to one side, which is exactly the
+     "everything's shifted" look. A 3-column grid with equal-width outer columns
+     keeps the name in the true middle regardless of which side the logo sits on. */
+  .mc-team{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px}
+  .mc-team .mc-tname{grid-column:2}
+  .mc-team:not(.right) .mc-logo{grid-column:1}
+  .mc-team.right .mc-logo{grid-column:3}
 }
 .mc-tname{font-family:var(--ft);font-weight:900;font-size:clamp(16px,1vw,22px);text-transform:uppercase;letter-spacing:.02em;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-center{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;min-width:140px}
