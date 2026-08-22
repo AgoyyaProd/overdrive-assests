@@ -991,39 +991,36 @@ footer{
 .mc-hd span{white-space:nowrap}
 .mc-hd-right{display:flex;align-items:center;gap:18px}
 /* Below 480px, four meta items (date / division / split / status) in one row no
-   longer fit and, without help, each one's own text wraps mid-phrase ("SUNDAY 31"
-   breaking onto its own line above "MAY"). white-space:nowrap keeps each item on
-   one line; flex-wrap then lets whole items drop to a second row as a unit instead. */
+   longer fit at their default size — nowrap + a smaller font keeps them on a
+   single line instead of wrapping mid-phrase or dropping to a second row. */
 @media(max-width:480px){
-  .mc-hd{flex-wrap:wrap;gap:6px 14px;padding:10px 16px}
-  .mc-hd-right{flex-wrap:wrap;gap:6px 14px}
+  .mc-hd{flex-wrap:nowrap;gap:5px;padding:9px 12px;font-size:7px}
+  .mc-hd-right{flex-wrap:nowrap;gap:5px}
 }
 .mc-body{display:flex;align-items:center;justify-content:center;gap:20px;padding:4px 24px 32px}
 .mc-team{width:380px;flex:none;display:flex;align-items:center;gap:16px}
 .mc-team.right{}
 /* Below ~950px the two 380px team blocks plus the center column no longer fit on
    one line. They first go fluid (still side-by-side, shrinking together instead of
-   overflowing), then below 520px the card stacks: team A, score, team B, each on
-   its own full-width row — same information, just reflowed for a narrow screen. */
+   overflowing); below 520px the same 3-column row is kept (team / score / team,
+   never stacked into separate full-width rows) but each team switches to logo
+   stacked above its name — that's what lets three columns stay on one line at a
+   narrow width instead of needing the row to become a column. */
 @media(max-width:950px){.mc-team{width:auto;flex:1 1 0;min-width:0;max-width:380px}}
 @media(max-width:520px){
-  .mc-body{flex-direction:column;align-items:stretch;gap:8px;padding:8px 16px 18px}
-  .mc-team{width:100%;max-width:none}
-  .mc-center{min-width:0;padding:2px 0;gap:8px}
-  /* The 3-column "mirror the logo's width on the empty side" approach centered the
-     name on the row, but left a wide dead gap between the logo and the name it
-     belongs to — reads as two unrelated pieces rather than one team. Centering the
-     pair itself (logo tight against its name) as a single flex group fixes that:
-     the whole "[logo] NAME" unit sits in the middle, with barely any gap between
-     the two parts of it. Source order already puts the logo after the name for
-     the second team, so this mirrors correctly on both sides without extra rules. */
-  .mc-team{display:flex;justify-content:center;align-items:center;gap:10px}
-  .mc-team .mc-tname{flex:0 1 auto;min-width:0;text-align:left}
-  .mc-team.right .mc-tname{text-align:right}
-  .mc-logo{width:32px;height:32px}
-  .tp.mc-logo{font-size:12px}
-  .mc-tname{font-size:15px}
-  .mc-center-main{font-size:28px}
+  .mc-body{flex-direction:row;align-items:center;justify-content:space-between;gap:6px;padding:14px 10px 16px}
+  .mc-team{flex:1 1 0;min-width:0;max-width:none;flex-direction:column;gap:6px}
+  /* Source order puts team B's name before its logo (so the desktop row mirrors
+     left/right); reversed here so the logo still ends up on top for both teams
+     once they're stacked vertically instead of side-by-side. */
+  .mc-team.right{flex-direction:column-reverse}
+  .mc-team .mc-tname{flex:0 1 auto;min-width:0;max-width:100%;text-align:center}
+  .mc-center{min-width:0;gap:4px;flex-shrink:1}
+  .mc-logo{width:30px;height:30px}
+  .tp.mc-logo{font-size:11px}
+  .mc-tname{font-size:9.5px}
+  .mc-center-main{font-size:19px}
+  .mc-center-sub{font-size:7px}
 }
 .mc-tname{font-family:var(--ft);font-weight:900;font-size:clamp(16px,1vw,22px);text-transform:uppercase;letter-spacing:.02em;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mc-center{flex:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:15px;min-width:140px}
