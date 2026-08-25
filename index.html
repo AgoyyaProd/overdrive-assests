@@ -210,6 +210,10 @@ footer{
 .fb2{display:flex;align-items:center;gap:10px;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.07em;text-transform:uppercase}
 .fb2 img{height:36px;object-fit:contain}
 .fr-block{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;text-align:right}
+.fsoc{display:flex;align-items:center;gap:14px;margin-bottom:2px}
+.fsoc a{color:rgba(255,255,255,.6);display:flex;transition:color .15s}
+.fsoc a:hover{color:#fff}
+.fsoc svg{width:18px;height:18px}
 .fc2{color:#fff;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.02em}
 .fl2{color:rgba(255,255,255,.55);font-family:var(--ft);font-weight:500;font-size:13px;letter-spacing:.02em}
 .fl2 a{color:rgba(255,255,255,.92);text-decoration:none;cursor:pointer;transition:color .15s}
@@ -223,6 +227,8 @@ footer{
   .fi{padding:16px 20px;gap:6px;justify-content:center}
   .fb2 img{height:28px}
   .fr-block{align-items:center;text-align:center;gap:3px}
+  .fsoc{gap:16px;margin-bottom:6px}
+  .fsoc svg{width:16px;height:16px}
   .fc2{font-size:10px}
   .fl2{font-size:10px}
 }
@@ -1166,6 +1172,13 @@ footer{
       <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg" alt="OverDrive" style="height:36px;object-fit:contain">
     </div>
     <div class="fr-block">
+      <div class="fsoc">
+        <a href="https://x.com/OverDrive_TM" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-6.6L4.5 22H1.3l8.1-9.3L1 2h7.2l5 6zm-1.2 18h1.7L7.4 4H5.6z"/></svg></a>
+        <a href="https://discord.com/invite/tZV3Mu3Thb" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.5 19.5 0 0 0 15.6 3l-.3.5c1.8.5 2.7 1.2 3.7 2-1.6-.8-3.2-1.4-6-1.4s-4.4.6-6 1.4c1-.8 2-1.5 3.7-2L10.4 3a19.5 19.5 0 0 0-4.7 1.4C2.9 8.5 2.1 12.4 2.4 16.3a19.7 19.7 0 0 0 6 3l1-1.6c-.7-.2-1.3-.5-1.9-.9l.5-.4a13.9 13.9 0 0 0 11.9 0l.5.4c-.6.4-1.2.7-1.9.9l1 1.6a19.6 19.6 0 0 0 6-3c.4-4.5-.8-8.4-3.2-11.9zM9 14.4c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></a>
+        <a href="https://www.tiktok.com/@overdrive_tm" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.8a4.6 4.6 0 0 1-3.8-4.3h-3.1v14.3a2.7 2.7 0 1 1-2-2.6v-3.2a5.9 5.9 0 1 0 5.1 5.8V9.2a7.7 7.7 0 0 0 4.5 1.4V7.4a4.6 4.6 0 0 1-.7-1.6z"/></svg></a>
+        <a href="https://www.twitch.tv/overdrive_tm" target="_blank" rel="noopener" aria-label="Twitch"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.3 2 2 6.7v13.1h5v2.2h3.1L13 19.8h4.4L23 14.4V2H4.3zm16.6 11.4-3.4 3.4h-3.9l-3 3v-3H6.4V4h14.5v9.4z"/><path d="M17.3 6.9h-1.7v5h1.7v-5zM12.6 6.9h-1.7v5h1.7v-5z"/></svg></a>
+        <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2s-.2-1.6-.9-2.4c-.9-.9-1.9-.9-2.4-1C16.4 3.6 12 3.6 12 3.6h0s-4.4 0-7.7.2c-.5 0-1.5.1-2.4 1-.7.8-.9 2.4-.9 2.4S.8 9 .8 10.9v1.8c0 1.9.2 3.7.2 3.7s.2 1.6.9 2.4c.9.9 2 .9 2.6 1 1.9.2 7.7.2 7.7.2s4.4 0 7.7-.2c.5 0 1.5-.1 2.4-1 .7-.8.9-2.4.9-2.4s.2-1.9.2-3.7v-1.8c0-1.9-.2-3.7-.2-3.7zM9.7 15.3V8.5l6.4 3.4z"/></svg></a>
+      </div>
       <div class="fc2">© 2026 OverDrive. All rights reserved.</div>
       <div class="fl2"><a onclick="go('about')">The Site</a> - <a onclick="go('contact')">Contact Us</a> - <a onclick="go('legal')">Legal Notice</a> - <a onclick="go('privacy')">Privacy</a></div>
     </div>
@@ -2752,7 +2765,7 @@ function pgHome() {
 <p class="ab-p">OverDrive is a Trackmania event project driven by recognized community members. The ambition is to build a competitive scene that matters for everyone involved – players, organizations, and fans.</p>
 <p class="ab-p">The 2v2 format is at the heart of this vision, building on World Tour 2025 momentum with clearer, more strategic, and more impactful gameplay in decisive moments.</p>
 <div class="ab-btns">
-<a href="https://www.youtube.com" target="_blank" class="btn-w">Watch on YouTube</a>
+<a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
 <button class="btn-d" onclick="go('about')">Read the Vision</button>
 </div>
 </div>
@@ -3491,7 +3504,7 @@ function pgAbout() {
 <p>OverDrive is a Trackmania esports project built by and for the community. The goal is to create a premium competitive 2v2 scene with quality production, formats that make sense, and a community that truly invests itself.</p>
 <p>The format amplifies what makes Trackmania competitive – precision, adaptability, and split-second decisive moments – through the lens of team play.</p>
 <div class="ab-btns" style="margin-top:24px">
-<a href="https://www.youtube.com" target="_blank" class="btn-w">Watch on YouTube</a>
+<a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
 <a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" class="btn-d">Follow on Twitch</a>
 </div>
 </div>
@@ -3509,38 +3522,44 @@ function pgContact() {
 <div class="dt">CONTACT</div>
 <p class="ab-p">Got a question about the league, a partnership idea, or want to join the project? Drop us a line and we'll get back to you as soon as we can.</p>
 <div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">GET IN TOUCH</div>
-<p class="ab-p">Email: <a href="mailto:contact@overdrive.gg" style="color:var(--acc)">contact@overdrive.gg</a><br>
-Discord: <a href="#" style="color:var(--acc)">discord.gg/overdrive</a><br>
-Twitter / X: <a href="#" style="color:var(--acc)">@OverDriveLeague</a></p>
-<div class="empty" style="margin-top:32px"><p>Draft: replace these placeholder details with your real contact info before going live.</p></div>
+<p class="ab-p">Email: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a><br>
+Discord: <a href="https://discord.com/invite/tZV3Mu3Thb" target="_blank" style="color:var(--acc)">discord.com/invite/tZV3Mu3Thb</a><br>
+X (Twitter): <a href="https://x.com/OverDrive_TM" target="_blank" style="color:var(--acc)">@OverDrive_TM</a><br>
+TikTok: <a href="https://www.tiktok.com/@overdrive_tm" target="_blank" style="color:var(--acc)">@overdrive_tm</a><br>
+Twitch: <a href="https://www.twitch.tv/overdrive_tm" target="_blank" style="color:var(--acc)">twitch.tv/overdrive_tm</a><br>
+YouTube: <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" style="color:var(--acc)">@overdrivetm</a></p>
 </div>`;
 }
 function pgLegal() {
   return `<div class="pg">
 <div class="dt">LEGAL NOTICE</div>
-<div class="empty" style="margin-bottom:28px"><p>This is a starting draft to fill in with your actual legal details. It is not a substitute for legal advice.</p></div>
 <div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">SITE PUBLISHER</div>
-<p class="ab-p">[Company or association name], [legal form], registered under number [registration number], with its registered office at [full address].<br>
-Publication director: [Full name]<br>
-Contact: [contact email]</p>
+<p class="ab-p">This site is published by Pierre Longrée, operating as a sole proprietorship ("entreprise individuelle") under the trading name <b>OverDrive Esport</b>, registered under SIREN 103 005 161.<br>
+Registered office: 6B Chemin de la Fontaine Jablée, 59145 Berlaincourt, France.<br>
+Publication director: Pierre Longrée<br>
+Contact: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
 <div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">HOSTING</div>
-<p class="ab-p">This site is hosted by [hosting provider, e.g. GitHub Inc. / Netlify Inc.], [provider address].</p>
+<p class="ab-p">This site is hosted by GitHub, Inc., 88 Colin P Kelly Jr Street, San Francisco, CA 94107, USA (GitHub Pages).<br>
+The domain name is registered through IONOS SE, Elgendorfer Straße 57, 56410 Montabaur, Germany.</p>
 <div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">INTELLECTUAL PROPERTY</div>
-<p class="ab-p">All content on this site (text, logos, visuals, video) belongs to OverDrive or its respective authors unless stated otherwise. Reproduction without permission is prohibited.</p>
+<p class="ab-p">All content on this site (text, logos, visuals, video) belongs to OverDrive Esport or its respective authors unless stated otherwise. Reproduction without permission is prohibited.</p>
 <div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">LIABILITY</div>
-<p class="ab-p">OverDrive aims to provide information that is as accurate as possible, but makes no guarantee as to the accuracy, completeness or timeliness of the data published on this site.</p>
+<p class="ab-p">OverDrive Esport aims to provide information that is as accurate as possible, but makes no guarantee as to the accuracy, completeness or timeliness of the data published on this site.</p>
+<div class="empty" style="margin-top:32px"><p>This page is not a substitute for legal advice — have it checked before launch if you're unsure about anything.</p></div>
 </div>`;
 }
 function pgPrivacy() {
   return `<div class="pg">
 <div class="dt">PRIVACY</div>
-<div class="empty" style="margin-bottom:28px"><p>This is a starting draft to adapt to your actual data practices. It is not a substitute for legal advice.</p></div>
-<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">DATA WE COLLECT</div>
-<p class="ab-p">OverDrive does not collect any personal data required to browse this site, aside from anonymised technical analytics data where applicable.</p>
+<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">DATA CONTROLLER</div>
+<p class="ab-p">This site is published by Pierre Longrée, operating as OverDrive Esport (SIREN 103 005 161), 6B Chemin de la Fontaine Jablée, 59145 Berlaincourt, France. For any question about your data, contact <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>.</p>
+<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">DATA WE COLLECT</div>
+<p class="ab-p">OverDrive Esport does not run its own analytics or ask visitors to create an account. No personal data is required to browse the site. As with any web page, our host (GitHub Pages) and domain provider (IONOS) may keep standard technical server logs (e.g. IP address, browser type, page requested) for security and operational purposes; OverDrive Esport does not access or process this data directly.</p>
 <div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">COOKIES</div>
-<p class="ab-p">[To complete: state whether cookies are used, for what purpose, and how visitors can manage or decline them.]</p>
+<p class="ab-p">This site does not currently set any cookies or use third-party trackers. If that changes (e.g. analytics are added later), this page will be updated to explain what's used and how to manage it.</p>
 <div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">YOUR RIGHTS</div>
-<p class="ab-p">Under the GDPR, you have the right to access, correct and delete data concerning you. To exercise these rights, contact us at [contact email].</p>
+<p class="ab-p">Under the GDPR, you have the right to access, correct and delete any personal data concerning you. To exercise these rights, contact us at <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>.</p>
+<div class="empty" style="margin-top:32px"><p>Revisit the Cookies section above if you ever add analytics, ads, or embedded trackers.</p></div>
 </div>`;
 }
 
