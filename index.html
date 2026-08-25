@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OverDrive – 2v2 Trackmania League</title>
-<meta name="description" content="OverDrive is a competitive 2v2 Trackmania league — standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division.">
-<meta property="og:title" content="OverDrive – 2v2 Trackmania League">
+<title>OverDrive - Event Organizer</title>
+<meta name="description" content="OverDrive - Event Organizer — standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
+<meta property="og:title" content="OverDrive - Event Organizer">
 <meta property="og:description" content="Standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
 <meta property="og:image" content="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg">
 <meta property="og:type" content="website">
@@ -302,7 +302,7 @@ footer{
 @media(max-width:600px){.legal-sec{font-size:13px;margin:32px 0 10px;padding-top:20px}.legal-sec.first{margin-top:20px}}
 
 /* ━━━ CONTACT FORM ━━━━━━━━━━━━━━━━━━━━━━━━ */
-.cf{max-width:640px;margin-top:36px;display:flex;flex-direction:column;gap:20px}
+.cf{max-width:520px;margin:36px auto 0;display:flex;flex-direction:column;gap:20px}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .cf-field{display:flex;flex-direction:column;gap:8px;min-width:0}
 .cf-field label{font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
@@ -312,8 +312,11 @@ footer{
   border-radius:var(--r);outline:none;transition:border-color .15s;resize:vertical;
 }
 .cf-field input:focus,.cf-field textarea:focus{border-color:var(--acc)}
-.cf button[type=submit]{border:none;cursor:pointer;align-self:flex-start}
-.cf-note{font-family:var(--ft);font-weight:500;font-size:11px;color:var(--dim);margin:0}
+.cf button[type=submit]{border:none;cursor:pointer;align-self:center;min-width:180px}
+.cf button[type=submit]:disabled{opacity:.6;cursor:default}
+.cf-status{font-family:var(--ft);font-weight:700;font-size:12px;text-align:center;margin:0;min-height:16px}
+.cf-status.ok{color:#5fbf6a}
+.cf-status.err{color:#e0605a}
 @media(max-width:600px){.cf-row{grid-template-columns:1fr}}
 
 /* ━━━ POWER RANKING EXPLAINER ━━━━━━━━━━━━━ */
@@ -3543,8 +3546,8 @@ function pgAbout() {
 // ─── FOOTER LEGAL PAGES (draft content: see notice on each page) ──────────
 function pgContact() {
   return `<div class="pg">
-<div class="dt">CONTACT</div>
-<p class="ab-p">Got a question about the league, a partnership idea, or want to join the project? Send us a message below and we'll get back to you as soon as we can.</p>
+<div class="dt" style="text-align:center">CONTACT</div>
+<p class="ab-p" style="text-align:center;max-width:520px;margin-left:auto;margin-right:auto">Got a question about the league, a partnership idea, or want to join the project? Send us a message below and we'll get back to you as soon as we can.</p>
 <form class="cf" onsubmit="return submitContactForm(event)">
   <div class="cf-row">
     <div class="cf-field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" required></div>
@@ -3553,38 +3556,76 @@ function pgContact() {
   <div class="cf-field"><label for="cf-subject">Subject</label><input id="cf-subject" name="subject" type="text" required></div>
   <div class="cf-field"><label for="cf-message">Message</label><textarea id="cf-message" name="message" rows="6" required></textarea></div>
   <button type="submit" class="btn-w">Send message</button>
-  <p class="cf-note">This opens your email app with the message pre-filled — hit send there to reach us.</p>
+  <p class="cf-status"></p>
 </form>
 </div>`;
 }
 function pgLegal() {
   return `<div class="pg">
-<div class="dt">LEGAL NOTICE</div>
-<div class="legal-sec first">SITE PUBLISHER</div>
-<p class="ab-p">This site is published by Pierre Longrée, operating as a sole proprietorship ("entreprise individuelle") under the trading name <b>OverDrive Esport</b>, registered under SIREN 103 005 161.<br>
-Registered office: 6B Chemin de la Fontaine Jablée, 59145 Berlaincourt, France.<br>
-Publication director: Pierre Longrée<br>
-Contact: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
-<div class="legal-sec">HOSTING</div>
-<p class="ab-p">This site is hosted by GitHub, Inc., 88 Colin P Kelly Jr Street, San Francisco, CA 94107, USA (GitHub Pages).<br>
-The domain name is registered through IONOS SE, Elgendorfer Straße 57, 56410 Montabaur, Germany.</p>
-<div class="legal-sec">INTELLECTUAL PROPERTY</div>
-<p class="ab-p">All content on this site (text, logos, visuals, video) belongs to OverDrive Esport or its respective authors unless stated otherwise. Reproduction without permission is prohibited.</p>
-<div class="legal-sec">LIABILITY</div>
-<p class="ab-p">OverDrive Esport aims to provide information that is as accurate as possible, but makes no guarantee as to the accuracy, completeness or timeliness of the data published on this site.</p>
+<div class="dt">MENTIONS LÉGALES</div>
+<div class="legal-sec first">1. ÉDITEUR DU SITE</div>
+<p class="ab-p">Nom commercial : <b>OVERDRIVE ESPORT</b><br>
+Exploitant : Pierre LONGREE<br>
+SIREN : 103 005 161<br>
+SIRET du siège : 103 005 161 00015<br>
+Adresse : 6 B, chemin de la Fontaine Jablee, 59145 Berlaimont, France<br>
+E-mail : <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
+<div class="legal-sec">2. DIRECTEUR DE LA PUBLICATION</div>
+<p class="ab-p">Pierre LONGREE.</p>
+<div class="legal-sec">3. HÉBERGEMENT</div>
+<p class="ab-p">Pour le moment Github</p>
+<div class="legal-sec">4. PROPRIÉTÉ INTELLECTUELLE</div>
+<p class="ab-p">Sauf indication contraire, l'ensemble des contenus présents sur ce site, notamment les textes, éléments graphiques, logos, photographies, vidéos, interfaces et éléments de conception, sont protégés par les dispositions applicables en matière de propriété intellectuelle.<br>
+Toute reproduction, représentation, adaptation ou exploitation, totale ou partielle, sans autorisation préalable du titulaire des droits concernés, est susceptible de constituer une contrefaçon.</p>
+<div class="legal-sec">5. RESPONSABILITÉ</div>
+<p class="ab-p">OVERDRIVE ESPORT s'efforce de maintenir des informations exactes et à jour sur le site. Toutefois, aucune garantie n'est donnée quant à l'exhaustivité, l'exactitude ou la disponibilité permanente des contenus. L'éditeur ne saurait être tenu responsable des dommages résultant de l'utilisation du site, sous réserve des dispositions légales impératives applicables.</p>
+<div class="legal-sec">6. LIENS EXTERNES</div>
+<p class="ab-p">Le site peut contenir des liens vers des services ou sites tiers. OVERDRIVE ESPORT n'exerce pas de contrôle sur ces ressources et ne peut être tenu responsable de leur contenu ou de leurs pratiques.</p>
+<div class="legal-sec">7. DONNÉES PERSONNELLES</div>
+<p class="ab-p">Les modalités de collecte et de traitement des données personnelles sont décrites dans la <a href="#" onclick="event.preventDefault();go('privacy')" style="color:var(--acc)">Politique de confidentialité</a>.</p>
+<div class="legal-sec">8. DROIT APPLICABLE</div>
+<p class="ab-p">Le présent site est soumis au droit français, sous réserve des règles impératives applicables à l'utilisateur selon sa situation.</p>
+<p class="ab-p" style="margin-top:24px;color:var(--dim)">Dernière mise à jour : 25 août 2026.</p>
 </div>`;
 }
 function pgPrivacy() {
   return `<div class="pg">
-<div class="dt">PRIVACY</div>
-<div class="legal-sec first">DATA CONTROLLER</div>
-<p class="ab-p">This site is published by Pierre Longrée, operating as OverDrive Esport (SIREN 103 005 161), 6B Chemin de la Fontaine Jablée, 59145 Berlaincourt, France. For any question about your data, contact <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>.</p>
-<div class="legal-sec">DATA WE COLLECT</div>
-<p class="ab-p">OverDrive Esport does not run its own analytics or ask visitors to create an account. No personal data is required to browse the site. As with any web page, our host (GitHub Pages) and domain provider (IONOS) may keep standard technical server logs (e.g. IP address, browser type, page requested) for security and operational purposes; OverDrive Esport does not access or process this data directly.</p>
-<div class="legal-sec">COOKIES</div>
-<p class="ab-p">This site does not currently set any cookies or use third-party trackers. If that changes (e.g. analytics are added later), this page will be updated to explain what's used and how to manage it.</p>
-<div class="legal-sec">YOUR RIGHTS</div>
-<p class="ab-p">Under the GDPR, you have the right to access, correct and delete any personal data concerning you. To exercise these rights, contact us at <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>.</p>
+<div class="dt">POLITIQUE DE CONFIDENTIALITÉ</div>
+<p class="ab-p">La présente politique explique comment OVERDRIVE ESPORT traite les données personnelles susceptibles d'être collectées via son site internet. Elle est conçue pour être adaptée au fonctionnement réel du site : seuls les traitements effectivement mis en œuvre doivent être conservés.</p>
+<div class="legal-sec first">1. RESPONSABLE DU TRAITEMENT</div>
+<p class="ab-p">Pierre LONGREE - OVERDRIVE ESPORT<br>
+SIREN : 103 005 161<br>
+6 B, chemin de la Fontaine Jablee, 59145 Berlaimont, France<br>
+<a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
+<div class="legal-sec">2. DONNÉES PERSONNELLES COLLECTÉES</div>
+<p class="ab-p">Le site OVERDRIVE ESPORT ne propose pas de création de compte, d'espace membre ou de système de connexion. Il n'a donc pas vocation à collecter des données personnelles liées à un compte utilisateur.<br>
+À ce jour, les seules données personnelles directement collectées par OVERDRIVE ESPORT sont celles que l'utilisateur choisit de transmettre via le formulaire de contact, notamment son nom, son adresse e-mail et le contenu de son message, ainsi que toute information qu'il décide d'y renseigner.</p>
+<p class="ab-p">Les champs du formulaire doivent être limités aux informations nécessaires pour permettre de traiter la demande. OVERDRIVE ESPORT applique un principe de minimisation des données.</p>
+<div class="legal-sec">3. FINALITÉS ET BASES LÉGALES</div>
+<p class="ab-p">Répondre aux demandes envoyées via le formulaire de contact.<br>
+Base légale : intérêt légitime d'OVERDRIVE ESPORT à répondre aux sollicitations reçues et, lorsque la demande concerne la préparation d'une éventuelle relation contractuelle, mesures précontractuelles.</p>
+<p class="ab-p">Respecter les obligations légales et protéger les droits d'OVERDRIVE ESPORT.<br>
+Base légale : respect d'une obligation légale ou intérêt légitime, selon le traitement concerné.</p>
+<div class="legal-sec">4. CARACTÈRE OBLIGATOIRE OU FACULTATIF</div>
+<p class="ab-p">Les champs nécessaires au traitement d'une demande sont signalés comme obligatoires lorsqu'ils le sont. Si les informations demandées ne sont pas fournies, OVERDRIVE ESPORT peut ne pas être en mesure de répondre à la demande ou de fournir le service concerné.</p>
+<div class="legal-sec">5. DESTINATAIRES</div>
+<p class="ab-p">Les messages transmis via le formulaire de contact sont accessibles à OVERDRIVE ESPORT pour permettre le traitement de la demande. Ils peuvent également être traités par les prestataires techniques intervenant pour le fonctionnement, l'hébergement ou la transmission des communications du site, dans la mesure nécessaire à leurs prestations.</p>
+<div class="legal-sec">6. DURÉE DE CONSERVATION</div>
+<p class="ab-p">Les données transmises via le formulaire de contact sont conservées pendant la durée nécessaire au traitement et au suivi de la demande. Elles sont ensuite supprimées ou, lorsqu'une conservation est nécessaire pour respecter une obligation légale ou défendre les droits d'OVERDRIVE ESPORT, conservées pendant la durée requise par cette obligation ou ce besoin.</p>
+<div class="legal-sec">7. COOKIES ET TRACEURS</div>
+<p class="ab-p">À la date de mise à jour de la présente politique, le site OVERDRIVE ESPORT n'utilise pas de cookies ni de traceurs à des fins de mesure d'audience, de publicité, de profilage ou de suivi de navigation. Aucun bandeau de consentement aux cookies n'est donc mis en place pour ces usages.<br>
+Si de nouveaux cookies ou traceurs sont ultérieurement ajoutés au site, cette politique sera mise à jour et, lorsque la réglementation l'exige, un mécanisme de recueil du consentement sera mis en place avant leur dépôt ou leur lecture.</p>
+<div class="legal-sec">8. TRANSFERTS HORS DE L'UNION EUROPÉENNE</div>
+<p class="ab-p">Aucun transfert spécifique de données personnelles hors de l'Union européenne ou de l'Espace économique européen n'est organisé par OVERDRIVE ESPORT dans le cadre du formulaire de contact. Cette information sera actualisée si les prestataires ou services utilisés par le site évoluent et entraînent un tel transfert.</p>
+<div class="legal-sec">9. VOS DROITS</div>
+<p class="ab-p">Dans les conditions prévues par la réglementation applicable, vous pouvez demander l'accès à vos données, leur rectification, leur effacement, la limitation du traitement, vous opposer à certains traitements et, lorsque le droit à la portabilité s'applique, obtenir les données concernées dans un format approprié.<br>
+Pour exercer vos droits, vous pouvez écrire à : <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>. Une preuve d'identité peut être demandée lorsque cela est nécessaire pour éviter toute divulgation à une personne non autorisée.<br>
+Vous disposez également du droit d'introduire une réclamation auprès de la Commission nationale de l'informatique et des libertés (CNIL).</p>
+<div class="legal-sec">10. SÉCURITÉ</div>
+<p class="ab-p">OVERDRIVE ESPORT met en œuvre des mesures techniques et organisationnelles raisonnables destinées à protéger les données personnelles contre la perte, l'accès non autorisé, la divulgation, l'altération ou la destruction.</p>
+<div class="legal-sec">11. MISE À JOUR</div>
+<p class="ab-p">Cette politique peut être modifiée afin de tenir compte de l'évolution du site, de ses traitements ou de la réglementation applicable.</p>
+<p class="ab-p" style="margin-top:24px;color:var(--dim)">Dernière mise à jour : 25 août 2026.</p>
 </div>`;
 }
 
@@ -3688,11 +3729,11 @@ window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobi
 // Reflects the current page in the URL (e.g. yoursite.com/#schedule) so pages can be
 // bookmarked/shared directly and the browser's back/forward buttons work as expected.
 const PAGE_TITLES = {
-  home:'OverDrive', leagues:'Standings – OverDrive', standings:'Standings – OverDrive',
-  schedule:'Schedule – OverDrive', news:'News – OverDrive', articles:'News – OverDrive',
-  article:'News – OverDrive', vods:'VODs – OverDrive',
-  teams:'Teams – OverDrive', ranking:'Power Ranking – OverDrive', overpoints:'Overpoints – OverDrive', about:'About – OverDrive',
-  contact:'Contact – OverDrive', legal:'Legal Notice – OverDrive', privacy:'Privacy – OverDrive',
+  home:'OverDrive - Event Organizer', leagues:'Standings – OverDrive - Event Organizer', standings:'Standings – OverDrive - Event Organizer',
+  schedule:'Schedule – OverDrive - Event Organizer', news:'News – OverDrive - Event Organizer', articles:'News – OverDrive - Event Organizer',
+  article:'News – OverDrive - Event Organizer', vods:'VODs – OverDrive - Event Organizer',
+  teams:'Teams – OverDrive - Event Organizer', ranking:'Power Ranking – OverDrive - Event Organizer', overpoints:'Overpoints – OverDrive - Event Organizer', about:'About – OverDrive - Event Organizer',
+  contact:'Contact – OverDrive - Event Organizer', legal:'Legal Notice – OverDrive - Event Organizer', privacy:'Privacy – OverDrive - Event Organizer',
 };
 let _navigatingViaGo = false;
 function pageFromHash() {
@@ -3700,7 +3741,7 @@ function pageFromHash() {
   return PAGES[h] ? h : 'home';
 }
 function syncHash(page) {
-  document.title = PAGE_TITLES[page] || 'OverDrive';
+  document.title = PAGE_TITLES[page] || 'OverDrive - Event Organizer';
   const desired = page === 'home' ? '' : page;
   if ((location.hash || '').replace(/^#\/?/, '') !== desired) {
     _navigatingViaGo = true;
@@ -3715,11 +3756,11 @@ window.addEventListener('hashchange', () => {
   S.page = p;
   renderInPlace();
   window.scrollTo({ top: 0 });
-  document.title = PAGE_TITLES[p] || 'OverDrive';
+  document.title = PAGE_TITLES[p] || 'OverDrive - Event Organizer';
 });
 
 function render() {
-  document.title = PAGE_TITLES[S.page] || 'OverDrive';
+  document.title = PAGE_TITLES[S.page] || 'OverDrive - Event Organizer';
   const hasData = S.sched.length || S.d1.length || S.d2.length || Object.keys(S.teams).length;
   if (!hasData) {
     const warn = '<div style="background:rgba(255,106,0,.1);border:1px solid rgba(255,106,0,.3);padding:16px 20px;margin:0 0 20px;font-size:13px;color:var(--muted)"><strong style="color:var(--acc)">⚠ Data not loaded</strong> – Open console (F12) to see GViz errors.</div>';
@@ -3924,20 +3965,47 @@ ${winnerLine}
   document.getElementById('modal-ov').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-// Static site, no backend: the form can't silently POST anywhere, so it builds a
-// mailto: link from the field values and hands off to the visitor's own email
-// app to actually send it. (To get a truly silent submit later, this onsubmit
-// would need to POST to a form service like Formspree or Web3Forms instead.)
-function submitContactForm(e) {
+// Static site, no backend: a real "sends without opening the visitor's mail app"
+// submit needs somewhere to POST to, so this goes through Web3Forms (a free
+// form-relay service — no account/dashboard needed, just an access key emailed
+// to you after entering your address at https://web3forms.com/).
+//
+// ⚠️ REQUIRED SETUP: replace WEB3FORMS_ACCESS_KEY below with your real key
+// before this will actually deliver anything — it's a placeholder right now.
+const WEB3FORMS_ACCESS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+async function submitContactForm(e) {
   e.preventDefault();
   const f = e.target;
-  const name = f.name.value.trim();
-  const email = f.email.value.trim();
-  const subject = f.subject.value.trim();
-  const message = f.message.value.trim();
-  const body = `${message}\n\n—\n${name}\n${email}`;
-  const mailto = `mailto:contact@overdrivegg.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailto;
+  const btn = f.querySelector('button[type=submit]');
+  const status = f.querySelector('.cf-status');
+  status.textContent = '';
+  status.className = 'cf-status';
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: `[OverDrive contact] ${f.subject.value.trim()}`,
+        name: f.name.value.trim(),
+        email: f.email.value.trim(),
+        message: f.message.value.trim(),
+      }),
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.message || 'Send failed');
+    f.reset();
+    status.textContent = "Message sent — thanks, we'll get back to you soon.";
+    status.classList.add('ok');
+  } catch (err) {
+    status.textContent = "Couldn't send your message. Please try again in a moment.";
+    status.classList.add('err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send message';
+  }
   return false;
 }
 function closeModal() {
