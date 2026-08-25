@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OverDrive - Event Organizer</title>
-<meta name="description" content="OverDrive - Event Organizer — standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
+<meta name="description" content="OverDrive - Event Organizer - standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
 <meta property="og:title" content="OverDrive - Event Organizer">
 <meta property="og:description" content="Standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
 <meta property="og:image" content="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg">
@@ -219,7 +219,7 @@ footer{
 .fl2 a{color:rgba(255,255,255,.92);text-decoration:none;cursor:pointer;transition:color .15s}
 .fl2 a:hover{color:#fff;text-decoration:underline}
 /* Below 768px the footer wraps to a stacked layout (logo, then copyright/links),
-   but it had never received its own sizing pass — it just kept the desktop gap,
+   but it had never received its own sizing pass - it just kept the desktop gap,
    padding and font sizes, sprawling well past the logo's own height. Centered,
    tighter, and smaller so the whole block reads as one compact unit under the
    logo instead of three loosely related rows. */
@@ -292,14 +292,14 @@ footer{
 .ab-h1 em{font-style:normal;color:var(--acc)}
 .ab-p{font-family:var(--ft);font-weight:300;font-size:13px;line-height:1.85;color:var(--muted);margin-bottom:12px}
 /* Legal/Privacy section headers previously reused .dt-md (a 38px page-level
-   heading meant for things like "SPONSORS") with inline margin overrides — a
+   heading meant for things like "SPONSORS") with inline margin overrides - a
    size mismatched to a sub-heading role, and a spacing rhythm patched per-use
    instead of defined once. This is sized for the job and spaced consistently:
    generous space above (separating from the previous section) and enough below
    to visually attach it to its own paragraph rather than float between both. */
-.legal-sec{font-family:var(--ft);font-weight:900;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--txt);margin:40px 0 12px;padding-top:24px;border-top:1px solid var(--brd)}
-.legal-sec.first{margin-top:28px;padding-top:0;border-top:none}
-@media(max-width:600px){.legal-sec{font-size:13px;margin:32px 0 10px;padding-top:20px}.legal-sec.first{margin-top:20px}}
+.legal-sec{font-family:var(--ft);font-weight:900;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--txt);margin:32px 0 12px}
+.legal-sec.first{margin-top:28px}
+@media(max-width:600px){.legal-sec{font-size:13px;margin:26px 0 10px}.legal-sec.first{margin-top:20px}}
 
 /* ━━━ CONTACT FORM ━━━━━━━━━━━━━━━━━━━━━━━━ */
 .cf{max-width:520px;margin:36px auto 0;display:flex;flex-direction:column;gap:20px}
@@ -488,7 +488,7 @@ footer{
 .mo-res-meta{font-family:var(--ft);font-weight:500;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 /* "vs OPPONENT_NAME" had no width limit or truncation, so a long name (Turkey and
    the Cold Cuts, Who Let AIR Cook...) forced this 2-column grid past the viewport
-   width — the same min-width:auto grid trap seen elsewhere, just with a text
+   width - the same min-width:auto grid trap seen elsewhere, just with a text
    overflow this time instead of a fixed size. min-width:0 lets the grid actually
    shrink; the ellipsis keeps a very long name from swallowing the whole row. */
 .mo-res-vs{font-family:var(--ft);font-weight:900;font-size:13px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
@@ -668,7 +668,7 @@ footer{
 }
 /* Row gap via explicit spacer rows (stRowGap), not border-spacing. border-spacing
    would add the same gap between thead and tbody's first row too, and the usual
-   fix for that — offsetting tbody with position:relative — is silently ignored by
+   fix for that - offsetting tbody with position:relative - is silently ignored by
    Safari/WebKit, which doesn't support positioning table row groups. A real empty
    row between data rows sidesteps the whole issue: it needs no special-casing, and
    renders identically everywhere since it's just an ordinary row, not a table
@@ -679,7 +679,7 @@ footer{
 .tc img,.tc .tp{width:30px;height:30px;font-size:11px}
 .st-tname{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase}
 .pts{font-family:var(--ft);font-weight:900;font-size:18px;color:var(--acc)}
-/* Below 700px, the standings table must fit the screen width entirely — no
+/* Below 700px, the standings table must fit the screen width entirely - no
    horizontal scroll. table-layout:fixed with percentage column widths makes
    this a structural guarantee rather than a hope: the 9 columns always sum to
    100% of the available width, so nothing can push the table wider than the
@@ -688,7 +688,7 @@ footer{
    Threshold widened from 600 to 700px, and every size pulled down further, since
    even the first compact pass still read as cramped in some mobile browsers. */
 @media(max-width:700px){
-  /* Same tilted-panel treatment as desktop — logo, diagonal crop and lean — just
+  /* Same tilted-panel treatment as desktop - logo, diagonal crop and lean - just
      scaled down proportionally (tilt, panel width, inner logo size, and the left
      offset all scaled by the same ~0.32 ratio as the panel itself). Previously
      the panel shrank but --tilt stayed a fixed 14px, so the diagonal ate more
@@ -732,7 +732,7 @@ footer{
    rather than wrapping: smaller swatches, tighter gaps, and a conservatively small
    font size, since the branded condensed font renders noticeably wider than the
    fallback system font a headless browser without that font installed substitutes
-   — sizing that "just fits" in a quick check can still truncate on a real device.
+   - sizing that "just fits" in a quick check can still truncate on a real device.
    text-overflow:ellipsis stays on as a safety net for any edge case beyond this,
    rather than letting the row overflow or wrap. */
 @media(max-width:600px){
@@ -744,7 +744,7 @@ footer{
 .ld3{width:16px;height:16px;flex-shrink:0}
 .ld-pl{background:var(--gold-leg)}.ld-br{background:var(--bar-leg)}.ld-rl{background:var(--rel-leg)}.ld-champ{background:var(--champ-leg)}
 
-/* Overpoints legend — same pattern as .leg/.li/.ld3 above, but only ever two
+/* Overpoints legend - same pattern as .leg/.li/.ld3 above, but only ever two
    short items, so it doesn't need the aggressive single-line-at-any-cost sizing
    the four-item Standings legend does. */
 .lgd{display:flex;gap:20px;flex-wrap:wrap;margin:16px 0 0}
@@ -875,14 +875,14 @@ footer{
 
 /* ━━━ OPEN QUALIFIER RESULTS (one card per bracket, on the Regionals page) ━━━ */
 .oq-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:8px}
-/* Fixed height (not just fixed column width) so every card — whether it has a
-   logo+name+round+status, or is just a shorter "in progress" placeholder — lines
+/* Fixed height (not just fixed column width) so every card - whether it has a
+   logo+name+round+status, or is just a shorter "in progress" placeholder - lines
    up identically across the row instead of each row's height depending on
    whichever card in it happens to have the most content. */
 .oq-card{background:var(--bg-c2);border:1px solid var(--brd);padding:28px 16px;text-align:center;cursor:pointer;transition:border-color .15s;min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .oq-card:hover{border-color:var(--brd2)}
 .oq-card-pending{cursor:default}
-/* Flat, unrotated logo — standalone and centered above the name rather than the
+/* Flat, unrotated logo - standalone and centered above the name rather than the
    tilted-diamond treatment used inside the standings table. */
 .oq-logo-box{width:76px;height:76px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:var(--bg-c);flex-shrink:0}
 .oq-logo-box>*{width:66px !important;height:66px !important}
@@ -911,8 +911,8 @@ footer{
 
 /* ━━━ CONTINENTALS: SWISS STAGE TABLE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .ct-sh{font-family:var(--ft);font-weight:900;font-size:16px;text-transform:uppercase;letter-spacing:.04em;color:var(--txt);margin-bottom:16px}
-/* This table has a variable, potentially large number of Round N columns, so —
-   unlike the Standings table — it's never expected to fit one screen width; it
+/* This table has a variable, potentially large number of Round N columns, so -
+   unlike the Standings table - it's never expected to fit one screen width; it
    reuses .st-wrap purely for the horizontal-scroll + "swipe" hint mechanism, with
    its own column styling (not the Standings table's fixed percentage layout). */
 .swiss-tbl{width:100%;border-collapse:separate;border-spacing:0;background:var(--bg-c2)}
@@ -931,7 +931,7 @@ footer{
 .swiss-rd-cell.loss{background:rgba(190,70,70,.16)}
 .swiss-rd-logo{width:20px;height:20px}
 .swiss-rd-score{font-size:11px;font-weight:700;color:var(--muted)}
-/* Divider row marking the Playoffs qualification cutoff — full width, sitting
+/* Divider row marking the Playoffs qualification cutoff - full width, sitting
    right after the last qualifying row, labelled on both sides so it reads clearly
    regardless of which team's row it's adjacent to. */
 .swiss-cut td{padding:10px 14px !important;background:#000;border-bottom:1px solid var(--brd)}
@@ -963,7 +963,7 @@ footer{
 .bkt-col-hd{font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);text-align:center;margin-bottom:14px}
 /* A connected round's matches are wrapped in pairs; the pair itself draws the
    merged ⊐ connector as a single border shape spanning from the vertical middle
-   of the first match to the middle of the second — sized with percentages against
+   of the first match to the middle of the second - sized with percentages against
    the pair's own (auto) height, so it's correct at any card size without needing
    pixel measurements from JS. */
 .bkt-pair{position:relative;display:flex;flex-direction:column;gap:28px}
@@ -1024,7 +1024,7 @@ footer{
 .mc-hd span{white-space:nowrap}
 .mc-hd-right{display:flex;align-items:center;gap:18px}
 /* Below 480px, four meta items (date / division / split / status) in one row no
-   longer fit at their default size — nowrap + a smaller font keeps them on a
+   longer fit at their default size - nowrap + a smaller font keeps them on a
    single line instead of wrapping mid-phrase or dropping to a second row. */
 @media(max-width:480px){
   .mc-hd{flex-wrap:nowrap;gap:5px;padding:9px 12px;font-size:7px}
@@ -1037,7 +1037,7 @@ footer{
    one line. They first go fluid (still side-by-side, shrinking together instead of
    overflowing); below 520px the same 3-column row is kept (team / score / team,
    never stacked into separate full-width rows) but each team switches to logo
-   stacked above its name — that's what lets three columns stay on one line at a
+   stacked above its name - that's what lets three columns stay on one line at a
    narrow width instead of needing the row to become a column. */
 @media(max-width:950px){.mc-team{width:auto;flex:1 1 0;min-width:0;max-width:380px}}
 @media(max-width:520px){
@@ -1298,7 +1298,7 @@ function cv(row, i) {
   // Google Sheets/GViz infers a whole column's type from its cell FORMAT, not just
   // its content. If score_a/score_b are formatted as "Number" (the sheet's default
   // for a column that's mostly 0/1/2/3...), GViz silently returns the entire cell
-  // as null — not even a formatted-text fallback — for any row where that cell
+  // as null - not even a formatted-text fallback - for any row where that cell
   // holds "W"/"FF" instead of a number. There's no way to recover that value from
   // here since the API never sends it; the fix is on the sheet side, formatting
   // those columns as Format > Number > Plain text so GViz stops coercing them.
@@ -1788,7 +1788,7 @@ async function lOver(forYear) {
   // Pairs each OVPTS column with the nearest team_id column to its left. Matched
   // loosely (startsWith) rather than by exact equality, since Sheets silently
   // renames repeated header labels in the same row ("team_id" → "team_id_1",
-  // "team_id2"...) to keep them unique — three side-by-side region blocks sharing
+  // "team_id2"...) to keep them unique - three side-by-side region blocks sharing
   // one header row is exactly that case, and an exact match would only ever catch
   // the first block's untouched original label.
   const pairFrom = labelList => {
@@ -1827,8 +1827,8 @@ async function lOver(forYear) {
 
       // Fallback for region rows no header row announced. A tab can have several
       // region blocks side by side on the SAME row (AMERICAS | ... | EMEA | ... |
-      // APAC | ...), so every region match in the row is walked in turn — not just
-      // the first — each one reading the next text cell as the team name and the
+      // APAC | ...), so every region match in the row is walked in turn - not just
+      // the first - each one reading the next text cell as the team name and the
       // next number after that as the points (layout: division | rank | team_id |
       // OVPTS), stopping before the following region label so one block's scan
       // never reads into its neighbour's columns.
@@ -2228,7 +2228,7 @@ function mcStatusLabel(st) {
   return map[key] || 'UPCOMING';
 }
 function mcDateLabel(m) {
-  if (!m.dO || isNaN(m.dO)) return (m.date||'—').toString().toUpperCase();
+  if (!m.dO || isNaN(m.dO)) return (m.date||'-').toString().toUpperCase();
   const t=new Date(); t.setHours(0,0,0,0);
   const n=new Date(m.dO); n.setHours(0,0,0,0);
   if (n.getTime()===t.getTime()) return "TODAY";
@@ -2249,7 +2249,7 @@ function mc(m) {
     const scB = (m.score_b != null && m.score_b !== '') ? m.score_b : '?';
     center = `${sa}<span style="color:var(--muted);margin:0 10px">–</span>${scB}`;
   } else {
-    center = m.time_cest || '—:——';
+    center = m.time_cest || '-:--';
   }
   return `<div class="mc-card" onclick="openMatchModal('${matchKey(m).replace(/'/g,"\\'")}')">
 <div class="mc-hd">
@@ -2274,7 +2274,7 @@ const OQ_REGIONS = [
   { key:'AMERICAS', label:'AMERICAS', prefix:'NCSA' },
 ];
 // Groups a region's Open Qualifier rows by match_id (e.g. all "APAC 1" rows are one
-// bracket's games, not one match each — unlike Div 1/2 where match_id is per-match).
+// bracket's games, not one match each - unlike Div 1/2 where match_id is per-match).
 // The winner of each bracket is read off the LAST game in that group, per row order
 // as loaded from the sheet: there's no reliable per-row time to sort by (OQ rows
 // share one date with no kickoff time), so sheet order is the only ordering signal,
@@ -2310,7 +2310,7 @@ function oqGroups(regionKey) {
       // team_b_id here can be a plain display name ("Loading Pink") rather than a
       // normalized slug. Falling back to null when the id isn't a known team_id
       // was wrongly treated as "no winner yet" even when the match had a real,
-      // valid score — this builds a minimal stand-in so the card still renders
+      // valid score - this builds a minimal stand-in so the card still renders
       // (with a letter-placeholder logo) instead of reporting "in progress".
       const winnerTeam = winnerId
         ? (S.teams[winnerId] || S.teams[(winnerId || '').toLowerCase()] || { team_id: winnerId, team_name: dn(winnerId), logo_url: S.defaultLogo })
@@ -2337,7 +2337,7 @@ function oqCard(group) {
 
 // ━━━ CONTINENTALS: SWISS STAGE + PLAYOFFS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Both stages share one quirk: match_id is the same literal string ("EMEA Swiss",
-// "EMEA Playoffs"...) for every game in that stage — there's no round/bracket-
+// "EMEA Playoffs"...) for every game in that stage - there's no round/bracket-
 // position column at all. Both are reconstructed purely from row order + running
 // per-team counters, on the same trust-the-sheet-order basis the Open Qualifier
 // code already relies on.
@@ -2353,17 +2353,17 @@ function continentalsMatches(regionKey, stage) {
 }
 // Team names on Continentals rows are free text (same as Open Qualifier), and not
 // always consistently cased in the sheet (e.g. "Eline Express" vs "eLine Express"
-// for what's almost certainly the same team) — grouping by a lowercased key avoids
+// for what's almost certainly the same team) - grouping by a lowercased key avoids
 // splitting one team's record across two rows over a capitalization slip. The
 // first-seen casing is kept for display.
 function ctKey(name) { return String(name || '').trim().toLowerCase(); }
-// Displayed team names never show a raw underscore — team_id-style values used
+// Displayed team names never show a raw underscore - team_id-style values used
 // as a display fallback ("unc_racing", "geng_x_weibo") or literal sheet text
 // with an underscore ("Different_Poles") both read as a normal space instead.
 function dn(s) { return String(s || '').replace(/_/g, ' '); }
 // Open Qualifier / Continentals rows share one match_id across every game in the
 // same bracket (all of "EMEA 1"'s matches carry that exact match_id), unlike Div
-// 1/2 rows where match_id is unique per game — so looking a match up by match_id
+// 1/2 rows where match_id is unique per game - so looking a match up by match_id
 // alone always resolves to whichever one happens to be first, regardless of which
 // card was actually clicked. This composite key adds the two teams and the
 // kickoff date/time, which together are effectively guaranteed unique per game.
@@ -2373,7 +2373,7 @@ function matchKey(m) {
 // Some rows record a forfeit as "W" for the winning side and "FF" for the side
 // that didn't play, instead of a real game score. That still counts as a match
 // win/loss for records and brackets, but contributes zero games to the game
-// differential — a 3-0 record made of two real 2-0s and one forfeit should read
+// differential - a 3-0 record made of two real 2-0s and one forfeit should read
 // as +4 GD, not +6, since no games were actually played in the forfeited match.
 function parseMatchResult(scoreARaw, scoreBRaw) {
   const aRaw = String(scoreARaw ?? '').trim().toUpperCase();
@@ -2391,7 +2391,7 @@ function parseMatchResult(scoreARaw, scoreBRaw) {
 // Swiss stage: standings (rank/matches/games/GD) plus each team's per-round result,
 // for the Round 1..N columns. Round number comes from the kickoff time (date+time)
 // shared by every match in that round, e.g. all Round 1 games at 13:00, Round 2 at
-// 13:45, etc. — a per-team match-count inference was tried first, but that drifts
+// 13:45, etc. - a per-team match-count inference was tried first, but that drifts
 // out of alignment whenever a team's win comes from a forfeit against another team
 // that has itself played a different number of prior matches, silently shifting
 // later results into the wrong Round column (or leaving the "true" round empty).
@@ -2400,7 +2400,7 @@ function parseMatchResult(scoreARaw, scoreBRaw) {
 // Swiss stage: standings (rank/matches/games/GD) plus each team's per-round result,
 // for the Round 1..N columns. Round number is inferred by counting, per team, how
 // many Swiss matches they've already played as rows are scanned in the sheet's own
-// order — two teams paired in a match are necessarily both entering the same round.
+// order - two teams paired in a match are necessarily both entering the same round.
 function swissData(regionKey) {
   const matches = continentalsMatches(regionKey, 'Swiss');
   const teams = {};
@@ -2414,7 +2414,7 @@ function swissData(regionKey) {
   matches.forEach(m => {
     const a = getTeam(m.team_a_id), b = getTeam(m.team_b_id);
     const r = parseMatchResult(m.score_a, m.score_b);
-    if (!r.hasResult) return; // unplayed row — skip, doesn't consume a round slot
+    if (!r.hasResult) return; // unplayed row - skip, doesn't consume a round slot
     const round = Math.max(roundCounter[a.key], roundCounter[b.key]) + 1;
     roundCounter[a.key] = round; roundCounter[b.key] = round;
     maxRound = Math.max(maxRound, round);
@@ -2428,12 +2428,12 @@ function swissData(regionKey) {
   });
   const list = Object.values(teams).map(t => ({ ...t, gd: t.gf - t.ga }));
   // Wins first; then fewer losses (an undefeated 3-0 record should always outrank
-  // a 3-1 one even if the 3-1 team's game differential happens to be higher — teams
+  // a 3-1 one even if the 3-1 team's game differential happens to be higher - teams
   // can be tied on wins while having played a different number of total rounds,
   // since not everyone is guaranteed the same round count mid-Swiss-stage); game
   // differential only settles it when both wins and losses are equal.
   list.sort((x, y) => y.wins - x.wins || x.losses - y.losses || y.gd - x.gd || y.gf - x.gf || x.name.localeCompare(y.name));
-  // Every team gets its own place in the order (1, 2, 3, 4...) — no shared/joint
+  // Every team gets its own place in the order (1, 2, 3, 4...) - no shared/joint
   // ranks, even when two teams have an identical record; the sort above already
   // gives a deterministic order for ties via game differential and then name.
   list.forEach((t, i) => { t.rank = i + 1; });
@@ -2446,7 +2446,7 @@ function swissData(regionKey) {
 // Upper Bracket; once either side already has one loss, it's Lower Bracket. The
 // very last row is always the Grand Final, per how these rows get entered.
 // Within each bracket, the round number is likewise inferred by counting each
-// team's prior matches in that specific bracket (UB or LB) — same technique as
+// team's prior matches in that specific bracket (UB or LB) - same technique as
 // the Swiss round numbers, kept separate per bracket.
 function playoffsBracket(regionKey) {
   const matches = continentalsMatches(regionKey, 'Playoffs');
@@ -2617,7 +2617,7 @@ function stWrapHint() {
 }
 // Joins row HTML strings with a real spacer <tr> between each pair (none before
 // the first, none after the last) instead of relying on border-spacing, so the
-// header sits flush against the first row on every browser — see the .stt-spacer
+// header sits flush against the first row on every browser - see the .stt-spacer
 // CSS comment for why border-spacing's usual thead/tbody fix doesn't hold up.
 function stRowGap(rowsArr, colspan) {
   return rowsArr.join(`<tr class="stt-spacer"><td colspan="${colspan}"></td></tr>`);
@@ -2633,7 +2633,7 @@ function stTab(rows, div) {
   }
   const trs = rows.map(r => {
     const z = zone(r.rank, r.champion);
-    const diff = r.track_diff!=null ? (+r.track_diff>0?'+':'')+r.track_diff : '—';
+    const diff = r.track_diff!=null ? (+r.track_diff>0?'+':'')+r.track_diff : '-';
     const logo = `<div class="tlogo-box">${tlogo(r.team, 90)}</div>`;
     const teamName = `${r.team?.team_name||r.team_id||'?'}`;
     return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="st-tname">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
@@ -2734,7 +2734,7 @@ function promoRelSection(title, periodKey) {
 function twitchSection() {
   const live = liveMatch();
   const matchLabel = live
-    ? `${live.A?.team_name||live.team_a_id||'—'} – ${live.B?.team_name||live.team_b_id||'—'}`
+    ? `${live.A?.team_name||live.team_a_id||'-'} – ${live.B?.team_name||live.team_b_id||'-'}`
     : 'No matches live';
 
   const proto = window.location.protocol;
@@ -2876,7 +2876,7 @@ function swissTable(regionKey) {
   }
   const roundHeaders = Array.from({ length: maxRound }, (_, i) => `<th>Round ${i + 1}</th>`).join('');
   const totalCols = 5 + maxRound;
-  // Top half of the Swiss field advances to Playoffs, bottom half is eliminated —
+  // Top half of the Swiss field advances to Playoffs, bottom half is eliminated -
   // rounded up, so an odd team count favours qualifying (e.g. 15 teams → top 8 go
   // through). A full-width divider row marks that cutoff directly in the table.
   const qualifyCount = Math.ceil(teams.length / 2);
@@ -2928,14 +2928,14 @@ function playoffsBracketHtml(regionKey) {
 </div>`;
   };
   // Round names go by position relative to the final round, not by how many
-  // matches are in a round — a lower-bracket round can have just 1 match long
+  // matches are in a round - a lower-bracket round can have just 1 match long
   // before the actual LB Final, and match-count alone would mislabel it "Final".
   // Connector lines are only drawn between a round and the next when that round's
   // match count is exactly double the next one's (the normal single-elim case):
   // pairs of matches get wrapped together so the connecting line can span from the
   // midpoint of the first match to the midpoint of the second using percentages
   // (no pixel math, so it stays correct regardless of card height). An irregular
-  // round — a bye folded the bracket down unevenly — just renders plain cards
+  // round - a bye folded the bracket down unevenly - just renders plain cards
   // instead of drawing a connector that would point at the wrong match.
   const colsFor = (rounds, prefix) => {
     const roundNums = Object.keys(rounds).map(Number).sort((a, b) => a - b);
@@ -3016,7 +3016,7 @@ ${extraSection}
 function pgSchedule() {
   const groups = schedGroups();
   // Picking a specific OQ bracket should jump straight to the day its matches were
-  // actually played, not to today — schedAnchorIdx() prefers today-or-later, but
+  // actually played, not to today - schedAnchorIdx() prefers today-or-later, but
   // Open Qualifier rounds are already in the past, and today's (empty) group is
   // always present as a fallback, so the plain anchor logic would just land there
   // instead of on the real match day.
@@ -3508,7 +3508,7 @@ ${sec('01', 'Starting score')}
 
 <div class="pr-block">
 ${sec('02', 'What moves it')}
-<p class="pr-note" style="margin-top:0">Wins add points, losses take them away — more for beating a stronger team, more for a clean scoreline. How much of that counts depends on the stage:</p>
+<p class="pr-note" style="margin-top:0">Wins add points, losses take them away - more for beating a stronger team, more for a clean scoreline. How much of that counts depends on the stage:</p>
 <div class="pr-mult">${mults.map(m => `<div class="pr-m">
   <span class="pr-m-l">${m.l}</span>
   <span class="pr-m-bar"><span class="pr-m-fill" style="width:${(m.v/maxV*100).toFixed(0)}%"></span></span>
@@ -3528,8 +3528,8 @@ function pgAbout() {
   return `<div class="pg">
 <div class="about-hero">
 <h1>OVER<em>DRIVE</em></h1>
-<p>OverDrive is a Trackmania esports project built by and for the community. The goal is to create a premium competitive 2v2 scene with quality production, formats that make sense, and a community that truly invests itself.</p>
-<p>The format amplifies what makes Trackmania competitive – precision, adaptability, and split-second decisive moments – through the lens of team play.</p>
+<p>OverDrive Esport is an event organizer built by and for the Trackmania community. Its flagship project is the OverDrive League: a premium competitive 2v2 scene with quality production, formats that make sense, and a community that truly invests itself.</p>
+<p>The format amplifies what makes Trackmania competitive - precision, adaptability, and split-second decisive moments - through the lens of team play.</p>
 <div class="ab-btns" style="margin-top:24px">
 <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
 <a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" class="btn-d">Follow on Twitch</a>
@@ -3562,70 +3562,70 @@ function pgContact() {
 }
 function pgLegal() {
   return `<div class="pg">
-<div class="dt">MENTIONS LÉGALES</div>
-<div class="legal-sec first">1. ÉDITEUR DU SITE</div>
-<p class="ab-p">Nom commercial : <b>OVERDRIVE ESPORT</b><br>
-Exploitant : Pierre LONGREE<br>
-SIREN : 103 005 161<br>
-SIRET du siège : 103 005 161 00015<br>
-Adresse : 6 B, chemin de la Fontaine Jablee, 59145 Berlaimont, France<br>
-E-mail : <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
-<div class="legal-sec">2. DIRECTEUR DE LA PUBLICATION</div>
+<div class="dt">LEGAL NOTICE</div>
+<div class="legal-sec first">1. SITE PUBLISHER</div>
+<p class="ab-p">Trading name: <b>OVERDRIVE ESPORT</b><br>
+Operator: Pierre LONGREE<br>
+SIREN: 103 005 161<br>
+Head office SIRET: 103 005 161 00015<br>
+Address: 6 B, chemin de la Fontaine Jablee, 59145 Berlaimont, France<br>
+Email: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
+<div class="legal-sec">2. PUBLICATION DIRECTOR</div>
 <p class="ab-p">Pierre LONGREE.</p>
-<div class="legal-sec">3. HÉBERGEMENT</div>
-<p class="ab-p">Pour le moment Github</p>
-<div class="legal-sec">4. PROPRIÉTÉ INTELLECTUELLE</div>
-<p class="ab-p">Sauf indication contraire, l'ensemble des contenus présents sur ce site, notamment les textes, éléments graphiques, logos, photographies, vidéos, interfaces et éléments de conception, sont protégés par les dispositions applicables en matière de propriété intellectuelle.<br>
-Toute reproduction, représentation, adaptation ou exploitation, totale ou partielle, sans autorisation préalable du titulaire des droits concernés, est susceptible de constituer une contrefaçon.</p>
-<div class="legal-sec">5. RESPONSABILITÉ</div>
-<p class="ab-p">OVERDRIVE ESPORT s'efforce de maintenir des informations exactes et à jour sur le site. Toutefois, aucune garantie n'est donnée quant à l'exhaustivité, l'exactitude ou la disponibilité permanente des contenus. L'éditeur ne saurait être tenu responsable des dommages résultant de l'utilisation du site, sous réserve des dispositions légales impératives applicables.</p>
-<div class="legal-sec">6. LIENS EXTERNES</div>
-<p class="ab-p">Le site peut contenir des liens vers des services ou sites tiers. OVERDRIVE ESPORT n'exerce pas de contrôle sur ces ressources et ne peut être tenu responsable de leur contenu ou de leurs pratiques.</p>
-<div class="legal-sec">7. DONNÉES PERSONNELLES</div>
-<p class="ab-p">Les modalités de collecte et de traitement des données personnelles sont décrites dans la <a href="#" onclick="event.preventDefault();go('privacy')" style="color:var(--acc)">Politique de confidentialité</a>.</p>
-<div class="legal-sec">8. DROIT APPLICABLE</div>
-<p class="ab-p">Le présent site est soumis au droit français, sous réserve des règles impératives applicables à l'utilisateur selon sa situation.</p>
-<p class="ab-p" style="margin-top:24px;color:var(--dim)">Dernière mise à jour : 25 août 2026.</p>
+<div class="legal-sec">3. HOSTING</div>
+<p class="ab-p">Currently GitHub.</p>
+<div class="legal-sec">4. INTELLECTUAL PROPERTY</div>
+<p class="ab-p">Unless stated otherwise, all content on this site, including text, graphic elements, logos, photographs, videos, interfaces and design elements, is protected under applicable intellectual property laws.<br>
+Any reproduction, representation, adaptation or use, in whole or in part, without prior authorization from the relevant rights holder, may constitute infringement.</p>
+<div class="legal-sec">5. LIABILITY</div>
+<p class="ab-p">OVERDRIVE ESPORT strives to keep the information on this site accurate and up to date. However, no guarantee is given as to the completeness, accuracy or continuous availability of its content. The publisher cannot be held liable for damages resulting from use of the site, subject to any mandatory legal provisions that apply.</p>
+<div class="legal-sec">6. EXTERNAL LINKS</div>
+<p class="ab-p">The site may contain links to third-party services or websites. OVERDRIVE ESPORT has no control over these resources and cannot be held responsible for their content or practices.</p>
+<div class="legal-sec">7. PERSONAL DATA</div>
+<p class="ab-p">The collection and processing of personal data is described in the <a href="#" onclick="event.preventDefault();go('privacy')" style="color:var(--acc)">Privacy Policy</a>.</p>
+<div class="legal-sec">8. GOVERNING LAW</div>
+<p class="ab-p">This site is governed by French law, subject to any mandatory rules applicable to the user based on their situation.</p>
+<p class="ab-p" style="margin-top:24px;color:var(--dim)">Last updated: August 25, 2026.</p>
 </div>`;
 }
 function pgPrivacy() {
   return `<div class="pg">
-<div class="dt">POLITIQUE DE CONFIDENTIALITÉ</div>
-<p class="ab-p">La présente politique explique comment OVERDRIVE ESPORT traite les données personnelles susceptibles d'être collectées via son site internet. Elle est conçue pour être adaptée au fonctionnement réel du site : seuls les traitements effectivement mis en œuvre doivent être conservés.</p>
-<div class="legal-sec first">1. RESPONSABLE DU TRAITEMENT</div>
+<div class="dt">PRIVACY</div>
+<p class="ab-p">This policy explains how OVERDRIVE ESPORT processes personal data that may be collected through its website. It is designed to reflect how the site actually operates: only processing that is genuinely carried out is kept here.</p>
+<div class="legal-sec first">1. DATA CONTROLLER</div>
 <p class="ab-p">Pierre LONGREE - OVERDRIVE ESPORT<br>
-SIREN : 103 005 161<br>
+SIREN: 103 005 161<br>
 6 B, chemin de la Fontaine Jablee, 59145 Berlaimont, France<br>
 <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
-<div class="legal-sec">2. DONNÉES PERSONNELLES COLLECTÉES</div>
-<p class="ab-p">Le site OVERDRIVE ESPORT ne propose pas de création de compte, d'espace membre ou de système de connexion. Il n'a donc pas vocation à collecter des données personnelles liées à un compte utilisateur.<br>
-À ce jour, les seules données personnelles directement collectées par OVERDRIVE ESPORT sont celles que l'utilisateur choisit de transmettre via le formulaire de contact, notamment son nom, son adresse e-mail et le contenu de son message, ainsi que toute information qu'il décide d'y renseigner.</p>
-<p class="ab-p">Les champs du formulaire doivent être limités aux informations nécessaires pour permettre de traiter la demande. OVERDRIVE ESPORT applique un principe de minimisation des données.</p>
-<div class="legal-sec">3. FINALITÉS ET BASES LÉGALES</div>
-<p class="ab-p">Répondre aux demandes envoyées via le formulaire de contact.<br>
-Base légale : intérêt légitime d'OVERDRIVE ESPORT à répondre aux sollicitations reçues et, lorsque la demande concerne la préparation d'une éventuelle relation contractuelle, mesures précontractuelles.</p>
-<p class="ab-p">Respecter les obligations légales et protéger les droits d'OVERDRIVE ESPORT.<br>
-Base légale : respect d'une obligation légale ou intérêt légitime, selon le traitement concerné.</p>
-<div class="legal-sec">4. CARACTÈRE OBLIGATOIRE OU FACULTATIF</div>
-<p class="ab-p">Les champs nécessaires au traitement d'une demande sont signalés comme obligatoires lorsqu'ils le sont. Si les informations demandées ne sont pas fournies, OVERDRIVE ESPORT peut ne pas être en mesure de répondre à la demande ou de fournir le service concerné.</p>
-<div class="legal-sec">5. DESTINATAIRES</div>
-<p class="ab-p">Les messages transmis via le formulaire de contact sont accessibles à OVERDRIVE ESPORT pour permettre le traitement de la demande. Ils peuvent également être traités par les prestataires techniques intervenant pour le fonctionnement, l'hébergement ou la transmission des communications du site, dans la mesure nécessaire à leurs prestations.</p>
-<div class="legal-sec">6. DURÉE DE CONSERVATION</div>
-<p class="ab-p">Les données transmises via le formulaire de contact sont conservées pendant la durée nécessaire au traitement et au suivi de la demande. Elles sont ensuite supprimées ou, lorsqu'une conservation est nécessaire pour respecter une obligation légale ou défendre les droits d'OVERDRIVE ESPORT, conservées pendant la durée requise par cette obligation ou ce besoin.</p>
-<div class="legal-sec">7. COOKIES ET TRACEURS</div>
-<p class="ab-p">À la date de mise à jour de la présente politique, le site OVERDRIVE ESPORT n'utilise pas de cookies ni de traceurs à des fins de mesure d'audience, de publicité, de profilage ou de suivi de navigation. Aucun bandeau de consentement aux cookies n'est donc mis en place pour ces usages.<br>
-Si de nouveaux cookies ou traceurs sont ultérieurement ajoutés au site, cette politique sera mise à jour et, lorsque la réglementation l'exige, un mécanisme de recueil du consentement sera mis en place avant leur dépôt ou leur lecture.</p>
-<div class="legal-sec">8. TRANSFERTS HORS DE L'UNION EUROPÉENNE</div>
-<p class="ab-p">Aucun transfert spécifique de données personnelles hors de l'Union européenne ou de l'Espace économique européen n'est organisé par OVERDRIVE ESPORT dans le cadre du formulaire de contact. Cette information sera actualisée si les prestataires ou services utilisés par le site évoluent et entraînent un tel transfert.</p>
-<div class="legal-sec">9. VOS DROITS</div>
-<p class="ab-p">Dans les conditions prévues par la réglementation applicable, vous pouvez demander l'accès à vos données, leur rectification, leur effacement, la limitation du traitement, vous opposer à certains traitements et, lorsque le droit à la portabilité s'applique, obtenir les données concernées dans un format approprié.<br>
-Pour exercer vos droits, vous pouvez écrire à : <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>. Une preuve d'identité peut être demandée lorsque cela est nécessaire pour éviter toute divulgation à une personne non autorisée.<br>
-Vous disposez également du droit d'introduire une réclamation auprès de la Commission nationale de l'informatique et des libertés (CNIL).</p>
-<div class="legal-sec">10. SÉCURITÉ</div>
-<p class="ab-p">OVERDRIVE ESPORT met en œuvre des mesures techniques et organisationnelles raisonnables destinées à protéger les données personnelles contre la perte, l'accès non autorisé, la divulgation, l'altération ou la destruction.</p>
-<div class="legal-sec">11. MISE À JOUR</div>
-<p class="ab-p">Cette politique peut être modifiée afin de tenir compte de l'évolution du site, de ses traitements ou de la réglementation applicable.</p>
-<p class="ab-p" style="margin-top:24px;color:var(--dim)">Dernière mise à jour : 25 août 2026.</p>
+<div class="legal-sec">2. PERSONAL DATA COLLECTED</div>
+<p class="ab-p">The OVERDRIVE ESPORT site does not offer account creation, a member area, or a login system. It is therefore not intended to collect personal data linked to a user account.<br>
+As of now, the only personal data directly collected by OVERDRIVE ESPORT is what a visitor chooses to submit through the contact form - namely their name, email address and message content - along with any other information they choose to include.</p>
+<p class="ab-p">Form fields are limited to the information necessary to handle the request. OVERDRIVE ESPORT applies a data minimization principle.</p>
+<div class="legal-sec">3. PURPOSES AND LEGAL BASES</div>
+<p class="ab-p">Responding to requests sent via the contact form.<br>
+Legal basis: OVERDRIVE ESPORT's legitimate interest in responding to inquiries received and, where the request concerns the preparation of a possible contractual relationship, pre-contractual measures.</p>
+<p class="ab-p">Complying with legal obligations and protecting OVERDRIVE ESPORT's rights.<br>
+Legal basis: compliance with a legal obligation or legitimate interest, depending on the processing concerned.</p>
+<div class="legal-sec">4. MANDATORY OR OPTIONAL FIELDS</div>
+<p class="ab-p">Fields required to process a request are marked as mandatory where applicable. If the requested information is not provided, OVERDRIVE ESPORT may be unable to respond to the request or provide the service concerned.</p>
+<div class="legal-sec">5. RECIPIENTS</div>
+<p class="ab-p">Messages submitted via the contact form are accessible to OVERDRIVE ESPORT in order to process the request. They may also be processed by technical service providers involved in operating, hosting or transmitting communications for the site, to the extent necessary for their services.</p>
+<div class="legal-sec">6. RETENTION PERIOD</div>
+<p class="ab-p">Data submitted via the contact form is kept for as long as necessary to process and follow up on the request. It is then deleted or, where retention is necessary to comply with a legal obligation or to defend OVERDRIVE ESPORT's rights, kept for the period required by that obligation or need.</p>
+<div class="legal-sec">7. COOKIES AND TRACKERS</div>
+<p class="ab-p">As of the last update of this policy, the OVERDRIVE ESPORT site does not use cookies or trackers for audience measurement, advertising, profiling or browsing tracking purposes. No cookie consent banner is therefore in place for these uses.<br>
+If new cookies or trackers are added to the site in the future, this policy will be updated and, where required by law, a consent mechanism will be put in place before they are set or read.</p>
+<div class="legal-sec">8. TRANSFERS OUTSIDE THE EUROPEAN UNION</div>
+<p class="ab-p">OVERDRIVE ESPORT does not organize any specific transfer of personal data outside the European Union or the European Economic Area as part of the contact form. This information will be updated if the providers or services used by the site change and result in such a transfer.</p>
+<div class="legal-sec">9. YOUR RIGHTS</div>
+<p class="ab-p">Under applicable regulations, you may request access to your data, its correction or deletion, restriction of processing, object to certain processing, and, where the right to data portability applies, obtain the data concerned in a suitable format.<br>
+To exercise your rights, you can write to: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>. Proof of identity may be requested where necessary to prevent disclosure to an unauthorized person.<br>
+You also have the right to lodge a complaint with the CNIL (Commission nationale de l'informatique et des libertés), the French data protection authority.</p>
+<div class="legal-sec">10. SECURITY</div>
+<p class="ab-p">OVERDRIVE ESPORT implements reasonable technical and organizational measures designed to protect personal data against loss, unauthorized access, disclosure, alteration or destruction.</p>
+<div class="legal-sec">11. UPDATES</div>
+<p class="ab-p">This policy may be amended to reflect changes to the site, its processing activities, or applicable regulations.</p>
+<p class="ab-p" style="margin-top:24px;color:var(--dim)">Last updated: August 25, 2026.</p>
 </div>`;
 }
 
@@ -3822,7 +3822,7 @@ function openMatchModal(matchId) {
   const hasScore = (isDone||isLive) && sa!=='' && sb2!=='';
   const scoreHtml = hasScore
     ? `<div class="mo-sc">${sa} <span style="color:var(--muted);font-weight:300">-</span> ${sb2}</div>`
-    : `<div class="mo-ti">${m.time_cest||'—:——'}</div>`;
+    : `<div class="mo-ti">${m.time_cest||'-:--'}</div>`;
 
   const logoA = mlogo(m.A);
   const logoB = mlogo(m.B);
@@ -3899,7 +3899,7 @@ function openMatchModal(matchId) {
   const splitLabel = (S.splits.find(s => s.split_id === m.split)?.label) || m.split || (S.splits.find(s => s.split_id === S.act)?.label) || S.act || 'OverDrive 2026';
   document.getElementById('modal-content').innerHTML = `
 <div class="mo-hd">
-  <div class="mo-bc">${matchDivLabelFull(m)||'—'}<span>-</span>${isDone?'Finished':isLive?'Live':'Upcoming'}<span>-</span>${splitLabel}</div>
+  <div class="mo-bc">${matchDivLabelFull(m)||'-'}<span>-</span>${isDone?'Finished':isLive?'Live':'Upcoming'}<span>-</span>${splitLabel}</div>
   <button class="mo-close" onclick="closeModal()">Close</button>
 </div>
 <div class="mo-main">
@@ -3923,7 +3923,7 @@ ${detailSection}`;
 }
 
 // Shows every game played within one Open Qualifier bracket (e.g. all "APAC 1"
-// rows), with the qualified team called out at the top — the click-through from
+// rows), with the qualified team called out at the top - the click-through from
 // an oq-card.
 function openOQModal(regionKey, groupId) {
   const groups = oqGroups(regionKey);
@@ -3940,7 +3940,7 @@ function openOQModal(regionKey, groupId) {
     const labelB = r.forfeit ? (r.aWon ? 'FF' : 'W') : m.score_b;
     const scoreHtml = r.hasResult
       ? `<span style="color:${aWon?'var(--txt)':'var(--muted)'}">${labelA}</span> <span style="color:var(--dim)">-</span> <span style="color:${bWon?'var(--txt)':'var(--muted)'}">${labelB}</span>`
-      : `<span style="color:var(--muted)">${m.time_cest||'—:——'}</span>`;
+      : `<span style="color:var(--muted)">${m.time_cest||'-:--'}</span>`;
     return `<div class="mo-map oqm-row">
   <div class="mo-map-name" style="color:${aWon?'var(--txt)':'var(--muted)'}">${teamA.team_name}</div>
   <div class="mo-map-score">${scoreHtml}</div>
@@ -3967,11 +3967,11 @@ ${winnerLine}
 }
 // Static site, no backend: a real "sends without opening the visitor's mail app"
 // submit needs somewhere to POST to, so this goes through Web3Forms (a free
-// form-relay service — no account/dashboard needed, just an access key emailed
+// form-relay service - no account/dashboard needed, just an access key emailed
 // to you after entering your address at https://web3forms.com/).
 //
 // ⚠️ REQUIRED SETUP: replace WEB3FORMS_ACCESS_KEY below with your real key
-// before this will actually deliver anything — it's a placeholder right now.
+// before this will actually deliver anything - it's a placeholder right now.
 const WEB3FORMS_ACCESS_KEY = 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE';
 async function submitContactForm(e) {
   e.preventDefault();
@@ -3997,7 +3997,7 @@ async function submitContactForm(e) {
     const json = await res.json();
     if (!json.success) throw new Error(json.message || 'Send failed');
     f.reset();
-    status.textContent = "Message sent — thanks, we'll get back to you soon.";
+    status.textContent = "Message sent - thanks, we'll get back to you soon.";
     status.classList.add('ok');
   } catch (err) {
     status.textContent = "Couldn't send your message. Please try again in a moment.";
@@ -4055,7 +4055,7 @@ function initNavDropdowns() {
       // Only checked once the panel is actually open (and thus actually visible):
       // .dd keeps a measurable box even while hidden (needed so a closed menu can
       // still be reopened by moving onto that box's own trigger), but that hidden
-      // box's geometry isn't guaranteed to be small or anywhere near the nav — on
+      // box's geometry isn't guaranteed to be small or anywhere near the nav - on
       // a long page it can end up overlapping content far down the screen, opening
       // the menu just from moving the mouse near, say, a button on the Schedule
       // page. Gating on isOpen keeps the coordinate check meaningful only while
