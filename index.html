@@ -211,8 +211,8 @@ footer{
 .fb2 img{height:36px;object-fit:contain}
 .fr-block{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;text-align:right}
 .fsoc{display:flex;align-items:center;gap:14px;margin-bottom:2px}
-.fsoc a{color:rgba(255,255,255,.6);display:flex;transition:color .15s}
-.fsoc a:hover{color:#fff}
+.fsoc a{color:#fff;display:flex;transition:opacity .15s}
+.fsoc a:hover{opacity:.7}
 .fsoc svg{width:18px;height:18px}
 .fc2{color:#fff;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.02em}
 .fl2{color:rgba(255,255,255,.55);font-family:var(--ft);font-weight:500;font-size:13px;letter-spacing:.02em}
@@ -291,6 +291,30 @@ footer{
 @media(max-width:600px){.ab-h1{font-size:26px;margin-bottom:16px}}
 .ab-h1 em{font-style:normal;color:var(--acc)}
 .ab-p{font-family:var(--ft);font-weight:300;font-size:13px;line-height:1.85;color:var(--muted);margin-bottom:12px}
+/* Legal/Privacy section headers previously reused .dt-md (a 38px page-level
+   heading meant for things like "SPONSORS") with inline margin overrides — a
+   size mismatched to a sub-heading role, and a spacing rhythm patched per-use
+   instead of defined once. This is sized for the job and spaced consistently:
+   generous space above (separating from the previous section) and enough below
+   to visually attach it to its own paragraph rather than float between both. */
+.legal-sec{font-family:var(--ft);font-weight:900;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--txt);margin:40px 0 12px;padding-top:24px;border-top:1px solid var(--brd)}
+.legal-sec.first{margin-top:28px;padding-top:0;border-top:none}
+@media(max-width:600px){.legal-sec{font-size:13px;margin:32px 0 10px;padding-top:20px}.legal-sec.first{margin-top:20px}}
+
+/* ━━━ CONTACT FORM ━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cf{max-width:640px;margin-top:36px;display:flex;flex-direction:column;gap:20px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cf-field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.cf-field label{font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.cf-field input,.cf-field textarea{
+  background:var(--bg-c2);border:1px solid var(--brd2);color:var(--txt);
+  font-family:var(--ft);font-weight:500;font-size:14px;padding:12px 14px;
+  border-radius:var(--r);outline:none;transition:border-color .15s;resize:vertical;
+}
+.cf-field input:focus,.cf-field textarea:focus{border-color:var(--acc)}
+.cf button[type=submit]{border:none;cursor:pointer;align-self:flex-start}
+.cf-note{font-family:var(--ft);font-weight:500;font-size:11px;color:var(--dim);margin:0}
+@media(max-width:600px){.cf-row{grid-template-columns:1fr}}
 
 /* ━━━ POWER RANKING EXPLAINER ━━━━━━━━━━━━━ */
 .pr-exp{margin-top:64px;padding-top:44px;border-top:1px solid var(--brd)}
@@ -3520,46 +3544,47 @@ function pgAbout() {
 function pgContact() {
   return `<div class="pg">
 <div class="dt">CONTACT</div>
-<p class="ab-p">Got a question about the league, a partnership idea, or want to join the project? Drop us a line and we'll get back to you as soon as we can.</p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">GET IN TOUCH</div>
-<p class="ab-p">Email: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a><br>
-Discord: <a href="https://discord.com/invite/tZV3Mu3Thb" target="_blank" style="color:var(--acc)">discord.com/invite/tZV3Mu3Thb</a><br>
-X (Twitter): <a href="https://x.com/OverDrive_TM" target="_blank" style="color:var(--acc)">@OverDrive_TM</a><br>
-TikTok: <a href="https://www.tiktok.com/@overdrive_tm" target="_blank" style="color:var(--acc)">@overdrive_tm</a><br>
-Twitch: <a href="https://www.twitch.tv/overdrive_tm" target="_blank" style="color:var(--acc)">twitch.tv/overdrive_tm</a><br>
-YouTube: <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" style="color:var(--acc)">@overdrivetm</a></p>
+<p class="ab-p">Got a question about the league, a partnership idea, or want to join the project? Send us a message below and we'll get back to you as soon as we can.</p>
+<form class="cf" onsubmit="return submitContactForm(event)">
+  <div class="cf-row">
+    <div class="cf-field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" required></div>
+    <div class="cf-field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" required></div>
+  </div>
+  <div class="cf-field"><label for="cf-subject">Subject</label><input id="cf-subject" name="subject" type="text" required></div>
+  <div class="cf-field"><label for="cf-message">Message</label><textarea id="cf-message" name="message" rows="6" required></textarea></div>
+  <button type="submit" class="btn-w">Send message</button>
+  <p class="cf-note">This opens your email app with the message pre-filled — hit send there to reach us.</p>
+</form>
 </div>`;
 }
 function pgLegal() {
   return `<div class="pg">
 <div class="dt">LEGAL NOTICE</div>
-<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">SITE PUBLISHER</div>
+<div class="legal-sec first">SITE PUBLISHER</div>
 <p class="ab-p">This site is published by Pierre Longrée, operating as a sole proprietorship ("entreprise individuelle") under the trading name <b>OverDrive Esport</b>, registered under SIREN 103 005 161.<br>
 Registered office: 6B Chemin de la Fontaine Jablée, 59145 Berlaincourt, France.<br>
 Publication director: Pierre Longrée<br>
 Contact: <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a></p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">HOSTING</div>
+<div class="legal-sec">HOSTING</div>
 <p class="ab-p">This site is hosted by GitHub, Inc., 88 Colin P Kelly Jr Street, San Francisco, CA 94107, USA (GitHub Pages).<br>
 The domain name is registered through IONOS SE, Elgendorfer Straße 57, 56410 Montabaur, Germany.</p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">INTELLECTUAL PROPERTY</div>
+<div class="legal-sec">INTELLECTUAL PROPERTY</div>
 <p class="ab-p">All content on this site (text, logos, visuals, video) belongs to OverDrive Esport or its respective authors unless stated otherwise. Reproduction without permission is prohibited.</p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">LIABILITY</div>
+<div class="legal-sec">LIABILITY</div>
 <p class="ab-p">OverDrive Esport aims to provide information that is as accurate as possible, but makes no guarantee as to the accuracy, completeness or timeliness of the data published on this site.</p>
-<div class="empty" style="margin-top:32px"><p>This page is not a substitute for legal advice — have it checked before launch if you're unsure about anything.</p></div>
 </div>`;
 }
 function pgPrivacy() {
   return `<div class="pg">
 <div class="dt">PRIVACY</div>
-<div class="dt-md" style="font-family:var(--ft);margin:24px 0 14px">DATA CONTROLLER</div>
+<div class="legal-sec first">DATA CONTROLLER</div>
 <p class="ab-p">This site is published by Pierre Longrée, operating as OverDrive Esport (SIREN 103 005 161), 6B Chemin de la Fontaine Jablée, 59145 Berlaincourt, France. For any question about your data, contact <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>.</p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">DATA WE COLLECT</div>
+<div class="legal-sec">DATA WE COLLECT</div>
 <p class="ab-p">OverDrive Esport does not run its own analytics or ask visitors to create an account. No personal data is required to browse the site. As with any web page, our host (GitHub Pages) and domain provider (IONOS) may keep standard technical server logs (e.g. IP address, browser type, page requested) for security and operational purposes; OverDrive Esport does not access or process this data directly.</p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">COOKIES</div>
+<div class="legal-sec">COOKIES</div>
 <p class="ab-p">This site does not currently set any cookies or use third-party trackers. If that changes (e.g. analytics are added later), this page will be updated to explain what's used and how to manage it.</p>
-<div class="dt-md" style="font-family:var(--ft);margin:36px 0 14px">YOUR RIGHTS</div>
+<div class="legal-sec">YOUR RIGHTS</div>
 <p class="ab-p">Under the GDPR, you have the right to access, correct and delete any personal data concerning you. To exercise these rights, contact us at <a href="mailto:contact@overdrivegg.com" style="color:var(--acc)">contact@overdrivegg.com</a>.</p>
-<div class="empty" style="margin-top:32px"><p>Revisit the Cookies section above if you ever add analytics, ads, or embedded trackers.</p></div>
 </div>`;
 }
 
@@ -3898,6 +3923,22 @@ ${winnerLine}
 </div>`;
   document.getElementById('modal-ov').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+// Static site, no backend: the form can't silently POST anywhere, so it builds a
+// mailto: link from the field values and hands off to the visitor's own email
+// app to actually send it. (To get a truly silent submit later, this onsubmit
+// would need to POST to a form service like Formspree or Web3Forms instead.)
+function submitContactForm(e) {
+  e.preventDefault();
+  const f = e.target;
+  const name = f.name.value.trim();
+  const email = f.email.value.trim();
+  const subject = f.subject.value.trim();
+  const message = f.message.value.trim();
+  const body = `${message}\n\n—\n${name}\n${email}`;
+  const mailto = `mailto:contact@overdrivegg.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+  return false;
 }
 function closeModal() {
   document.getElementById('modal-ov').classList.remove('open');
