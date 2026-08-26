@@ -414,6 +414,34 @@ footer{
 
 .sl-label{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .ab-btns{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+
+/* ━━━ ABOUT HERO (redesigned) ━━━━━━━━━━━━━ */
+/* Text and CTA on one side, a single unified stat strip on the other - instead of
+   paragraphs/buttons/three-separate-boxes all stacked in one column, which read as
+   three unrelated pieces rather than one considered block. */
+.abh-grid{display:grid;grid-template-columns:1fr 260px;gap:56px;align-items:start;padding-top:8px}
+.abh-text{max-width:560px}
+.abh-cta{display:flex;align-items:center;gap:26px;margin-top:28px;flex-wrap:wrap}
+.abh-sub{font-family:var(--ft);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
+.abh-sub:hover{color:var(--txt)}
+.abh-sub span{display:inline-block;transition:transform .15s}
+.abh-sub:hover span{transform:translateX(3px)}
+.abh-stats{border:1px solid var(--brd);background:var(--bg-c)}
+.abh-stat{padding:22px 24px;border-bottom:1px solid var(--brd)}
+.abh-stat:last-child{border-bottom:none}
+.abh-stat-n{font-family:var(--ft);font-weight:900;font-size:34px;line-height:1}
+.abh-stat-l{font-family:var(--ft);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:4px}
+@media(max-width:800px){
+  .abh-grid{grid-template-columns:1fr;gap:28px}
+  .abh-stats{display:flex}
+  .abh-stat{flex:1;border-bottom:none;border-right:1px solid var(--brd)}
+  .abh-stat:last-child{border-right:none}
+}
+@media(max-width:520px){
+  .abh-stat-n{font-size:24px}
+  .abh-stat{padding:14px 10px}
+  .abh-cta{gap:16px;margin-top:22px}
+}
 .btn-w{padding:12px 22px;background:var(--txt);color:#000;font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.07em;text-transform:uppercase;transition:opacity .15s;display:inline-block}
 .btn-w:hover{opacity:.85}
 .btn-d{padding:12px 22px;background:rgba(255,255,255,.1);color:var(--txt);font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.07em;text-transform:uppercase;transition:background .15s;display:inline-block}
@@ -3526,20 +3554,25 @@ ${sec('03', 'The floor')}
 
 function pgAbout() {
   return `<div class="pg">
-<div class="about-hero">
-<h1>OVER<em>DRIVE</em></h1>
-<p>OverDrive Esport is an event organizer built by and for the Trackmania community. Its flagship project is the OverDrive League: a premium competitive 2v2 scene with quality production, formats that make sense, and a community that truly invests itself.</p>
-<p>The format amplifies what makes Trackmania competitive - precision, adaptability, and split-second decisive moments - through the lens of team play.</p>
-<div class="ab-btns" style="margin-top:24px">
+<div class="abh-text" style="max-width:640px">
+<h1 class="ab-h1">BUILT FOR<br>THE <em>LONG GAME</em></h1>
+<p class="ab-p">A Trackmania event project driven by well-known figures from the community: a competitive scene built for the people who live it - players, organizations, and fans. Not chasing the instant hit - a strong identity, clean production, a story built to last.</p>
+<div class="abh-cta">
 <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
-<a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" class="btn-d">Follow on Twitch</a>
+<a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" class="abh-sub">Follow on Twitch <span>&#8594;</span></a>
 </div>
 </div>
-<div class="st-row">
-<div class="st-box"><div class="st-n" style="color:var(--acc)">2v2</div><div class="st-l">Format</div></div>
-<div class="st-box"><div class="st-n" style="color:#FFBA4A">20</div><div class="st-l">Teams</div></div>
-<div class="st-box"><div class="st-n">2026</div><div class="st-l">Season</div></div>
-</div>
+
+<div class="legal-sec first" style="margin-top:56px">THE PROJECT</div>
+<p class="ab-p">Where many formats chase the instant hit, OverDrive is built for the long game: a strong identity, clean production, stakes that make sense, and a story that develops over time.</p>
+<p class="ab-p">The choice of 2v2 is central to that: it builds on the momentum of the 2025 World Tour and answers a real need for a scene built around this format - one that puts synergy, strategy, and two-player decisive moments back in the spotlight.</p>
+<p class="ab-p">The end goal is a recurring event that showcases duos, gives organizations real visibility, and gives the top level a coherent framework instead of a string of one-off events.</p>
+
+<div class="legal-sec">MISSION & VALUES</div>
+<p class="ab-p">Concretely, OverDrive's mission is to put players first: clear, stable rules, solid playing conditions, a calendar built for competition, and active listening to feedback to improve every season.</p>
+<p class="ab-p">The project also aims to structure a clear progression and make the top level attainable, with an understandable scene, real stages and real opportunities, without sacrificing competitive standards.</p>
+<p class="ab-p">On the league side, the idea is to build a lasting framework for players and organizations alike: consistency, stakes that matter, visibility that's actively built, and an overall coherence across branding, broadcast, and communication.</p>
+<p class="ab-p">The values behind all of it are simple: a player-first approach, a demand for quality, respect for the community, transparency, and one strong conviction - aim for premium while keeping the scene open, clear, and fair.</p>
 </div>`;
 }
 
