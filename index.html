@@ -2032,12 +2032,15 @@ async function lOver(forYear) {
 
   S.over = Object.values(totals)
     .map(o => {
-      const team = byName[norm(o.team_name)] || null;
+      const base = byName[norm(o.team_name)] || null;
       // Overpoints is a cumulative, current-moment ranking (not tied to one split
-      // the way Standings is), so it always shows whatever the team is called
-      // right now - team.team_name from the Teams tab - rather than the literal
-      // text found in the OVPTS source rows, which can go stale after a rename
-      // even though the team match itself (by id/short/old name) still resolves.
+      // the way Standings is), so the name shown is whatever the team is called
+      // right now - resolved through teamFor() so a Team_History override for the
+      // active split (a rename recorded there, not necessarily written back into
+      // the Teams tab itself) is respected, instead of just reading team_name off
+      // the raw Teams-tab row directly.
+      const resolved = base ? teamFor(base, S.configActiveSplit || S.act) : null;
+      const team = resolved && typeof resolved === 'object' ? resolved : base;
       return { ...o, team, team_name: team?.team_name || o.team_name };
     })
     .sort((a, b) => b.pts - a.pts || a.team_name.localeCompare(b.team_name))
