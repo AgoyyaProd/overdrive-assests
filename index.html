@@ -2252,6 +2252,56 @@ function computeSplitPeriodRecord(teamId, splitId, allRows) {
   });
   return buckets;
 }
+// A team that never appears in Division 1/2 standings for a split (Open
+// Qualifier / Continentals-only participants, who make up most of the roster
+// there) previously showed nothing at all for that split - not because there
+// was no data, just because this lookup only ever checked the Division tabs.
+// Walks all three regions' Open Qualifier groups, then Continentals Swiss/
+// Playoffs, for a split-scoped match against any id in the team's lineage.
+function findOqContinentalsResult(lineage, splitId) {
+  const lineageNorm = lineage.map(ctKey);
+  const isOurTeam = raw => lineageNorm.includes(ctKey(raw));
+
+  for (const region of OQ_REGIONS) {
+    const groups = oqGroups(region.key, splitId);
+    for (const g of groups) {
+      if (!g.matches.some(m => isOurTeam(m.team_a_id) || isOurTeam(m.team_b_id))) continue;
+      let w = 0, l = 0;
+      g.matches.forEach(m => {
+        const r = parseMatchResult(m.score_a, m.score_b);
+        if (!r.hasResult) return;
+        const isA = isOurTeam(m.team_a_id);
+        if (!isA && !isOurTeam(m.team_b_id)) return;
+        if (isA ? r.aWon : !r.aWon) w++; else l++;
+      });
+      const qualified = g.winnerId && isOurTeam(g.winnerId);
+      const outcome = qualified ? 'Qualified to Continentals' : ((w + l) ? 'Eliminated' : 'In progress');
+      return { altKind: 'oq', altLabel: `${region.label} Open Qualifier ${g.roundNum}`, altRecord: `${w}-${l}`, altOutcome: outcome };
+    }
+
+    const swiss = swissData(region.key, splitId);
+    const teamRow = swiss.teams.find(t => isOurTeam(t.name));
+    if (teamRow) {
+      const playoffs = playoffsBracket(region.key, splitId);
+      // Up&Downs qualification, not a "champion" title: EMEA sends its top 2
+      // (Grand Final winner and runner-up), APAC and NCSA/AMERICAS send only the
+      // Grand Final winner. Everyone else goes back through the Open Qualifier.
+      const upDownsSlots = region.key === 'EMEA' ? 2 : 1;
+      let outcome = null;
+      if (playoffs.gf && (isOurTeam(playoffs.gf.team_a_id) || isOurTeam(playoffs.gf.team_b_id))) {
+        const won = playoffs.gf.hasScore && (isOurTeam(playoffs.gf.team_a_id) ? playoffs.gf.aWon : !playoffs.gf.aWon);
+        const placement = won ? 1 : 2;
+        outcome = placement <= upDownsSlots ? 'Qualified to Up&Downs' : 'Did not qualify to Up&Downs';
+      } else {
+        const inPlayoffs = [...Object.values(playoffs.ubRounds || {}), ...Object.values(playoffs.lbRounds || {})]
+          .some(ms => ms.some(m => isOurTeam(m.team_a_id) || isOurTeam(m.team_b_id)));
+        outcome = inPlayoffs ? 'Did not qualify to Up&Downs' : null;
+      }
+      return { altKind: 'continentals', altLabel: `${region.label} Continentals - Swiss Stage`, altRecord: `${teamRow.wins}-${teamRow.losses}`, altRank: teamRow.rank, altOutcome: outcome };
+    }
+  }
+  return null;
+}
 async function openTeamModal(teamId) {
   const t = S.teams[teamId];
   if (!t) return;
@@ -2303,6 +2353,12 @@ async function openTeamModal(teamId) {
       const inD1 = d1.find(r => lineage.includes(r.team_id));
       const inD2 = d2.find(r => lineage.includes(r.team_id));
       const row = inD1 || inD2;
+      if (!row) {
+        // Not on either Division standings for this split - check whether this
+        // was an Open Qualifier / Continentals-only split before giving up on it.
+        const alt = findOqContinentalsResult(lineage, splitId);
+        if (alt) return { rank: null, champion: false, startDiv: null, div: null, d1Size: d1.length, d2Size: d2.length, buckets: {}, placement: null, historicalTeamId: null, ...alt };
+      }
       const startDiv = inD1 ? '1' : (inD2 ? '2' : 'open');
       const buckets = computeSplitPeriodRecord(lineage, splitId, allSchedRows);
       const bracketKey = startDiv === '1' ? 'div1' : (startDiv === '2' ? 'div2' : null);
@@ -2341,8 +2397,23 @@ async function openTeamModal(teamId) {
     if (!others.length) { histEl.innerHTML = '<div class="empty" style="padding:12px 0"><p>No previous splits</p></div>'; return; }
 
     const results = otherResults;
-    const found = results.filter(r => r.rank);
+    const found = results.filter(r => r.rank || r.altKind);
     histEl.innerHTML = found.length ? found.map(r => {
+      // Open Qualifier / Continentals-only participation has no Division rank or
+      // W-L "regular season" bucket to draw from, so it renders as its own simpler
+      // row (round/stage reached, record, outcome) instead of forcing it into the
+      // Division-standings shape the rest of this card assumes.
+      if (r.altKind) {
+        return `
+      <div class="mo-map" style="flex-direction:column;align-items:stretch;gap:10px;padding:18px 20px">
+        <div class="mo-map-name">${r.label} <span style="color:var(--muted);font-weight:500;font-size:11px">- ${r.altLabel}</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--ft);font-size:13px;color:var(--muted)">
+          <span>${r.altKind === 'oq' ? 'Open Qualifier' : 'Swiss Stage'}</span>
+          <span style="color:var(--txt);font-weight:700">${r.altRecord}${r.altRank ? ` - ${ordinal(r.altRank)}` : ''}</span>
+        </div>
+        ${r.altOutcome ? `<div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--ft);font-size:13px;color:var(--muted)"><span>Result</span><span style="color:var(--acc);font-weight:700">${r.altOutcome}</span></div>` : ''}
+      </div>`;
+      }
       const reg = r.buckets['regular_season'] || { w:0, l:0 };
       const extra = buildExtraSplitRows(r.buckets, r.startDiv, r.champion, r.placement);
       const divSize = r.div === '1' ? r.d1Size : (r.div === '2' ? r.d2Size : null);
@@ -2362,8 +2433,7 @@ async function openTeamModal(teamId) {
       const histPlayers = wasRenamed ? [histTeam.player1, histTeam.player2].filter(Boolean).join(' & ') : '';
       return `
       <div class="mo-map" style="flex-direction:column;align-items:stretch;gap:10px;padding:18px 20px">
-        <div class="mo-map-name">${r.label}${r.div ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${divLabel(r.div)}</span>` : ''}${wasRenamed ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${histTeam.team_name}</span>` : ''}</div>
-        ${histPlayers ? `<div style="font-family:var(--ft);font-size:11px;color:var(--muted);opacity:.75;margin-top:-4px">${histPlayers}</div>` : ''}
+        <div class="mo-map-name">${r.label}${r.div ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${divLabel(r.div)}</span>` : ''}${wasRenamed ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${histTeam.team_name}${histPlayers ? ` (${histPlayers})` : ''}</span>` : ''}</div>
         <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--ft);font-size:13px;color:var(--muted)">
           <span>Regular Season</span>
           <span style="color:var(--txt);font-weight:700">${reg.w}-${reg.l}${r.rank ? ` - ${ordinal(r.rank)}` : ''}${autoLabel2 ? ` - ${autoLabel2}` : ''}</span>
@@ -2472,11 +2542,12 @@ const OQ_REGIONS = [
 // as loaded from the sheet: there's no reliable per-row time to sort by (OQ rows
 // share one date with no kickoff time), so sheet order is the only ordering signal,
 // same as how a human reading the sheet top-to-bottom would find the final result.
-function oqGroups(regionKey) {
+function oqGroups(regionKey, splitId) {
   const region = OQ_REGIONS.find(r => r.key === regionKey);
   if (!region) return [];
+  const sp = splitId || S.act;
   const rows = (S.schedAllRows || []).filter(m =>
-    m.split === S.act &&
+    m.split === sp &&
     schedCatMatches(m, 'oq') &&
     String(m.match_id || '').trim().toUpperCase().startsWith(region.prefix.toUpperCase() + ' ')
   );
@@ -2534,12 +2605,13 @@ function oqCard(group) {
 // position column at all. Both are reconstructed purely from row order + running
 // per-team counters, on the same trust-the-sheet-order basis the Open Qualifier
 // code already relies on.
-function continentalsMatches(regionKey, stage) {
+function continentalsMatches(regionKey, stage, splitId) {
   const region = OQ_REGIONS.find(r => r.key === regionKey);
   if (!region) return [];
+  const sp = splitId || S.act;
   const wantId = `${region.prefix} ${stage}`.trim().toLowerCase();
   return (S.schedAllRows || []).filter(m =>
-    m.split === S.act &&
+    m.split === sp &&
     String(m.division || '').trim().toLowerCase() === 'continentals' &&
     String(m.match_id || '').trim().toLowerCase() === wantId
   );
@@ -2594,8 +2666,8 @@ function parseMatchResult(scoreARaw, scoreBRaw) {
 // for the Round 1..N columns. Round number is inferred by counting, per team, how
 // many Swiss matches they've already played as rows are scanned in the sheet's own
 // order - two teams paired in a match are necessarily both entering the same round.
-function swissData(regionKey) {
-  const matches = continentalsMatches(regionKey, 'Swiss');
+function swissData(regionKey, splitId) {
+  const matches = continentalsMatches(regionKey, 'Swiss', splitId);
   const teams = {};
   const roundCounter = {};
   let maxRound = 0;
@@ -2641,8 +2713,8 @@ function swissData(regionKey) {
 // Within each bracket, the round number is likewise inferred by counting each
 // team's prior matches in that specific bracket (UB or LB) - same technique as
 // the Swiss round numbers, kept separate per bracket.
-function playoffsBracket(regionKey) {
-  const matches = continentalsMatches(regionKey, 'Playoffs');
+function playoffsBracket(regionKey, splitId) {
+  const matches = continentalsMatches(regionKey, 'Playoffs', splitId);
   const lossCount = {}, ubCount = {}, lbCount = {};
   const ensure = key => {
     if (lossCount[key] == null) { lossCount[key] = 0; ubCount[key] = 0; lbCount[key] = 0; }
