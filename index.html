@@ -1433,8 +1433,30 @@ async function lTeamHistory() {
       player1: r.player1 || '', player2: r.player2 || '',
       sub1: r.sub1 || '', sub2: r.sub2 || '',
       note: r.note || '',
+      predecessor_id: r.predecessor_id ? String(r.predecessor_id).trim().toLowerCase() : '',
     };
   });
+}
+// Walks a team's chain of predecessors (Airwalkers replaced Orgless, which might
+// itself have replaced something earlier) via Team_History's predecessor_id, so
+// stats that should read as one continuous history - Overdrive Record, biggest
+// streak, title count, previous splits - can be computed across every team_id
+// that ever was this same lineage, not just whichever one is current. A cap of 10
+// hops and a seen-set both guard against a note accidentally pointing in a circle.
+function teamLineage(teamId) {
+  const chain = [teamId];
+  const seen = new Set([String(teamId||'').toLowerCase()]);
+  let current = teamId;
+  for (let i = 0; i < 10; i++) {
+    const bySplit = S.teamHistory?.[current];
+    if (!bySplit) break;
+    const pred = Object.values(bySplit).map(h => h.predecessor_id).find(Boolean);
+    if (!pred || seen.has(pred)) break;
+    chain.push(pred);
+    seen.add(pred);
+    current = pred;
+  }
+  return chain;
 }
 // Resolves how a team should appear for one specific split: history override for
 // that split first, then the base Teams-tab record for whatever fields the
@@ -1478,13 +1500,9 @@ function teamFor(teamOrId, splitId) {
 function teamNoteBadge(team) {
   if (!team?._note) return '';
   const safe = String(team._note).replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-  return `<span class="tnote" onclick="event.stopPropagation();toggleTeamNote(this)" data-note="${safe}">i</span>`;
+  return `<span class="tnote" onmouseenter="showTeamNote(this)" onmouseleave="hideTeamNote(this)" onclick="event.stopPropagation();toggleTeamNote(this)" data-note="${safe}">i</span>`;
 }
-function toggleTeamNote(el) {
-  const existing = document.querySelector('.tnote-pop');
-  const reopening = existing && existing._forEl === el;
-  if (existing) existing.remove();
-  if (reopening) return;
+function positionNotePop(el) {
   const pop = document.createElement('div');
   pop.className = 'tnote-pop';
   pop.textContent = el.dataset.note;
@@ -1495,8 +1513,28 @@ function toggleTeamNote(el) {
   pop.style.width = w + 'px';
   pop.style.left = Math.max(12, Math.min(r.left, window.innerWidth - w - 12)) + 'px';
   pop.style.top = (r.bottom + 6) + 'px';
+  return pop;
+}
+// Hover is the primary trigger (mouse users see it just by pointing at the badge,
+// no click needed); tap-to-toggle stays as a fallback since touch devices don't
+// fire hover events reliably, so it's the only way a phone/tablet user gets there.
+function showTeamNote(el) {
+  if (el._notePop) return;
+  const existing = document.querySelector('.tnote-pop');
+  if (existing) existing.remove();
+  el._notePop = positionNotePop(el);
+}
+function hideTeamNote(el) {
+  if (el._notePop) { el._notePop.remove(); el._notePop = null; }
+}
+function toggleTeamNote(el) {
+  if (el._notePop) return; // hover already opened it - a click on top shouldn't immediately close it
+  const existing = document.querySelector('.tnote-pop');
+  if (existing) existing.remove();
+  const pop = positionNotePop(el);
+  el._notePop = pop;
   setTimeout(() => document.addEventListener('click', function close(e) {
-    if (!pop.contains(e.target) && e.target !== el) { pop.remove(); document.removeEventListener('click', close); }
+    if (!pop.contains(e.target) && e.target !== el) { pop.remove(); if (el._notePop === pop) el._notePop = null; document.removeEventListener('click', close); }
   }), 0);
 }
 function isOpenDivision(div) {
@@ -2076,12 +2114,16 @@ function getRes(mid) {
   // Try S.res (populated from combined tab)
   return S.res.find(r => r.match_id === mid);
 }
-// A team's completed, scored matches across every split, sorted chronologically
-// (date + time, falling back to match_id): the basis for career-wide stats.
 // Normalises a team id for comparison: the standings tabs are lowercased on read,
 // but schedule rows are used verbatim, so an id typed with different casing or a
-// stray space would silently drop that match from the team's record.
-const sameTeamId = (a, b) => String(a||'').trim().toLowerCase() === String(b||'').trim().toLowerCase();
+// stray space would silently drop that match from the team's record. `b` can also
+// be an array of ids (a team's full lineage through renames - see teamLineage()),
+// in which case a match against any one of them counts.
+const sameTeamId = (a, b) => {
+  const av = String(a||'').trim().toLowerCase();
+  if (Array.isArray(b)) return b.some(id => String(id||'').trim().toLowerCase() === av);
+  return av === String(b||'').trim().toLowerCase();
+};
 function teamMatchHistory(teamId, allRows) {
   const done = allRows.filter(m => (sameTeamId(m.team_a_id, teamId) || sameTeamId(m.team_b_id, teamId))
     && (m.status||'').toString().trim().toLowerCase() === 'done'
@@ -2249,23 +2291,29 @@ async function openTeamModal(teamId) {
 
   try {
     const allSchedRows = await fetchAllScheduleRows();
+    // Every team_id this one has ever been, through renames/roster takeovers
+    // recorded in Team_History (predecessor_id) - stats below are computed across
+    // all of them so a rename reads as one continuous history, not a reset to zero.
+    const lineage = teamLineage(teamId);
 
     // Same lookup for every split (the active one and any previous ones) so the numbers
     // are computed identically and never depend on global UI state elsewhere.
     async function teamSplitData(splitId) {
       const { d1, d2 } = await fetchSplitStandings(splitId);
-      const inD1 = d1.find(r => r.team_id === teamId);
-      const inD2 = d2.find(r => r.team_id === teamId);
+      const inD1 = d1.find(r => lineage.includes(r.team_id));
+      const inD2 = d2.find(r => lineage.includes(r.team_id));
       const row = inD1 || inD2;
       const startDiv = inD1 ? '1' : (inD2 ? '2' : 'open');
-      const buckets = computeSplitPeriodRecord(teamId, splitId, allSchedRows);
+      const buckets = computeSplitPeriodRecord(lineage, splitId, allSchedRows);
       const bracketKey = startDiv === '1' ? 'div1' : (startDiv === '2' ? 'div2' : null);
       let placement = null;
       if (bracketKey) {
         const bracketMatches = allSchedRows.filter(m => (!m.split || m.split === splitId) && playoffBracketKey(m.division) === bracketKey);
         const champRow = (inD1 ? d1 : d2).find(r => r.champion);
         const placements = computePlayoffPlacements(bracketMatches, champRow?.team_id || null);
-        if (placements) placement = placements[teamId] || null;
+        // Keyed by whichever lineage member's team_id actually played that split's
+        // bracket (row.team_id), not necessarily today's teamId.
+        if (placements) placement = placements[row?.team_id] || null;
       }
       return { rank: row?.rank, champion: !!row?.champion, startDiv, div: inD1?'1':(inD2?'2':null), d1Size:d1.length, d2Size:d2.length, buckets, placement };
     }
@@ -2274,8 +2322,8 @@ async function openTeamModal(teamId) {
 
     // Career-wide stats (all splits combined): matches the reference layout:
     // Overdrive Record, Biggest Winning Streak, Overdrive Title (count of "Champ" splits).
-    const record = computeCareerRecord(teamId, allSchedRows);
-    const streak = computeBiggestStreak(teamId, allSchedRows);
+    const record = computeCareerRecord(lineage, allSchedRows);
+    const streak = computeBiggestStreak(lineage, allSchedRows);
 
     const others = S.splits.filter(s => s.split_id !== curSplitId);
     const otherResults = await Promise.all(others.map(async s => ({ label: s.label || s.split_id, ...(await teamSplitData(s.split_id)) })));
@@ -2733,7 +2781,16 @@ function closeAllSs() {
   document.querySelectorAll('.ss-cust.open').forEach(el => el.classList.remove('open'));
 }
 document.addEventListener('click', closeAllSs);
-function liveMatch() { return S.homeSched.find(m => (m.status||'').toUpperCase() === 'LIVE'); }
+// Searches across every split (S.schedAllRows), not just the one currently active
+// on the home page (S.homeSched) - a live match is time-sensitive enough that it
+// shouldn't go invisible on the homepage just because it's tagged under a
+// different split than Config's active_split (e.g. entered under last season's
+// split by habit, or the config not yet flipped to the new one). Falls back to
+// S.homeSched if the all-splits data hasn't loaded yet.
+function liveMatch() {
+  const all = S.schedAllRows?.length ? S.schedAllRows : S.homeSched;
+  return all.find(m => (m.status||'').toUpperCase() === 'LIVE');
+}
 
 // ─── STANDINGS TABLE ───────────────────────────────────────────────────────
 // One-time "swipe for more" hint shown under a horizontally-scrollable table on
