@@ -1912,10 +1912,17 @@ async function lRank() {
       const name = String(cv(r,1)||'').trim();
       const rk = cv(r,0);
       if (!name || rk == null || isNaN(+rk)) return null;
+      const base = byName[norm(name)] || null;
+      // Same resolution as Overpoints: teamFor() so a rename recorded in
+      // Team_History for the active split is reflected here too, instead of the
+      // literal (possibly stale) text sitting in the POWER RANKING sheet's own
+      // team_id column.
+      const resolved = base ? teamFor(base, S.configActiveSplit || S.act) : null;
+      const team = resolved && typeof resolved === 'object' ? resolved : base;
       return {
         rank: +rk,
-        team_name: name,
-        team: byName[norm(name)] || null,
+        team_name: team?.team_name || dn(name),
+        team,
         division: String(cv(r,2)||'').trim(),
         score: +cv(r,3) || 0,
         win: +cv(r,4) || 0,
@@ -3675,7 +3682,7 @@ function pgRanking() {
     const clickable = r.team ? ` style="cursor:pointer" onclick="openTeamModal('${r.team.team_id}')"` : '';
     return `<tr${clickable}>
 <td class="rank-cell"><span class="rn">${r.rank}</span></td>
-<td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span></div></td>
+<td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span>${teamNoteBadge(r.team)}</div></td>
 <td>${r.division||'-'}</td>
 <td>${r.played}</td>
 <td>${r.win}</td>
