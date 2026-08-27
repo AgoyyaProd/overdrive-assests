@@ -1871,9 +1871,14 @@ async function loadScheduleAllSplits() {
 // Power Ranking is a cross-division table keyed by display name rather than team_id,
 // so each row is matched back to a team record to recover its logo. Unmatched rows
 // (open-circuit teams with no entry in the Teams tab) still render, without a logo.
-async function lRank() {
-  const t = await gv('POWER RANKING');
-  if (!t) { S.rank = []; console.warn('[Rank] No data from GViz'); return; }
+// Shared by lRank()/lOver(): both aggregate points/scores from a sheet where a
+// row's team_id can be an id that no longer exists in the Teams tab at all - not
+// just renamed in place, but fully succeeded by a new team_id (Team_History's
+// predecessor_id), like geng_x_weibo being succeeded by weibo_x_fut. A plain
+// index of the Teams tab's own team_id/team_name/team_short can't resolve that
+// old id, so every predecessor_id (and the historical name/short recorded
+// alongside it) gets indexed too, pointing at the team that carries it forward.
+function buildTeamNameIndex() {
   const norm = s => String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
   const byName = {};
   Object.values(S.teams).forEach(tm => {
@@ -1881,6 +1886,21 @@ async function lRank() {
     if (tm.team_short) byName[norm(tm.team_short)] = tm;
     if (tm.team_id)    byName[norm(tm.team_id)]    = tm;
   });
+  Object.entries(S.teamHistory || {}).forEach(([tid, bySplit]) => {
+    const tm = S.teams[tid];
+    if (!tm) return;
+    Object.values(bySplit).forEach(h => {
+      if (h.predecessor_id && !byName[norm(h.predecessor_id)]) byName[norm(h.predecessor_id)] = tm;
+      if (h.team_name && !byName[norm(h.team_name)]) byName[norm(h.team_name)] = tm;
+      if (h.team_short && !byName[norm(h.team_short)]) byName[norm(h.team_short)] = tm;
+    });
+  });
+  return { byName, norm };
+}
+async function lRank() {
+  const t = await gv('POWER RANKING');
+  if (!t) { S.rank = []; console.warn('[Rank] No data from GViz'); return; }
+  const { byName, norm } = buildTeamNameIndex();
   S.rank = t.rows
     .filter(r => r.c?.some(c => c?.v != null))
     .map(r => {
@@ -1920,13 +1940,7 @@ function currentSeasonYear() {
   return splitYear(active) || S.seasonYear || String(new Date().getFullYear());
 }
 async function lOver(forYear) {
-  const norm = s => String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
-  const byName = {};
-  Object.values(S.teams).forEach(tm => {
-    if (tm.team_name)  byName[norm(tm.team_name)]  = tm;
-    if (tm.team_short) byName[norm(tm.team_short)] = tm;
-    if (tm.team_id)    byName[norm(tm.team_id)]    = tm;
-  });
+  const { byName, norm } = buildTeamNameIndex();
 
   const year = forYear || S.overYear || currentSeasonYear();
   S.overYear = year;
