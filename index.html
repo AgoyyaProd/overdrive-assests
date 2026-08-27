@@ -1890,7 +1890,12 @@ function buildTeamNameIndex() {
     const tm = S.teams[tid];
     if (!tm) return;
     Object.values(bySplit).forEach(h => {
-      if (h.predecessor_id && !byName[norm(h.predecessor_id)]) byName[norm(h.predecessor_id)] = tm;
+      // predecessor_id is an explicit, authoritative "this old id/name now means
+      // me" declaration - it always wins, even overriding that old id's own entry
+      // if it's still separately registered in the Teams tab (kept there for its
+      // own historical record, which doesn't mean OVPTS or scores still logged
+      // under the old id should keep pointing at it instead of its successor).
+      if (h.predecessor_id) byName[norm(h.predecessor_id)] = tm;
       if (h.team_name && !byName[norm(h.team_name)]) byName[norm(h.team_name)] = tm;
       if (h.team_short && !byName[norm(h.team_short)]) byName[norm(h.team_short)] = tm;
     });
