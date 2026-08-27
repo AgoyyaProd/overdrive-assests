@@ -2315,7 +2315,7 @@ async function openTeamModal(teamId) {
         // bracket (row.team_id), not necessarily today's teamId.
         if (placements) placement = placements[row?.team_id] || null;
       }
-      return { rank: row?.rank, champion: !!row?.champion, startDiv, div: inD1?'1':(inD2?'2':null), d1Size:d1.length, d2Size:d2.length, buckets, placement };
+      return { rank: row?.rank, champion: !!row?.champion, startDiv, div: inD1?'1':(inD2?'2':null), d1Size:d1.length, d2Size:d2.length, buckets, placement, historicalTeamId: row?.team_id || null };
     }
 
     const cur = await teamSplitData(curSplitId);
@@ -2326,7 +2326,7 @@ async function openTeamModal(teamId) {
     const streak = computeBiggestStreak(lineage, allSchedRows);
 
     const others = S.splits.filter(s => s.split_id !== curSplitId);
-    const otherResults = await Promise.all(others.map(async s => ({ label: s.label || s.split_id, ...(await teamSplitData(s.split_id)) })));
+    const otherResults = await Promise.all(others.map(async s => ({ label: s.label || s.split_id, splitId: s.split_id, ...(await teamSplitData(s.split_id)) })));
     const titleCount = (cur.champion ? 1 : 0) + otherResults.filter(r => r.champion).length;
 
     curEl.innerHTML = [
@@ -2352,9 +2352,18 @@ async function openTeamModal(teamId) {
           <span>${x.label}</span>
           <span style="color:var(--acc);font-weight:700">${x.value}</span>
         </div>`).join('');
+      // The team may have played this split under a different name/roster (a
+      // predecessor in the lineage) - teamFor() resolves what it was actually
+      // called then, same lookup the Standings note badge uses, so a rename
+      // reads as "Spring 2026 - Division 1 - Orgless" rather than silently
+      // relabelling that season with the current name.
+      const histTeam = r.historicalTeamId ? teamFor(r.historicalTeamId, r.splitId) : null;
+      const wasRenamed = histTeam && typeof histTeam === 'object' && sameTeamId(histTeam.team_id, teamId) === false;
+      const histPlayers = wasRenamed ? [histTeam.player1, histTeam.player2].filter(Boolean).join(' & ') : '';
       return `
       <div class="mo-map" style="flex-direction:column;align-items:stretch;gap:10px;padding:18px 20px">
-        <div class="mo-map-name">${r.label}${r.div ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${divLabel(r.div)}</span>` : ''}</div>
+        <div class="mo-map-name">${r.label}${r.div ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${divLabel(r.div)}</span>` : ''}${wasRenamed ? ` <span style="color:var(--muted);font-weight:500;font-size:11px">- ${histTeam.team_name}</span>` : ''}</div>
+        ${histPlayers ? `<div style="font-family:var(--ft);font-size:11px;color:var(--muted);opacity:.75;margin-top:-4px">${histPlayers}</div>` : ''}
         <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--ft);font-size:13px;color:var(--muted)">
           <span>Regular Season</span>
           <span style="color:var(--txt);font-weight:700">${reg.w}-${reg.l}${r.rank ? ` - ${ordinal(r.rank)}` : ''}${autoLabel2 ? ` - ${autoLabel2}` : ''}</span>
@@ -2371,16 +2380,26 @@ function tph(letter, sz=80, cls='') {
   const style = cls ? '' : `width:${sz}px;height:${sz}px;`;
   return `<div class="tp${cls?' '+cls:''}" style="${style}">${letter||''}</div>`;
 }
-function tlogoFallback(img, letter, sz, cls) {
+// Renders the default OverDrive mark in the same sized/classed wrapper tlogo()
+// uses for a real logo - the shared fallback for a team with no logo_url, or
+// whose logo_url 404s. A second onerror on this <img> falls back to the old
+// letter-circle only as a last resort, in case S.defaultLogo is itself missing
+// or broken (so something always renders, never a blank/broken image icon).
+function tlogoImg(url, sz, cls, letter) {
+  const style = cls ? 'flex-shrink:0' : `width:${sz}px;height:${sz}px;flex-shrink:0`;
+  const safeLetter = (letter||'?').replace(/'/g,"\\'");
+  return `<div${cls?` class="${cls}"`:''} style="${style}"><img src="${url}" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.outerHTML=tph('${safeLetter}',${sz},'${cls}')" alt=""></div>`;
+}
+function tlogoFallback(img, sz, cls, letter) {
   const wrap = img.parentElement;
-  if (wrap) wrap.outerHTML = tph(letter, sz, cls);
+  if (wrap) wrap.outerHTML = S.defaultLogo ? tlogoImg(S.defaultLogo, sz, cls, letter) : tph(letter, sz, cls);
 }
 function tlogo(team, sz=80, cls='') {
   const letter = (team?.team_name||'?')[0];
-  if (!team?.logo_url) return tph(letter, sz, cls);
+  if (!team?.logo_url) return S.defaultLogo ? tlogoImg(S.defaultLogo, sz, cls, letter) : tph(letter, sz, cls);
   const safeLetter = letter.replace(/'/g,"\\'");
   const style = cls ? 'flex-shrink:0' : `width:${sz}px;height:${sz}px;flex-shrink:0`;
-  return `<div${cls?` class="${cls}"`:''} style="${style}"><img src="${team.logo_url}" style="width:100%;height:100%;object-fit:contain" onerror="tlogoFallback(this,'${safeLetter}',${sz},'${cls}')" alt=""></div>`;
+  return `<div${cls?` class="${cls}"`:''} style="${style}"><img src="${team.logo_url}" style="width:100%;height:100%;object-fit:contain" onerror="tlogoFallback(this,${sz},'${cls}','${safeLetter}')" alt=""></div>`;
 }
 function sb(st) {
   const key = (st||'').toLowerCase().trim();
