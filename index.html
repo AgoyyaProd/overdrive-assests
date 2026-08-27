@@ -265,6 +265,7 @@ footer{
 .sl-label{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 /* big titles – area extended uniquement */
 .dt{font-family:var(--ft);font-weight:900;font-size:54px;text-transform:uppercase;line-height:.9;margin-bottom:32px}
+.dt em{font-style:normal;color:var(--acc)}
 
 /* ━━━ SCHEDULE DAY NAVIGATOR ━━━━━━━━━━━━━━━━ */
 .sch-nav{display:flex;align-items:center;margin-bottom:28px}
@@ -645,6 +646,13 @@ footer{
 .stt td{padding:14px 16px;text-align:center;font-family:var(--ft);font-weight:700;font-size:19px;font-variant-numeric:tabular-nums;background:var(--row);border-top:1px solid rgba(255,255,255,.02)}
 .stt td:first-child{padding-left:20px;text-align:left;font-family:var(--ft);font-size:20px;font-weight:900}
 .stt td:nth-child(2){text-align:left}.st-tname{font-family:var(--ft);font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+/* Team note badge (roster/rename history) - a small "i" next to a team's name on
+   Standings, shown only when Team_History has a note for that team at the current
+   split. Fixed-position popover since this renders inside many differently
+   structured table cells that can't be assumed to have a positioned ancestor. */
+.tnote{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-left:6px;border-radius:50%;border:1px solid var(--muted);color:var(--muted);font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:10px;cursor:pointer;flex-shrink:0;transition:border-color .15s,color .15s;vertical-align:middle}
+.tnote:hover{border-color:var(--acc);color:var(--acc)}
+.tnote-pop{position:fixed;z-index:500;background:#151515;border:1px solid var(--brd2);padding:10px 12px;font-family:var(--ft);font-weight:500;font-size:12px;line-height:1.6;color:var(--txt);box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .stt tr.pl td{background:var(--gold)}
 /* Overpoints qualification bands: top 4 straight to the playoffs (same gold the
    standings use), 5th to 32nd into the wildcards, tinted lighter to read as a
@@ -1400,6 +1408,96 @@ async function lTeams() {
   const noLogoId = Object.keys(S.teams).find(id => id.toLowerCase() === 'no_logo');
   S.defaultLogo = (noLogoId && S.teams[noLogoId]?.logo_url) || '';
   if (noLogoId) delete S.teams[noLogoId];
+}
+// A team's name, logo, and roster can change between splits (renames, rebrands,
+// roster moves) — editing the Teams tab in place would rewrite that identity
+// retroactively across every past result too. Team_History holds one row per
+// team_id + split_id with whatever was true THAT split; any field left blank
+// falls back to the split before it, or to the base Teams-tab row if nothing in
+// its history overrides it either. An optional note (shown as a small clickable
+// "i" badge next to the name) explains what changed, mirroring Liquipedia's
+// "formerly X" footnotes.
+async function lTeamHistory() {
+  const t = await gv('Team_History');
+  S.teamHistory = {};
+  if (!t) return;
+  const bySplitOrder = {};
+  t2o(t).forEach(r => {
+    if (!r.team_id || !r.split_id) return;
+    if (!S.teamHistory[r.team_id]) S.teamHistory[r.team_id] = {};
+    const rawLogo = String(r.logo_url || '');
+    S.teamHistory[r.team_id][r.split_id] = {
+      team_name: r.display_name ? dn(r.display_name) : '',
+      team_short: r.display_short ? dn(r.display_short) : '',
+      logo_url: rawLogo.startsWith('http') ? rawLogo : '',
+      player1: r.player1 || '', player2: r.player2 || '',
+      sub1: r.sub1 || '', sub2: r.sub2 || '',
+      note: r.note || '',
+    };
+  });
+}
+// Resolves how a team should appear for one specific split: history override for
+// that split first, then the base Teams-tab record for whatever fields the
+// override left blank, then the split immediately before it (a rename recorded
+// once should keep applying forward until the next change), so ongoing splits
+// don't need a repeated identical row every season. Pass a raw id string or an
+// already-looked-up team object; unregistered names pass through unchanged.
+function teamFor(teamOrId, splitId) {
+  if (!teamOrId) return teamOrId;
+  const key = typeof teamOrId === 'string' ? teamOrId : teamOrId.team_id;
+  if (!key) return teamOrId;
+  const base = S.teams[key] || S.teams[(key || '').toLowerCase()] || (typeof teamOrId === 'object' ? teamOrId : null);
+  const bySplit = S.teamHistory?.[key];
+  if (!bySplit || !splitId) return base || teamOrId;
+  // Walk splits at or before the requested one, most recent first, so a change
+  // made in an earlier split keeps applying until a later split overrides it
+  // again - without needing a duplicate row every season nothing changed.
+  const order = (S.splits || []).map(s => s.split_id);
+  const idx = order.indexOf(splitId);
+  const candidates = idx === -1 ? [splitId] : order.slice(0, idx + 1).reverse();
+  let hist = null;
+  for (const sid of candidates) { if (bySplit[sid]) { hist = bySplit[sid]; break; } }
+  if (!hist) return base || teamOrId;
+  return {
+    ...(base || { team_id: key }),
+    team_name: hist.team_name || base?.team_name || key,
+    team_short: hist.team_short || base?.team_short || '',
+    logo_url: hist.logo_url || base?.logo_url || '',
+    player1: hist.player1 || base?.player1 || '',
+    player2: hist.player2 || base?.player2 || '',
+    sub1: hist.sub1 || base?.sub1 || '',
+    sub2: hist.sub2 || base?.sub2 || '',
+    _note: hist.note || '',
+  };
+}
+// Small "i" badge rendered next to a team's name when teamFor() found a note for
+// that split; click toggles a fixed-position popover with the note text. Fixed
+// positioning (computed from the badge's own rect) rather than a parent-relative
+// popover, since this gets used inside dozens of differently-structured
+// containers across the site and can't assume a positioned ancestor.
+function teamNoteBadge(team) {
+  if (!team?._note) return '';
+  const safe = String(team._note).replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  return `<span class="tnote" onclick="event.stopPropagation();toggleTeamNote(this)" data-note="${safe}">i</span>`;
+}
+function toggleTeamNote(el) {
+  const existing = document.querySelector('.tnote-pop');
+  const reopening = existing && existing._forEl === el;
+  if (existing) existing.remove();
+  if (reopening) return;
+  const pop = document.createElement('div');
+  pop.className = 'tnote-pop';
+  pop.textContent = el.dataset.note;
+  document.body.appendChild(pop);
+  pop._forEl = el;
+  const r = el.getBoundingClientRect();
+  const w = Math.min(280, window.innerWidth - 24);
+  pop.style.width = w + 'px';
+  pop.style.left = Math.max(12, Math.min(r.left, window.innerWidth - w - 12)) + 'px';
+  pop.style.top = (r.bottom + 6) + 'px';
+  setTimeout(() => document.addEventListener('click', function close(e) {
+    if (!pop.contains(e.target) && e.target !== el) { pop.remove(); document.removeEventListener('click', close); }
+  }), 0);
 }
 function isOpenDivision(div) {
   const d = (div||'').toString().trim();
@@ -2662,9 +2760,13 @@ function stTab(rows, div) {
   const trs = rows.map(r => {
     const z = zone(r.rank, r.champion);
     const diff = r.track_diff!=null ? (+r.track_diff>0?'+':'')+r.track_diff : '-';
-    const logo = `<div class="tlogo-box">${tlogo(r.team, 90)}</div>`;
-    const teamName = `${r.team?.team_name||r.team_id||'?'}`;
-    return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="st-tname">${teamName}</span></div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
+    // Resolved against the split this table is showing, so a rename/logo/roster
+    // change recorded in Team_History only ever affects the splits it actually
+    // applies to - older splits keep showing the team as it was at the time.
+    const team = teamFor(r.team || r.team_id, S.act);
+    const logo = `<div class="tlogo-box">${tlogo(team, 90)}</div>`;
+    const teamName = `${team?.team_name||r.team_id||'?'}`;
+    return `<tr class="${z}"><td class="rank-cell"><span class="rn">${r.rank}</span></td><td class="team-cell"><div class="tc">${logo}<span class="st-tname">${teamName}</span>${teamNoteBadge(team)}</div></td><td>${r.matches_p||0}</td><td>${r.matches_w||0}</td><td>${r.matches_l||0}</td><td>${r.tracks_w||0}</td><td>${r.tracks_l||0}</td><td>${diff}</td><td class="pts">${r.points||0}</td></tr>`;
   });
   const trsJoined = stRowGap(trs, 9);
   return `<div class="st-wrap"><table class="stt"><thead><tr><th>Rank</th><th>Team</th><th><span class="th-tip" data-tip="Match Played">P</span></th><th><span class="th-tip" data-tip="Match Win">W</span></th><th><span class="th-tip" data-tip="Match Loss">L</span></th><th><span class="th-tip" data-tip="Map Win">MW</span></th><th><span class="th-tip" data-tip="Map Loss">ML</span></th><th><span class="th-tip" data-tip="Difference +/-">DIFF</span></th><th><span class="th-tip" data-tip="Points">PTS</span></th></tr></thead><tbody>${trsJoined}</tbody></table></div>${stWrapHint()}`;
@@ -3555,7 +3657,7 @@ ${sec('03', 'The floor')}
 function pgAbout() {
   return `<div class="pg">
 <div class="abh-text" style="max-width:640px">
-<h1 class="ab-h1">BUILT FOR<br>THE <em>LONG GAME</em></h1>
+<div class="dt">BUILT FOR<br>THE <em>LONG GAME</em></div>
 <p class="ab-p">A Trackmania event project driven by well-known figures from the community: a competitive scene built for the people who live it - players, organizations, and fans. Not chasing the instant hit - a strong identity, clean production, a story built to last.</p>
 <div class="abh-cta">
 <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
@@ -4182,6 +4284,7 @@ async function init() {
     await lCfg();
     await lSplits();
     await lTeams();
+    await lTeamHistory();
     await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), lOver(), loadHomeSplitData(), loadScheduleAllSplits()]);
   } catch(e) {
     console.error('Init error:', e);
