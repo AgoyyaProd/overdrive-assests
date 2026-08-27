@@ -2031,7 +2031,15 @@ async function lOver(forYear) {
   }
 
   S.over = Object.values(totals)
-    .map(o => ({ ...o, team: byName[norm(o.team_name)] || null }))
+    .map(o => {
+      const team = byName[norm(o.team_name)] || null;
+      // Overpoints is a cumulative, current-moment ranking (not tied to one split
+      // the way Standings is), so it always shows whatever the team is called
+      // right now - team.team_name from the Teams tab - rather than the literal
+      // text found in the OVPTS source rows, which can go stale after a rename
+      // even though the team match itself (by id/short/old name) still resolves.
+      return { ...o, team, team_name: team?.team_name || o.team_name };
+    })
     .sort((a, b) => b.pts - a.pts || a.team_name.localeCompare(b.team_name))
     .map((o, i) => ({ ...o, rank: i + 1 }));
 }
@@ -3698,12 +3706,16 @@ function pgOverpoints() {
   const trs = rows.map(r => {
     const zone = r.rank <= OVER_PLAYOFF_CUT ? 'ov-po'
                : r.rank <= OVER_WILDCARD_CUT ? 'ov-wc' : '';
-    const teamForLogo = r.team || { team_name: r.team_name, logo_url: S.defaultLogo };
+    // Overpoints has no single split of its own (it's a cumulative total), so the
+    // note badge - like the name fix above - resolves against whichever split is
+    // currently active, the closest thing this page has to "right now".
+    const resolvedTeam = r.team ? teamFor(r.team, S.configActiveSplit || S.act) : null;
+    const teamForLogo = resolvedTeam || { team_name: r.team_name, logo_url: S.defaultLogo };
     const logo = `<div class="tlogo-box">${tlogo(teamForLogo, 90)}</div>`;
     const clickable = r.team ? ` style="cursor:pointer" onclick="openTeamModal('${r.team.team_id}')"` : '';
     return `<tr class="${zone}"${clickable}>
 <td class="rank-cell"><span class="rn">${r.rank}</span></td>
-<td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span></div></td>
+<td class="team-cell"><div class="tc">${logo}<span class="st-tname">${r.team_name}</span>${teamNoteBadge(resolvedTeam)}</div></td>
 <td class="pts">${r.pts}</td>
 </tr>`;
   });
