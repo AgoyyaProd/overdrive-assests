@@ -7,17 +7,17 @@
 <meta name="description" content="OverDrive - Event Organizer - standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
 <meta property="og:title" content="OverDrive - Event Organizer">
 <meta property="og:description" content="Standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
-<meta property="og:image" content="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg">
+<meta property="og:image" content="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/logo-brand.svg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link id="favicon" rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/favicon.svg">
+<link id="favicon" rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/favicon.svg">
 <script>
 // The logo is white-on-transparent by default (visible on dark browser tabs/OS themes)
 // but swaps to a black-on-transparent version when the user's system is in light mode,
 // so the tab icon stays visible either way.
 (function() {
-  var FAVICON_WHITE = "https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/favicon.svg";
-  var FAVICON_BLACK = "https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/favicon-black.svg";
+  var FAVICON_WHITE = "https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/favicon.svg";
+  var FAVICON_BLACK = "https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/favicon-black.svg";
   function applyFavicon() {
     var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
     var link = document.getElementById('favicon');
@@ -77,7 +77,7 @@ body::before{
 #nav{
   position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:1000;
   background-color:transparent;
-  background-image:url('https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/nav-footer-texture.jpg');
+  background-image:url('https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/nav-footer-texture.jpg');
   background-size:cover;background-position:center;
   border-bottom:1px solid rgba(255,255,255,.12);
 }
@@ -202,7 +202,7 @@ body::before{
 footer{
   border-top:1px solid rgba(255,255,255,.12);
   background-color:transparent;
-  background-image:url('https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/nav-footer-texture.jpg');
+  background-image:url('https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/nav-footer-texture.jpg');
   background-size:cover;background-position:center;position:relative;
 }
 .fi{position:relative;z-index:2;width:66%;max-width:3200px;margin:0 auto;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
@@ -301,6 +301,43 @@ footer{
 .legal-sec{font-family:var(--ft);font-weight:900;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--txt);margin:32px 0 12px}
 .legal-sec.first{margin-top:28px}
 @media(max-width:600px){.legal-sec{font-size:13px;margin:26px 0 10px}.legal-sec.first{margin-top:20px}}
+
+/* "Play Yourself" reuses the same section-header/paragraph pattern as Legal/
+   Privacy, but reads as a proper explainer page rather than a document - sized
+   up a step from .legal-sec/.ab-p's compact, legal-text scale. */
+.htp-sec{font-family:var(--ft);font-weight:900;font-size:19px;letter-spacing:.02em;text-transform:uppercase;color:var(--txt);margin:36px 0 14px}
+.htp-sec.first{margin-top:30px}
+.htp-p{font-family:var(--ft);font-weight:300;font-size:15px;line-height:1.85;color:var(--muted);margin-bottom:12px}
+@media(max-width:600px){.htp-sec{font-size:16px;margin:28px 0 12px}.htp-sec.first{margin-top:22px}.htp-p{font-size:14px}}
+
+/* ━━━ MEDIA KIT ━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mk-sub{font-family:var(--ft);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 0 12px}
+.mk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:8px}
+.mk-grid-5{grid-template-columns:repeat(5,1fr)}
+.mk-card{position:relative;background:var(--bg-c2);border:1px solid var(--brd);overflow:hidden}
+.mk-preview{aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:22px}
+.mk-preview img{width:100%;height:100%;object-fit:contain}
+.mk-label{padding:10px 12px 14px;font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:center;border-top:1px solid var(--brd)}
+/* Hover reveals a full-card download overlay rather than a small corner button -
+   a bigger, unambiguous target, and it doesn't compete for space with the small
+   preview image underneath it. */
+.mk-dl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:rgba(10,10,10,.92);color:var(--txt);text-decoration:none;opacity:0;transition:opacity .15s;cursor:pointer}
+.mk-card:hover .mk-dl{opacity:1}
+.mk-dl svg{width:26px;height:26px;color:var(--acc)}
+.mk-dl span{font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+@media(max-width:900px){.mk-grid{grid-template-columns:repeat(2,1fr)}.mk-grid-5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:500px){
+  .mk-grid{gap:10px}
+  .mk-grid-5{grid-template-columns:repeat(2,1fr)}
+  .mk-label{font-size:9px;padding:8px 8px 10px}
+  .mk-dl svg{width:20px;height:20px}
+  .mk-dl span{font-size:9px}
+  /* Hover doesn't really exist on touch - the overlay stays lightly visible so
+     there's still an obvious tap target instead of relying on a hover that
+     won't fire. */
+  .mk-dl{opacity:.9;background:rgba(10,10,10,.75)}
+}
 
 /* ━━━ CONTACT FORM ━━━━━━━━━━━━━━━━━━━━━━━━ */
 .cf{max-width:520px;margin:36px auto 0;display:flex;flex-direction:column;gap:20px}
@@ -1112,7 +1149,7 @@ footer{
   <div class="ni">
     <!-- Brand -->
     <div class="nb" onclick="go('home')">
-      <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg" alt="OverDrive" style="height:36px;object-fit:contain;display:block" onerror="this.style.display='none'">
+      <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/logo-brand.svg" alt="OverDrive" style="height:36px;object-fit:contain;display:block" onerror="this.style.display='none'">
     </div>
 
     <!-- Links -->
@@ -1217,7 +1254,7 @@ footer{
 <div class="pg" style="padding-top:var(--block-gap)">
   <div class="dt-md" style="font-family:var(--ft);margin-bottom:22px">SPONSORS</div>
   <div class="sponsors-row">
-    <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/sponsors-strip.svg" alt="Ubisoft Nadeo" class="sponsor-logo">
+    <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/sponsors-strip.svg" alt="Ubisoft Nadeo" class="sponsor-logo">
   </div>
 </div>
 
@@ -1232,7 +1269,7 @@ footer{
 <footer>
   <div class="fi">
     <div class="fb2">
-      <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/logo-brand.svg" alt="OverDrive" style="height:36px;object-fit:contain">
+      <img src="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/logo-brand.svg" alt="OverDrive" style="height:36px;object-fit:contain">
     </div>
     <div class="fr-block">
       <div class="fsoc">
@@ -1243,7 +1280,7 @@ footer{
         <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2s-.2-1.6-.9-2.4c-.9-.9-1.9-.9-2.4-1C16.4 3.6 12 3.6 12 3.6h0s-4.4 0-7.7.2c-.5 0-1.5.1-2.4 1-.7.8-.9 2.4-.9 2.4S.8 9 .8 10.9v1.8c0 1.9.2 3.7.2 3.7s.2 1.6.9 2.4c.9.9 2 .9 2.6 1 1.9.2 7.7.2 7.7.2s4.4 0 7.7-.2c.5 0 1.5-.1 2.4-1 .7-.8.9-2.4.9-2.4s.2-1.9.2-3.7v-1.8c0-1.9-.2-3.7-.2-3.7zM9.7 15.3V8.5l6.4 3.4z"/></svg></a>
       </div>
       <div class="fc2">© 2026 OverDrive. All rights reserved.</div>
-      <div class="fl2"><a onclick="go('about')">The Site</a> - <a onclick="go('contact')">Contact Us</a> - <a onclick="go('legal')">Legal Notice</a> - <a onclick="go('privacy')">Privacy</a></div>
+      <div class="fl2"><a onclick="go('about')">The Site</a> - <a onclick="go('howtoplay')">Play</a> - <a onclick="go('contact')">Contact Us</a> - <a onclick="go('legal')">Legal Notice</a> - <a onclick="go('privacy')">Privacy</a></div>
     </div>
   </div>
 </footer>
@@ -1255,30 +1292,30 @@ const PUB_KEY = '2PACX-1vS2BK9BKnaeWyswMDBCN4ZQfD1ds4_7gR1mnLq0JYudStfgav9zgfCpX
 const TWITCH_CH = 'overdrive_tm';
 // ─── TEAM LOGOS (Drive file IDs) ───────────────────────────────────────────
 const LOGOS = {
-  'big':           'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/BIG.svg',
-  'all_gamers':    'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/AllGamers.svg',
-  'pacb':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/PACB.svg',
-  'geng_x_weibo':  'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/GenG_Weibo.svg',
-  'fut':           'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/FUT_Esport.svg',
-  'navi':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Navi.svg',
-  'cook':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/COOK.svg',
-  's8ul':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/S8UL.svg',
-  'orgless':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Orgless.svg',
-  'vp_x_neon':     'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Virtus_Pro.svg',
-  'shift':         'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/SHIFT.svg',
-  'tempobros':     'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/TempoBros_short.svg',
-  'bs_plus':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/BS%2B.svg',
-  'ragnarok':      'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Ragnarok.svg',
-  'team_heretics': 'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Team_Heretics.svg',
-  'loading':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Loading.svg',
-  'va_bene':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/VaBene.svg',
-  'evolupegg':     'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/EvolupeGG.svg',
-  'halcyon':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Halcyon.svg',
-  'piwo':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Piwo.svg',
-  'rex_regum_qeon':'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/RRQ.svg',
-  'aurora_skuf':   'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Aurora.svg',
-  'brothers':      'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/Brothers.svg',
-  'unc_racing':    'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assests/main/UNC_Racing.svg',
+  'big':           'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/BIG.svg',
+  'all_gamers':    'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/AllGamers.svg',
+  'pacb':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/PACB.svg',
+  'geng_x_weibo':  'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/GenG_Weibo.svg',
+  'fut':           'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/FUT_Esport.svg',
+  'navi':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Navi.svg',
+  'cook':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/COOK.svg',
+  's8ul':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/S8UL.svg',
+  'orgless':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Orgless.svg',
+  'vp_x_neon':     'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Virtus_Pro.svg',
+  'shift':         'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/SHIFT.svg',
+  'tempobros':     'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/TempoBros_short.svg',
+  'bs_plus':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/BS%2B.svg',
+  'ragnarok':      'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Ragnarok.svg',
+  'team_heretics': 'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Team_Heretics.svg',
+  'loading':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Loading.svg',
+  'va_bene':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/VaBene.svg',
+  'evolupegg':     'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/EvolupeGG.svg',
+  'halcyon':       'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Halcyon.svg',
+  'piwo':          'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Piwo.svg',
+  'rex_regum_qeon':'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/RRQ.svg',
+  'aurora_skuf':   'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Aurora.svg',
+  'brothers':      'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/Brothers.svg',
+  'unc_racing':    'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/UNC_Racing.svg',
 };
 
 
@@ -3843,27 +3880,85 @@ ${sec('03', 'The floor')}
 </div>`;
 }
 
+// Brand kit. Two genuinely different file-naming shapes here, not one pattern
+// reused twice: OverDrive's own mark comes in 5 colour variants per type
+// (Overdrive_Logo_black, Overdrive_Logomark_alt_white...), while each region's
+// mark has no colour variants at all, just one file per type - and even the
+// "alt" type is named differently between the two ("Logomark_alt" for OverDrive
+// vs "Logo_alt" for regions). Kept as explicit per-group data rather than one
+// shared variants list, since forcing them into the same shape is what caused
+// the first version of this page to guess wrong.
+const MEDIA_ASSET_BASE = 'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/logos';
+const MEDIA_COLORS = ['black', 'red', 'yellow', 'grey', 'white'];
+const OVERDRIVE_TYPES = [
+  { key: 'Logo',          label: 'Logo' },
+  { key: 'Logomark',      label: 'Logomark' },
+  { key: 'Logomark_alt',  label: 'Logomark Alt' },
+  { key: 'Logotype',      label: 'Logotype' },
+];
+const REGION_TYPES = [
+  { key: 'Logo',      label: 'Logo' },
+  { key: 'Logo_alt',  label: 'Logo Alt' },
+  { key: 'Logomark',  label: 'Logomark' },
+  { key: 'Logotype',  label: 'Logotype' },
+];
+const MEDIA_REGIONS = [
+  { key: 'EMEA', label: 'EMEA' },
+  { key: 'APAC', label: 'APAC' },
+  { key: 'AMERICAS', label: 'AMERICAS' },
+];
+function mediaCard(filename, label) {
+  const url = `${MEDIA_ASSET_BASE}/${filename}.svg`;
+  return `<div class="mk-card">
+  <div class="mk-preview"><img src="${url}" alt="${label}" loading="lazy"></div>
+  <div class="mk-label">${label}</div>
+  <a class="mk-dl" href="${url}" download="${filename}.svg" aria-label="Download ${label}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+    <span>Download</span>
+  </a>
+</div>`;
+}
+function pgMedia() {
+  // OverDrive: one row per type, one card per colour within that row.
+  const overdriveSection = OVERDRIVE_TYPES.map(t => `
+  <div class="mk-sub">${t.label}</div>
+  <div class="mk-grid mk-grid-5">${MEDIA_COLORS.map(c => mediaCard(`Overdrive_${t.key}_${c}`, `${t.label} (${c})`)).join('')}</div>
+`).join('');
+  // Regionals: one subsection per region, one card per type (no colour variant).
+  const regionalSection = MEDIA_REGIONS.map(r => `
+  <div class="mk-sub">${r.label}</div>
+  <div class="mk-grid">${REGION_TYPES.map(t => mediaCard(`Overdrive_${t.key}_${r.key}`, t.label)).join('')}</div>
+`).join('');
+  return `<div class="pg">
+<div class="dt">MEDIA KIT</div>
+<p class="htp-p">OverDrive's own marks and each region's, ready to use. Hover any logo to download the file.</p>
+<div class="legal-sec first">OVERDRIVE</div>
+${overdriveSection}
+<div class="legal-sec">REGIONALS</div>
+${regionalSection}
+</div>`;
+}
 function pgHowToPlay() {
   return `<div class="pg">
 <div class="dt">PLAY YOURSELF</div>
-<p class="ab-p">Here's how the OverDrive competitive ladder actually works, from your first Open Qualifier match to the top of Division 1.</p>
+<p class="htp-p">Here's how the OverDrive competitive ladder actually works, from your first Open Qualifier match to the top of Division 1.</p>
 
-<div class="legal-sec first">DIVISION 1 & DIVISION 2</div>
-<p class="ab-p">The core league is split into two divisions. Division 1 is the top tier - the best 2v2 duos in OverDrive, playing every split for the title and a direct playoffs spot. Division 2 sits just below it: a genuine path up, not a consolation bracket, with real stakes of its own every split.</p>
+<div class="htp-sec first">DIVISION 1 & DIVISION 2</div>
+<p class="htp-p">The core league is split into two divisions. Division 1 is the top tier: the best 2v2 duos in OverDrive, playing every split for the title and a direct playoffs spot. Division 2 sits just below it. It's a genuine path up, not a consolation bracket, with real stakes of its own every split.</p>
 
-<div class="legal-sec">BARRAGE</div>
-<p class="ab-p">Divisions aren't fixed. At the end of each split, the bottom of Division 1 and the top of Division 2 meet in the Barrage - a direct promotion/relegation series. Win it as a Division 2 side and you're up; lose it as a Division 1 side and you're down. It's the mechanism that keeps both divisions honest.</p>
+<div class="htp-sec">BARRAGE</div>
+<p class="htp-p">Divisions aren't fixed. At the end of each split, the bottom of Division 1 and the top of Division 2 meet in the Barrage, a direct promotion/relegation series. Win it as a Division 2 side and you're up. Lose it as a Division 1 side and you're down. It's the mechanism that keeps both divisions honest.</p>
 
-<div class="legal-sec">OPEN QUALIFIER</div>
-<p class="ab-p">Division 1, Division 2 and the Barrage are for teams already inside the league. The Open Qualifier is how everyone else gets in - open to any duo, no invite needed.</p>
+<div class="htp-sec">OPEN QUALIFIER</div>
+<p class="htp-p">Division 1, Division 2 and the Barrage are for teams already inside the league. The Open Qualifier is how everyone else gets in, open to any duo, no invite needed.</p>
 
-<div class="legal-sec">OPEN QUALIFIER &amp; CONTINENTALS</div>
-<p class="ab-p">The Open Qualifier runs across three regions - EMEA, APAC and NCSA - each playing through 8 qualifier steps, two per weekend, over four weekends. Every step is its own bracket: show up, win your matches, and you're through.</p>
-<p class="ab-p">What "through" means depends on the region. In APAC and NCSA, the winner of each qualifier step earns their spot at Continentals - one team, straight through. EMEA sends two: both finalists of each EMEA qualifier step - the winner and the runner-up - advance to Continentals, not just the champion.</p>
-<p class="ab-p">Continentals is where those qualified teams meet regionally to fight for a route into the main OverDrive league itself - the bridge between "just starting out" and Division 1 or Division 2.</p>
+<div class="htp-sec">OPEN QUALIFIER &amp; CONTINENTALS</div>
+<p class="htp-p">The Open Qualifier runs across three regions: EMEA, APAC and NCSA, each playing through 8 qualifier steps, two per weekend, over four weekends. Every step is its own bracket. Show up, win your matches, and you're through.</p>
+<p class="htp-p">What "through" means depends on the region. In APAC and NCSA, the winner of each qualifier step earns their spot at Continentals: one team, straight through. EMEA sends two. Both finalists of each EMEA qualifier step, the winner and the runner-up, advance to Continentals, not just the champion.</p>
+<p class="htp-p">Continentals is where those qualified teams meet regionally to fight for a route into the main OverDrive league itself, the bridge between "just starting out" and Division 1 or Division 2.</p>
 
-<div class="legal-sec">GET IN</div>
-<p class="ab-p">Registrations for the current Open Qualifier split are open now.</p>
+<div class="htp-sec">GET IN</div>
+<p class="htp-p">Registrations for the current Open Qualifier split are open now.</p>
 <div class="ab-btns" style="margin-top:6px">
 <a href="https://trackmania.events/events/overdrive-split-2" target="_blank" class="btn-w">Register for the Open Qualifier</a>
 <a href="https://discord.gg/tZV3Mu3Thb" target="_blank" class="btn-d">Join the Discord</a>
@@ -3891,6 +3986,10 @@ function pgAbout() {
 <p class="ab-p">The project also aims to structure a clear progression and make the top level attainable, with an understandable scene, real stages and real opportunities, without sacrificing competitive standards.</p>
 <p class="ab-p">On the league side, the idea is to build a lasting framework for players and organizations alike: consistency, stakes that matter, visibility that's actively built, and an overall coherence across branding, broadcast, and communication.</p>
 <p class="ab-p">The values behind all of it are simple: a player-first approach, a demand for quality, respect for the community, transparency, and one strong conviction - aim for premium while keeping the scene open, clear, and fair.</p>
+
+<div class="legal-sec">MEDIA KIT</div>
+<p class="ab-p">Logos for OverDrive and every region, ready to download.</p>
+<div class="ab-btns" style="margin-top:6px"><button class="btn-d" onclick="go('media')">View Media Kit</button></div>
 </div>`;
 }
 
@@ -3984,11 +4083,11 @@ You also have the right to lodge a complaint with the CNIL (Commission nationale
 const PAGES = {
   home: pgHome, leagues: pgLeagues, standings: pgStandings,
   schedule: pgSchedule, news: pgNews, articles: pgArticles, article: pgArticle, vods: pgVODs,
-  teams: pgTeams, ranking: pgRanking, overpoints: pgOverpoints, about: pgAbout, howtoplay: pgHowToPlay,
+  teams: pgTeams, ranking: pgRanking, overpoints: pgOverpoints, about: pgAbout, howtoplay: pgHowToPlay, media: pgMedia,
   contact: pgContact, legal: pgLegal, privacy: pgPrivacy,
 };
 // Map page → parent nav item
-const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',overpoints:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',howtoplay:'home',contact:'about',legal:'about',privacy:'about'};
+const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',overpoints:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',howtoplay:'home',media:'about',contact:'about',legal:'about',privacy:'about'};
 
 // renderInPlace – updates content WITHOUT scrolling (toggles, filters…)
 // Marks a scrollable table wrapper as "already scrolled" (hiding the edge fade and
@@ -4085,6 +4184,7 @@ const PAGE_TITLES = {
   article:'News – OverDrive - Event Organizer', vods:'VODs – OverDrive - Event Organizer',
   teams:'Teams – OverDrive - Event Organizer', ranking:'Power Ranking – OverDrive - Event Organizer', overpoints:'Overpoints – OverDrive - Event Organizer', about:'About – OverDrive - Event Organizer',
   howtoplay:'Play Yourself – OverDrive - Event Organizer',
+  media:'Media Kit – OverDrive - Event Organizer',
   contact:'Contact – OverDrive - Event Organizer', legal:'Legal Notice – OverDrive - Event Organizer', privacy:'Privacy – OverDrive - Event Organizer',
 };
 let _navigatingViaGo = false;
