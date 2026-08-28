@@ -237,18 +237,6 @@ footer{
 .fl a:hover{color:var(--txt)}
 .fc{color:var(--dim);font-family:var(--ft);font-size:12px}
 
-/* ━━━ HOME MATCH CARD ━━━━━━━━━━━━━━━━━━━━━━ */
-.hmc{background:var(--bg-c);border:1px solid var(--brd);padding:10px 16px;margin-bottom:8px;cursor:default;transition:border-color .15s}
-.hmc-done{border-left:3px solid var(--acc);cursor:pointer}
-.hmc-done:hover{border-color:var(--acc)}
-.hmc-date{font-family:var(--ft);font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
-.hmc-teams{display:flex;align-items:center;gap:10px;justify-content:space-between}
-.hmc-team{display:flex;align-items:center;gap:8px;flex:1}
-.hmc-team-r{flex-direction:row-reverse;text-align:right}
-.hmc-tn{font-family:var(--ft);font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.hmc-score{font-family:var(--ft);font-size:26px;font-weight:900;color:var(--txt);min-width:80px;text-align:center;flex-shrink:0}
-.hmc-foot{display:flex;align-items:center;justify-content:flex-end;margin-top:8px;gap:8px}
-
 /* ━━━ LOADING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .ldg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:70vh;gap:16px}
 .sp{width:32px;height:32px;border:2.5px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
@@ -396,29 +384,17 @@ footer{
 .pr-sec{display:flex;align-items:center;gap:12px;margin:0 0 20px}
 .pr-sec-i{font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.1em;color:var(--acc)}
 .pr-sec-t{font-family:var(--ft);font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt)}
-.pr-sec-r{flex:1;height:1px;background:var(--brd)}
 .pr-block{margin-bottom:52px}
 .pr-note{font-family:var(--ft);font-weight:500;font-size:13px;line-height:1.75;color:var(--muted);margin-top:16px;text-wrap:pretty}
 .pr-note b{font-weight:700;color:var(--txt)}
 
 /* Base-score cards, styled like the About page stat boxes. */
 .pr-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.pr-card{background:var(--bg-c);border:1px solid var(--brd);padding:22px 24px}
+.pr-card{padding:22px 24px}
 .pr-card-n{font-family:var(--ft);font-weight:900;font-size:32px;line-height:1;margin-bottom:8px}
 .pr-card-l{font-family:var(--ft);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* The four scoring criteria. */
-/* Four across on one row. Each card is narrow at this width, so the copy is kept
-   short and the type stepped down to match. Below ~1200px four columns squeeze the
-   cards under 180px, so it drops to two, then one. */
-.pr-crit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-@media(max-width:1200px){.pr-crit{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.pr-crit{grid-template-columns:1fr}}
-.pr-crit-i{background:var(--bg-c);border:1px solid var(--brd);border-left:2px solid var(--acc);padding:16px 16px}
-.pr-crit-h{font-family:var(--ft);font-weight:900;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt);margin-bottom:7px}
-.pr-crit-d{font-family:var(--ft);font-weight:500;font-size:12px;line-height:1.65;color:var(--muted);text-wrap:pretty}
-.pr-crit-d b{font-weight:700;color:var(--txt)}
-
 /* Stage multipliers: a bar chart reads the weighting faster than a plain list. */
 .pr-mult{display:flex;flex-direction:column;gap:2px;margin-top:14px}
 .pr-m{display:grid;grid-template-columns:170px 1fr 58px;align-items:center;gap:14px;padding:9px 16px;background:rgba(255,255,255,.03)}
@@ -429,57 +405,6 @@ footer{
 @media(max-width:600px){.pr-m{grid-template-columns:120px 1fr 48px;gap:10px;padding:9px 12px}}
 
 /* ━━━ HOME MATCH CARD ━━━━━━━━━━━━━━━━━━━━━━ */
-.hmc{background:var(--bg-c);border:1px solid var(--brd);padding:10px 16px;margin-bottom:8px;cursor:default;transition:border-color .15s}
-.hmc-done{border-left:3px solid var(--acc);cursor:pointer}
-.hmc-done:hover{border-color:var(--acc)}
-.hmc-date{font-family:var(--ft);font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
-.hmc-teams{display:flex;align-items:center;gap:10px;justify-content:space-between}
-.hmc-team{display:flex;align-items:center;gap:8px;flex:1}
-.hmc-team-r{flex-direction:row-reverse;text-align:right}
-.hmc-tn{font-family:var(--ft);font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.hmc-score{font-family:var(--ft);font-size:26px;font-weight:900;color:var(--txt);min-width:80px;text-align:center;flex-shrink:0}
-.hmc-foot{display:flex;align-items:center;justify-content:flex-end;margin-top:8px;gap:8px}
-
-/* ━━━ LOADING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.ldg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:70vh;gap:16px}
-.sp{width:32px;height:32px;border:2.5px solid var(--brd);border-top-color:var(--acc);border-radius:50%;animation:sp .7s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.ldg-l{font-family:var(--ft);font-weight:900;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-
-/* ━━━ PAGE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.pg{width:66%;max-width:3200px;margin:0 auto;padding:var(--section-gap) 40px}
-@media(max-width:768px){.pg{width:100%;padding:56px 20px}}
-
-/* ━━━ TITLE SYSTEM ━━━━━━━━━━━━━━━━━━━━━━━━ */
-/* section eyebrow – area normale */
-.sl{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--txt);opacity:.65;margin-bottom:5px}
-.sl-label{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-/* big titles – area extended uniquement */
-.dt{font-family:var(--ft);font-weight:900;font-size:54px;text-transform:uppercase;line-height:.9;margin-bottom:32px}
-
-/* ━━━ SCHEDULE DAY NAVIGATOR ━━━━━━━━━━━━━━━━ */
-.sch-nav{display:flex;align-items:center;margin-bottom:28px}
-.sch-list{max-height:900px;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;padding-right:8px;scrollbar-width:none;-ms-overflow-style:none}
-.sch-list::-webkit-scrollbar{display:none}
-.sch-list::-webkit-scrollbar{width:6px}
-.sch-list::-webkit-scrollbar-track{background:transparent}
-.sch-list::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:99px}
-.sch-nav-dow{font-family:var(--ft);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
-.sch-nav-ctrl{display:inline-flex;align-items:center;background:rgba(255,255,255,.055);border-radius:999px;padding:5px;gap:3px;flex-shrink:0}
-.sch-arr{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--txt);font-size:19px;cursor:pointer;transition:background .15s;flex-shrink:0}
-.sch-arr:hover{background:rgba(255,255,255,.08)}
-.sch-today{padding:13px 30px;border-radius:999px;font-family:var(--ft);font-weight:900;font-size:16px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .15s}
-.sch-today.on{background:rgba(255,106,0,.88);color:#fff}
-.sch-today:not(.on):hover{color:var(--txt)}
-.dt em{font-style:normal;color:var(--acc)}
-.dt-md{font-family:var(--ft);font-weight:900;font-size:38px;text-transform:uppercase;line-height:.9}
-@media(max-width:600px){.dt{font-size:26px;margin-bottom:18px}.dt-md{font-size:18px}}
-
-/* ━━━ ABOUT SECTION ━━━━━━━━━━━━━━━━━━━━━━━ */
-.ab-wrap{width:66%;max-width:3200px;margin:0 auto;padding:var(--section-gap) 40px var(--block-gap);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-@media(max-width:900px){.ab-wrap{width:100%;grid-template-columns:1fr;padding:56px 20px;gap:32px}}
-.ab-h1{font-family:var(--ft);font-weight:900;font-size:40px;text-transform:uppercase;line-height:.95;margin-bottom:26px}
-@media(max-width:600px){.ab-h1{font-size:26px;margin-bottom:16px}}
 .ab-h1 em{font-style:normal;color:var(--acc)}
 
 .sl-label{font-family:var(--ft);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -885,7 +810,6 @@ footer{
 .ss option{background:#1a1a1a}
 
 /* ━━━ ARTICLES ━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.al{display:flex;flex-direction:column;gap:48px}
 .al{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 @media(max-width:900px){.al{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:580px){.al{grid-template-columns:1fr}}
@@ -3823,7 +3747,7 @@ ${overExplainer()}
 // so the two pages read as one consistent system instead of Overpoints looking
 // like an afterthought next to Power Ranking's fuller breakdown.
 function overExplainer() {
-  const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span><span class="pr-sec-r"></span></div>`;
+  const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span></div>`;
   return `<div class="pr-exp">
 <div class="dt-md" style="font-family:var(--ft);margin-bottom:14px">HOW IT WORKS</div>
 <p class="pr-intro">One running total for the season, built from everything a team plays: division results and Continentals placements both add to the same score. It decides who's in the finals field, and who has to fight through the wildcard round to get there.</p>
@@ -3866,7 +3790,7 @@ function rankExplainer() {
     { n: '750', l: 'Division 1 floor' },
     { n: '450', l: 'Division 2 floor' }
   ];
-  const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span><span class="pr-sec-r"></span></div>`;
+  const sec = (i, t) => `<div class="pr-sec"><span class="pr-sec-i">${i}</span><span class="pr-sec-t">${t}</span></div>`;
   const card = c => `<div class="pr-card"><div class="pr-card-n">${c.n}</div><div class="pr-card-l">${c.l}</div></div>`;
   const maxV = Math.max(...mults.map(m => m.v));
 
