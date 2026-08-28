@@ -3108,7 +3108,7 @@ function pgHome() {
 <p class="ab-p">The 2v2 format is at the heart of this vision, building on World Tour 2025 momentum with clearer, more strategic, and more impactful gameplay in decisive moments.</p>
 <div class="ab-btns">
 <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
-<button class="btn-d" onclick="go('about')">Read the Vision</button>
+<button class="btn-d" onclick="go('howtoplay')">Play Yourself</button>
 </div>
 </div>
 <div class="ab-vid" id="yt-wrapper">
@@ -3843,6 +3843,33 @@ ${sec('03', 'The floor')}
 </div>`;
 }
 
+function pgHowToPlay() {
+  return `<div class="pg">
+<div class="dt">PLAY YOURSELF</div>
+<p class="ab-p">Here's how the OverDrive competitive ladder actually works, from your first Open Qualifier match to the top of Division 1.</p>
+
+<div class="legal-sec first">DIVISION 1 & DIVISION 2</div>
+<p class="ab-p">The core league is split into two divisions. Division 1 is the top tier - the best 2v2 duos in OverDrive, playing every split for the title and a direct playoffs spot. Division 2 sits just below it: a genuine path up, not a consolation bracket, with real stakes of its own every split.</p>
+
+<div class="legal-sec">BARRAGE</div>
+<p class="ab-p">Divisions aren't fixed. At the end of each split, the bottom of Division 1 and the top of Division 2 meet in the Barrage - a direct promotion/relegation series. Win it as a Division 2 side and you're up; lose it as a Division 1 side and you're down. It's the mechanism that keeps both divisions honest.</p>
+
+<div class="legal-sec">OPEN QUALIFIER</div>
+<p class="ab-p">Division 1, Division 2 and the Barrage are for teams already inside the league. The Open Qualifier is how everyone else gets in - open to any duo, no invite needed.</p>
+
+<div class="legal-sec">OPEN QUALIFIER &amp; CONTINENTALS</div>
+<p class="ab-p">The Open Qualifier runs across three regions - EMEA, APAC and NCSA - each playing through 8 qualifier steps, two per weekend, over four weekends. Every step is its own bracket: show up, win your matches, and you're through.</p>
+<p class="ab-p">What "through" means depends on the region. In APAC and NCSA, the winner of each qualifier step earns their spot at Continentals - one team, straight through. EMEA sends two: both finalists of each EMEA qualifier step - the winner and the runner-up - advance to Continentals, not just the champion.</p>
+<p class="ab-p">Continentals is where those qualified teams meet regionally to fight for a route into the main OverDrive league itself - the bridge between "just starting out" and Division 1 or Division 2.</p>
+
+<div class="legal-sec">GET IN</div>
+<p class="ab-p">Registrations for the current Open Qualifier split are open now.</p>
+<div class="ab-btns" style="margin-top:6px">
+<a href="https://trackmania.events/events/overdrive-split-2" target="_blank" class="btn-w">Register for the Open Qualifier</a>
+<a href="https://discord.gg/tZV3Mu3Thb" target="_blank" class="btn-d">Join the Discord</a>
+</div>
+</div>`;
+}
 function pgAbout() {
   return `<div class="pg">
 <div class="abh-text" style="max-width:640px">
@@ -3957,11 +3984,11 @@ You also have the right to lodge a complaint with the CNIL (Commission nationale
 const PAGES = {
   home: pgHome, leagues: pgLeagues, standings: pgStandings,
   schedule: pgSchedule, news: pgNews, articles: pgArticles, article: pgArticle, vods: pgVODs,
-  teams: pgTeams, ranking: pgRanking, overpoints: pgOverpoints, about: pgAbout,
+  teams: pgTeams, ranking: pgRanking, overpoints: pgOverpoints, about: pgAbout, howtoplay: pgHowToPlay,
   contact: pgContact, legal: pgLegal, privacy: pgPrivacy,
 };
 // Map page → parent nav item
-const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',overpoints:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',contact:'about',legal:'about',privacy:'about'};
+const NAV_PARENT = {home:'home',leagues:'leagues',standings:'leagues',teams:'leagues',ranking:'leagues',overpoints:'leagues',schedule:'schedule',news:'news',articles:'news',article:'news',vods:'news',about:'about',howtoplay:'home',contact:'about',legal:'about',privacy:'about'};
 
 // renderInPlace – updates content WITHOUT scrolling (toggles, filters…)
 // Marks a scrollable table wrapper as "already scrolled" (hiding the edge fade and
@@ -4057,6 +4084,7 @@ const PAGE_TITLES = {
   schedule:'Schedule – OverDrive - Event Organizer', news:'News – OverDrive - Event Organizer', articles:'News – OverDrive - Event Organizer',
   article:'News – OverDrive - Event Organizer', vods:'VODs – OverDrive - Event Organizer',
   teams:'Teams – OverDrive - Event Organizer', ranking:'Power Ranking – OverDrive - Event Organizer', overpoints:'Overpoints – OverDrive - Event Organizer', about:'About – OverDrive - Event Organizer',
+  howtoplay:'Play Yourself – OverDrive - Event Organizer',
   contact:'Contact – OverDrive - Event Organizer', legal:'Legal Notice – OverDrive - Event Organizer', privacy:'Privacy – OverDrive - Event Organizer',
 };
 let _navigatingViaGo = false;
