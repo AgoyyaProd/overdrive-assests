@@ -339,7 +339,21 @@ footer{
 .mk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:8px}
 .mk-grid-5{grid-template-columns:repeat(5,1fr)}
 .mk-card{position:relative;background:var(--bg-c2);border:1px solid var(--brd);overflow:hidden}
-.mk-preview{aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:22px}
+/* Checkered so a black logo, a white one, or anything in between all stay
+   visible against it - a plain dark or light fill would hide whichever variant
+   matches it (a black logo disappeared entirely against the card's own dark
+   background before this). */
+.mk-preview{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:22px;
+  background-image:
+    linear-gradient(45deg, #3a3a3a 25%, transparent 25%),
+    linear-gradient(-45deg, #3a3a3a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #3a3a3a 75%),
+    linear-gradient(-45deg, transparent 75%, #3a3a3a 75%);
+  background-size:16px 16px;
+  background-position:0 0, 0 8px, 8px -8px, -8px 0px;
+  background-color:#8a8a8a;
+}
 .mk-preview img{width:100%;height:100%;object-fit:contain}
 .mk-label{padding:10px 12px 14px;font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:center;border-top:1px solid var(--brd)}
 /* Hover reveals a full-card download overlay rather than a small corner button -
@@ -3924,7 +3938,7 @@ const OVERDRIVE_TYPES = [
 ];
 const REGION_TYPES = [
   { key: 'Logo',      label: 'Logo' },
-  { key: 'Logo_alt',  label: 'Logo Alt' },
+  { key: 'Logo_Alt',  label: 'Logo Alt' },
   { key: 'Logomark',  label: 'Logomark' },
   { key: 'Logotype',  label: 'Logotype' },
 ];
