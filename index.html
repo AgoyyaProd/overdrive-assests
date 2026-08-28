@@ -311,7 +311,31 @@ footer{
 @media(max-width:600px){.htp-sec{font-size:16px;margin:28px 0 12px}.htp-sec.first{margin-top:22px}.htp-p{font-size:14px}}
 
 /* ━━━ MEDIA KIT ━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.mk-sub{font-family:var(--ft);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 0 12px}
+.mk-acc-list{margin-top:28px;border-top:1px solid var(--brd)}
+.mk-acc{border-bottom:1px solid var(--brd)}
+.mk-acc-h{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:none;border:none;cursor:pointer;padding:20px 4px;text-align:left;
+  font-family:var(--ft);font-weight:900;font-size:16px;letter-spacing:.03em;text-transform:uppercase;color:var(--txt)}
+.mk-acc-arrow{width:16px;height:16px;flex-shrink:0;color:var(--muted);transition:transform .2s}
+.mk-acc.open > .mk-acc-h .mk-acc-arrow{transform:rotate(180deg)}
+/* grid-template-rows 0fr → 1fr animates to the content's real height without any
+   JS measuring it first - handles a 5-column logo grid and a short list of
+   regions the same way, and keeps working if the content changes later. */
+.mk-acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
+.mk-acc.open > .mk-acc-body{grid-template-rows:1fr}
+.mk-acc-inner{overflow:hidden;min-height:0}
+/* Grid rows still leave a faint sliver of a collapsed row's content peeking
+   through at "0fr" (the cards inside have their own minimum size), so a fully
+   collapsed section is also explicitly hidden rather than relying on height
+   alone to suppress it. */
+.mk-acc:not(.open) > .mk-acc-body{visibility:hidden}
+/* Nested (type/region) accordion sits visually inside its parent, slightly
+   indented and with a thinner header - reads as one level down, not a sibling
+   section of the same weight as OVERDRIVE/REGIONALS. */
+.mk-acc-sub{border-bottom:1px solid var(--brd);margin-left:4px}
+.mk-acc-sub:last-child{border-bottom:none}
+.mk-acc-sub > .mk-acc-h{font-size:13px;font-weight:700;padding:14px 4px}
+.mk-acc-sub .mk-acc-inner{padding:4px 0 20px}
 .mk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:8px}
 .mk-grid-5{grid-template-columns:repeat(5,1fr)}
 .mk-card{position:relative;background:var(--bg-c2);border:1px solid var(--brd);overflow:hidden}
@@ -328,6 +352,8 @@ footer{
 .mk-dl span{font-family:var(--ft);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
 @media(max-width:900px){.mk-grid{grid-template-columns:repeat(2,1fr)}.mk-grid-5{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:500px){
+  .mk-acc-h{font-size:14px;padding:16px 2px}
+  .mk-acc-sub > .mk-acc-h{font-size:12px}
   .mk-grid{gap:10px}
   .mk-grid-5{grid-template-columns:repeat(2,1fr)}
   .mk-label{font-size:9px;padding:8px 8px 10px}
@@ -3882,14 +3908,14 @@ ${sec('03', 'The floor')}
 
 // Brand kit. Two genuinely different file-naming shapes here, not one pattern
 // reused twice: OverDrive's own mark comes in 5 colour variants per type
-// (Overdrive_Logo_black, Overdrive_Logomark_alt_white...), while each region's
+// (Overdrive_Logo_Black, Overdrive_Logomark_alt_White...), while each region's
 // mark has no colour variants at all, just one file per type - and even the
 // "alt" type is named differently between the two ("Logomark_alt" for OverDrive
 // vs "Logo_alt" for regions). Kept as explicit per-group data rather than one
 // shared variants list, since forcing them into the same shape is what caused
 // the first version of this page to guess wrong.
 const MEDIA_ASSET_BASE = 'https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/logos';
-const MEDIA_COLORS = ['black', 'red', 'yellow', 'grey', 'white'];
+const MEDIA_COLORS = ['Black', 'Red', 'Yellow', 'White', 'Grey'];
 const OVERDRIVE_TYPES = [
   { key: 'Logo',          label: 'Logo' },
   { key: 'Logomark',      label: 'Logomark' },
@@ -3909,33 +3935,52 @@ const MEDIA_REGIONS = [
 ];
 function mediaCard(filename, label) {
   const url = `${MEDIA_ASSET_BASE}/${filename}.svg`;
+  // download triggers the browser's own save flow when the browser honours it for
+  // a cross-origin file; target="_blank" is what happens when it doesn't - opening
+  // the file in a new tab rather than navigating away from the site either way.
   return `<div class="mk-card">
   <div class="mk-preview"><img src="${url}" alt="${label}" loading="lazy"></div>
   <div class="mk-label">${label}</div>
-  <a class="mk-dl" href="${url}" download="${filename}.svg" aria-label="Download ${label}">
+  <a class="mk-dl" href="${url}" download="${filename}.svg" target="_blank" rel="noopener" aria-label="Download ${label}">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
     <span>Download</span>
   </a>
 </div>`;
 }
+// Two-level accordion: a top section (OverDrive / Regionals) opens to reveal its
+// sub-items (a type, or a region), each of which opens on its own to reveal the
+// actual logo grid - collapsed by default, rather than 32 cards all on screen
+// at once.
+function mkChevron() {
+  return `<svg class="mk-acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>`;
+}
+function mkAccItem(label, bodyHtml, sub) {
+  return `<div class="mk-acc${sub ? ' mk-acc-sub' : ''}">
+  <button type="button" class="mk-acc-h" onclick="toggleMkAcc(this)"><span>${label}</span>${mkChevron()}</button>
+  <div class="mk-acc-body"><div class="mk-acc-inner">${bodyHtml}</div></div>
+</div>`;
+}
+function toggleMkAcc(btn) {
+  btn.closest('.mk-acc').classList.toggle('open');
+}
 function pgMedia() {
-  // OverDrive: one row per type, one card per colour within that row.
-  const overdriveSection = OVERDRIVE_TYPES.map(t => `
-  <div class="mk-sub">${t.label}</div>
-  <div class="mk-grid mk-grid-5">${MEDIA_COLORS.map(c => mediaCard(`Overdrive_${t.key}_${c}`, `${t.label} (${c})`)).join('')}</div>
-`).join('');
-  // Regionals: one subsection per region, one card per type (no colour variant).
-  const regionalSection = MEDIA_REGIONS.map(r => `
-  <div class="mk-sub">${r.label}</div>
-  <div class="mk-grid">${REGION_TYPES.map(t => mediaCard(`Overdrive_${t.key}_${r.key}`, t.label)).join('')}</div>
-`).join('');
+  const overdriveBody = OVERDRIVE_TYPES.map(t => mkAccItem(
+    t.label,
+    `<div class="mk-grid mk-grid-5">${MEDIA_COLORS.map(c => mediaCard(`Overdrive_${t.key}_${c}`, `${t.label} (${c})`)).join('')}</div>`,
+    true
+  )).join('');
+  const regionalBody = MEDIA_REGIONS.map(r => mkAccItem(
+    r.label,
+    `<div class="mk-grid">${REGION_TYPES.map(t => mediaCard(`Overdrive_${t.key}_${r.key}`, t.label)).join('')}</div>`,
+    true
+  )).join('');
   return `<div class="pg">
 <div class="dt">MEDIA KIT</div>
-<p class="htp-p">OverDrive's own marks and each region's, ready to use. Hover any logo to download the file.</p>
-<div class="legal-sec first">OVERDRIVE</div>
-${overdriveSection}
-<div class="legal-sec">REGIONALS</div>
-${regionalSection}
+<p class="htp-p">OverDrive's own marks and each region's, ready to use. Open a section, then a type, to see the files - hover (or tap) any logo to download it.</p>
+<div class="mk-acc-list">
+${mkAccItem('OVERDRIVE', overdriveBody, false)}
+${mkAccItem('REGIONALS', regionalBody, false)}
+</div>
 </div>`;
 }
 function pgHowToPlay() {
@@ -3950,12 +3995,15 @@ function pgHowToPlay() {
 <p class="htp-p">Divisions aren't fixed. At the end of each split, the bottom of Division 1 and the top of Division 2 meet in the Barrage, a direct promotion/relegation series. Win it as a Division 2 side and you're up. Lose it as a Division 1 side and you're down. It's the mechanism that keeps both divisions honest.</p>
 
 <div class="htp-sec">OPEN QUALIFIER</div>
-<p class="htp-p">Division 1, Division 2 and the Barrage are for teams already inside the league. The Open Qualifier is how everyone else gets in, open to any duo, no invite needed.</p>
-
-<div class="htp-sec">OPEN QUALIFIER &amp; CONTINENTALS</div>
-<p class="htp-p">The Open Qualifier runs across three regions: EMEA, APAC and NCSA, each playing through 8 qualifier steps, two per weekend, over four weekends. Every step is its own bracket. Show up, win your matches, and you're through.</p>
+<p class="htp-p">Division 1, Division 2 and the Barrage are for teams already inside the league. The Open Qualifier is how everyone else gets in, open to any duo, no invite needed. It runs across three regions: EMEA, APAC and NCSA, each playing through 8 qualifier steps, two per weekend, over four weekends. Every step is its own bracket. Show up, win your matches, and you're through.</p>
 <p class="htp-p">What "through" means depends on the region. In APAC and NCSA, the winner of each qualifier step earns their spot at Continentals: one team, straight through. EMEA sends two. Both finalists of each EMEA qualifier step, the winner and the runner-up, advance to Continentals, not just the champion.</p>
-<p class="htp-p">Continentals is where those qualified teams meet regionally to fight for a route into the main OverDrive league itself, the bridge between "just starting out" and Division 1 or Division 2.</p>
+
+<div class="htp-sec">CONTINENTALS</div>
+<p class="htp-p">Continentals is the final phase for each region, where every team that came through the Open Qualifier meets again for a shot at the main league. It plays out in two stages: a Swiss stage first, where records decide who's still in contention, then Playoffs among the best of that stage.</p>
+<p class="htp-p">The Playoffs decide who earns an Up & Downs spot: 2 from EMEA, 1 from APAC, and 1 from AMERICAS.</p>
+
+<div class="htp-sec">UP & DOWNS</div>
+<p class="htp-p">Up & Downs is the last step in. The teams that earned their spot through Continentals face the bottom 4 teams of Division 2 in a direct promotion series, for a place in the main OverDrive league itself.</p>
 
 <div class="htp-sec">GET IN</div>
 <p class="htp-p">Registrations for the current Open Qualifier split are open now.</p>
