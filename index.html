@@ -2091,7 +2091,12 @@ async function lArt() {
         }
       }
     }
-    const excerpt = !contentUrl.startsWith('http') ? contentUrl.slice(0, 220) : '';
+    // The excerpt shown on article cards: the sheet's own "description" column is
+    // the real source (written by hand for every article) - a.description was
+    // being parsed correctly by t2o() but never actually used here, so it fell
+    // through to the content_url-based fallback below, which is empty for every
+    // article that uses a real content_url link (i.e. nearly all of them).
+    const excerpt = a.description || (!contentUrl.startsWith('http') ? contentUrl.slice(0, 220) : '');
     return { ...a, thumbnail_url: thumb, pub_url: pubUrl, export_url: exportUrl, content_url: contentUrl, excerpt };
   });
   // Sort most recent first
