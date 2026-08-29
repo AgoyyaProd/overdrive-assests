@@ -2113,9 +2113,14 @@ async function lArt() {
       const result = await fetchDocContent(a.pub_url, a.export_url);
       if (result?.excerpt) {
         S.art[i] = { ...S.art[i], excerpt: result.excerpt };
-        // Refresh home news cards if visible
+        // Refresh whichever article grid is currently on screen - the home page's
+        // mini preview, or the full News/Articles listing page itself. Only the
+        // home refresh existed before, so an excerpt fetched while a visitor was
+        // on the News page itself never actually appeared until a full reload.
         const nc = document.querySelector('.home-news-cards');
         if (nc) nc.innerHTML = S.art.slice(0,3).map((a,i)=>artCard(a,i)).join('');
+        const al = document.querySelector('.al');
+        if (al) al.innerHTML = S.art.map((a,i)=>artCard(a,i)).join('');
       }
     } catch(e) {}
   });
