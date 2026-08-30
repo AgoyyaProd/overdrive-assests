@@ -1375,15 +1375,14 @@ async function lTeams() {
       S.teams[r.team_id] = { ...r, logo_url: logo, team_name: dn(r.team_name), team_short: dn(r.team_short) };
     });
   }
-  // Fill in any team from LOGOS not in the sheet
-  Object.keys(LOGOS).forEach(id => {
-    if (!S.teams[id]) {
-      const name = id.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-      S.teams[id] = { team_id:id, team_name:name, logo_url:LOGOS[id], division:'', seed:0 };
-    } else {
-      S.teams[id].logo_url = LOGOS[id] || S.teams[id].logo_url;
-    }
-  });
+  // The site shows exactly the teams registered in the Teams tab - nothing else.
+  // A previous fallback here injected a phantom team_id for every entry in the
+  // hardcoded LOGOS map that wasn't already in the sheet (and force-overwrote
+  // the logo for ones that were), which is exactly how stale, since-renamed
+  // team_ids like geng_x_weibo or aurora_skuf kept showing up as their own
+  // separate cards on the Teams page long after the sheet moved on from them.
+  // LOGOS itself is still used above as a per-team logo fallback, which is fine -
+  // it just never gets to invent a team that isn't in the sheet.
   // "no_logo" is a data-only row in the Teams tab that supplies the default fallback logo
   // for teams not registered there (e.g. Open Qualifier participants). It must NEVER be
   // shown as an actual team anywhere on the site, so pull its logo out and delete the row.
