@@ -1045,15 +1045,19 @@ footer{
   .mc-hd-right{flex-wrap:nowrap;gap:5px}
 }
 .mc-body{display:flex;align-items:center;justify-content:center;gap:20px;padding:4px 24px 32px}
-.mc-team{width:380px;flex:none;display:flex;align-items:center;gap:16px}
+/* flex:1 lets each team block grow to fill the card at wide viewports (large
+   desktop monitors, 1920px+) instead of staying capped at a fixed width while
+   the card itself keeps growing - which left a widening dead gap on the outer
+   edges the wider the screen got. max-width keeps it from stretching past a
+   sensible point on ultra-wide screens. */
+.mc-team{flex:1 1 0;min-width:0;max-width:460px;display:flex;align-items:center;gap:16px}
 .mc-team.right{}
-/* Below ~950px the two 380px team blocks plus the center column no longer fit on
-   one line. They first go fluid (still side-by-side, shrinking together instead of
-   overflowing); below 520px the same 3-column row is kept (team / score / team,
-   never stacked into separate full-width rows) but each team switches to logo
-   stacked above its name - that's what lets three columns stay on one line at a
-   narrow width instead of needing the row to become a column. */
-@media(max-width:950px){.mc-team{width:auto;flex:1 1 0;min-width:0;max-width:380px}}
+/* Below ~950px there's less room to share, so the cap comes down with it; below
+   520px the same 3-column row is kept (team / score / team, never stacked into
+   separate full-width rows) but each team switches to logo stacked above its
+   name - that's what lets three columns stay on one line at a narrow width
+   instead of needing the row to become a column. */
+@media(max-width:950px){.mc-team{max-width:380px}}
 @media(max-width:520px){
   .mc-body{flex-direction:row;align-items:center;justify-content:space-between;gap:6px;padding:14px 10px 16px}
   .mc-team{flex:1 1 0;min-width:0;max-width:none;flex-direction:column;gap:6px}
@@ -3942,7 +3946,8 @@ function pgAbout() {
   return `<div class="pg">
 <div class="abh-text" style="max-width:640px">
 <div class="dt">BUILT FOR<br>THE <em>LONG GAME</em></div>
-<p class="ab-p">A Trackmania event project driven by well-known figures from the community: a competitive scene built for the people who live it, players, organizations, and fans. Not chasing the instant hit: a strong identity, clean production, a story built to last.</p>
+<p class="ab-p">A Trackmania event project driven by well-known figures from the community: a competitive scene built for the people who live it, players, organizations, and fans.</p>
+<p class="ab-p">Not chasing the instant hit: a strong identity, clean production, a story built to last.</p>
 <div class="abh-cta">
 <a href="https://www.youtube.com/@overdrivetm/videos" target="_blank" class="btn-w">Watch on YouTube</a>
 <a href="https://www.twitch.tv/${TWITCH_CH}" target="_blank" class="abh-sub">Follow on Twitch <span>&#8594;</span></a>
