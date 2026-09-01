@@ -470,7 +470,7 @@ footer{
 .sb-up{background:rgba(96,165,250,.14);color:#60a5fa}
 .sb-tbd{background:rgba(255,186,74,.14);color:#FFBA4A}
 .sb-can{background:rgba(255,255,255,.05);color:var(--muted)}
-.tp{width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--ft);font-weight:900;font-size:26px;color:var(--muted);flex-shrink:0;background:rgba(255,255,255,.06);border-radius:50%}
+.tp{width:80px;height:80px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 @media(max-width:600px){.tp{width:52px;height:52px;font-size:18px}}
 
 /* ━━━ MODAL ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -2474,15 +2474,18 @@ async function openTeamModal(teamId) {
     histEl.innerHTML = '<div class="empty" style="padding:12px 0"><p>Could not load previous splits</p></div>';
   }
 }
+// Empty placeholder: same sized wrapper as a real logo, but nothing drawn inside
+// it. Used whenever no logo can be resolved at all - no letter, no circle, just
+// blank space that keeps the row's layout intact.
 function tph(letter, sz=80, cls='') {
   const style = cls ? '' : `width:${sz}px;height:${sz}px;`;
-  return `<div class="tp${cls?' '+cls:''}" style="${style}">${letter||''}</div>`;
+  return `<div class="tp${cls?' '+cls:''}" style="${style}"></div>`;
 }
 // Renders the default OverDrive mark in the same sized/classed wrapper tlogo()
 // uses for a real logo - the shared fallback for a team with no logo_url, or
-// whose logo_url 404s. A second onerror on this <img> falls back to the old
-// letter-circle only as a last resort, in case S.defaultLogo is itself missing
-// or broken (so something always renders, never a blank/broken image icon).
+// whose logo_url 404s. A second onerror on this <img> falls back to a blank
+// placeholder only as a last resort, in case S.defaultLogo is itself missing
+// or broken (so the layout never breaks, even if literally nothing can render).
 function tlogoImg(url, sz, cls, letter) {
   const style = cls ? 'flex-shrink:0' : `width:${sz}px;height:${sz}px;flex-shrink:0`;
   const safeLetter = (letter||'?').replace(/'/g,"\\'");
