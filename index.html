@@ -2041,6 +2041,15 @@ async function lOver(forYear) {
     .sort((a, b) => b.pts - a.pts || a.team_name.localeCompare(b.team_name))
     .map((o, i) => ({ ...o, rank: i + 1 }));
 }
+// URL-safe id derived from an article's title: lowercase, accents stripped,
+// anything that isn't a letter/number collapsed to a single hyphen.
+function slugify(s) {
+  return String(s || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'article';
+}
 async function lArt() {
   const t = await gv('Articles');
   if (!t) { S.art = []; console.warn('[Art] No data from GViz'); return; }
@@ -2088,7 +2097,12 @@ async function lArt() {
     // through to the content_url-based fallback below, which is empty for every
     // article that uses a real content_url link (i.e. nearly all of them).
     const excerpt = a.description || (!contentUrl.startsWith('http') ? contentUrl.slice(0, 220) : '');
-    return { ...a, thumbnail_url: thumb, pub_url: pubUrl, export_url: exportUrl, content_url: contentUrl, excerpt };
+    // A stable, URL-safe id for this article, derived from its title, so a shared
+    // link points back to this specific article instead of every article
+    // collapsing onto the same bare #article/article route (S.artIdx alone, with
+    // nothing encoded in the URL, was the reason every share link looked identical).
+    const slug = slugify(a.title || '');
+    return { ...a, thumbnail_url: thumb, pub_url: pubUrl, export_url: exportUrl, content_url: contentUrl, excerpt, slug };
   });
   // Sort most recent first
   const parseArtDate = (raw) => {
@@ -2102,6 +2116,15 @@ async function lArt() {
     return isNaN(t) ? 0 : t;
   };
   S.art.sort((a,b) => parseArtDate(b.date) - parseArtDate(a.date));
+  // Two articles with the same title would otherwise generate the same slug and
+  // collide on the same URL - the second (and any later) occurrence gets a -2,
+  // -3... suffix so every article still has its own resolvable link.
+  const seenSlugs = {};
+  S.art.forEach(a => {
+    const base = a.slug || 'article';
+    seenSlugs[base] = (seenSlugs[base] || 0) + 1;
+    if (seenSlugs[base] > 1) a.slug = `${base}-${seenSlugs[base]}`;
+  });
   // Prefetch excerpts for all articles in background
   S.art.forEach(async (a, i) => {
     if (a.excerpt || !a.pub_url) return;
@@ -3435,7 +3458,7 @@ function artCard(a, i=0) {
   const metaHtml = isVideo
     ? `<span>${fmtArtDate(a.date)}</span><span style="margin-left:auto">${a.author||''}</span>`
     : `<span>${(a.category||'').toUpperCase()}</span><span>${a.author||''}</span><span>${fmtArtDate(a.date)}</span>`;
-  return `<div class="ac" style="cursor:pointer" onclick="S.artIdx=${i};go('article')">
+  return `<div class="ac" style="cursor:pointer" onclick="S.artIdx=${i};go('article','${a.slug}')">
 ${thumb}
 <div class="ac-b">
   <div class="ac-meta">${metaHtml}</div>
@@ -4108,12 +4131,12 @@ function renderInPlace() {
 // go('ranking') calls, and pageFromHash() below for a typed/bookmarked URL), so
 // redirecting here closes off all of them at once rather than just hiding the
 // menu links and leaving the page itself still reachable.
-function go(page) {
+function go(page, sub) {
   if (page === 'ranking') page = 'leagues';
   S.page = page;
   renderInPlace();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  syncHash(page);
+  syncPath(page, sub);
 }
 
 // ─── MOBILE NAV ────────────────────────────────────────────────────────────
@@ -4155,9 +4178,19 @@ function mnavGo(page) { closeMobileNav(); go(page); }
 function mnavGoStd(d) { closeMobileNav(); goStandingsDiv(d); }
 window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobileNav(); });
 
-// ─── HASH ROUTING ──────────────────────────────────────────────────────────
-// Reflects the current page in the URL (e.g. yoursite.com/#schedule) so pages can be
-// bookmarked/shared directly and the browser's back/forward buttons work as expected.
+// ─── PATH ROUTING ──────────────────────────────────────────────────────────
+// Reflects the current page in the URL as a real path (e.g. yoursite.com/schedule)
+// instead of a #hash, using the History API - so pages can be bookmarked/shared
+// directly and the browser's back/forward buttons work as expected. BASE_PATH is
+// computed from wherever the page actually loaded rather than hardcoded, so this
+// keeps working unchanged whether the site sits at a GitHub Pages project path
+// (/overdrive-assets/) or later moves to a custom domain's root (/).
+const BASE_PATH = (() => {
+  let p = location.pathname;
+  if (p.endsWith('index.html')) p = p.slice(0, -'index.html'.length);
+  if (!p.endsWith('/')) p += '/';
+  return p;
+})();
 const PAGE_TITLES = {
   home:'OverDrive - Event Organizer', leagues:'Standings – OverDrive - Event Organizer', standings:'Standings – OverDrive - Event Organizer',
   schedule:'Schedule – OverDrive - Event Organizer', news:'News – OverDrive - Event Organizer', articles:'News – OverDrive - Event Organizer',
@@ -4167,24 +4200,38 @@ const PAGE_TITLES = {
   media:'Media Kit – OverDrive - Event Organizer',
   contact:'Contact – OverDrive - Event Organizer', legal:'Legal Notice – OverDrive - Event Organizer', privacy:'Privacy – OverDrive - Event Organizer',
 };
-let _navigatingViaGo = false;
-function pageFromHash() {
-  const h = (location.hash || '').replace(/^#\/?/, '').split('?')[0];
-  if (h === 'ranking') return 'leagues'; // being reworked - see the note on go()
-  return PAGES[h] ? h : 'home';
+// Parses the current URL into {page, sub}. sub is currently only meaningful for
+// article/<slug> - every other page ignores it. If S.art hasn't loaded yet (a
+// fresh page load straight into an article link), the slug is stashed on
+// S.pendingArticleSlug and resolved once lArt() finishes, in init() below.
+function pageFromPath() {
+  let p = location.pathname;
+  if (p.startsWith(BASE_PATH)) p = p.slice(BASE_PATH.length);
+  const parts = p.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean);
+  const h = parts[0] || '';
+  const sub = parts[1] || '';
+  if (h === 'ranking') return { page: 'leagues', sub: '' }; // being reworked - see the note on go()
+  if (!PAGES[h]) return { page: 'home', sub: '' };
+  if (h === 'article' && sub) {
+    const idx = (S.art || []).findIndex(a => a.slug === sub);
+    if (idx >= 0) S.artIdx = idx; else S.pendingArticleSlug = sub;
+  }
+  return { page: h, sub };
 }
-function syncHash(page) {
+// pushState() never fires its own popstate event (unlike setting location.hash,
+// which fires hashchange even for programmatic changes) - so there's no "echo" of
+// go()'s own navigation to filter out here the way the old hash router needed to.
+// Every popstate is a genuine back/forward and should always be processed.
+function syncPath(page, sub) {
   document.title = PAGE_TITLES[page] || 'OverDrive - Event Organizer';
-  const desired = page === 'home' ? '' : page;
-  if ((location.hash || '').replace(/^#\/?/, '') !== desired) {
-    _navigatingViaGo = true;
-    location.hash = desired;
+  const desired = BASE_PATH + (page === 'home' ? '' : page + (sub ? '/' + sub : ''));
+  if (location.pathname !== desired) {
+    history.pushState({ page, sub }, '', desired + location.search);
   }
 }
-window.addEventListener('hashchange', () => {
+window.addEventListener('popstate', () => {
   closeMobileNav();
-  if (_navigatingViaGo) { _navigatingViaGo = false; return; } // already handled by go()
-  const p = pageFromHash();
+  const { page: p } = pageFromPath();
   if (p === S.page) return;
   S.page = p;
   renderInPlace();
@@ -4549,8 +4596,11 @@ function initNavDropdowns() {
 initNavDropdowns();
 
 async function init() {
-  // Direct/shared links (e.g. #schedule) should open straight on that page
-  S.page = pageFromHash();
+  // Direct/shared links (e.g. /schedule or /article/some-slug) should open straight
+  // on that page. S.art isn't loaded yet at this point, so an article route whose
+  // slug can't be resolved immediately is stashed on S.pendingArticleSlug and
+  // resolved below, right after lArt() finishes.
+  S.page = pageFromPath().page;
   // Detect file:// protocol – GViz fetch() is blocked by browser security
   if (location.protocol === 'file:') {
     document.getElementById('app').innerHTML = `
@@ -4584,6 +4634,13 @@ async function init() {
     await lTeams();
     await lTeamHistory();
     await Promise.all([lSched(S.act), lStand(S.act), lRes(S.act), lArt(), lVod(), lRank(), lOver(), loadHomeSplitData(), loadScheduleAllSplits()]);
+    // Now that S.art is loaded, resolve a pending /article/<slug> route from the
+    // initial URL that couldn't be matched before the articles existed.
+    if (S.pendingArticleSlug) {
+      const idx = S.art.findIndex(a => a.slug === S.pendingArticleSlug);
+      if (idx >= 0) S.artIdx = idx;
+      S.pendingArticleSlug = null;
+    }
   } catch(e) {
     console.error('Init error:', e);
   } finally {
