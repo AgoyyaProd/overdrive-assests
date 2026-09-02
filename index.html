@@ -2828,8 +2828,16 @@ function schedFilteredMatches() {
   return ms;
 }
 function setSchedSplit(sp) { S.schedSplit = sp; S.schedOQ = ''; renderInPlace(); }
-function setSchedMode(mode) { S.schedMode = mode; S.schedOQ = ''; renderInPlace(); }
-function setSchedRegion(r) { S.schedRegion = r; S.schedOQ = ''; renderInPlace(); }
+// Encodes the schedule's current filter (mode + OQ region) into a URL sub-path,
+// so a shared schedule link reopens on the same filter instead of always
+// resetting to "All".
+function schedSubPath() {
+  if (S.schedMode === 'oq') return S.schedRegion ? `oq-${S.schedRegion.toLowerCase()}` : 'oq';
+  if (S.schedMode === '1' || S.schedMode === '2') return `div-${S.schedMode}`;
+  return '';
+}
+function setSchedMode(mode) { S.schedMode = mode; S.schedOQ = ''; renderInPlace(); syncPath('schedule', schedSubPath()); }
+function setSchedRegion(r) { S.schedRegion = r; S.schedOQ = ''; renderInPlace(); syncPath('schedule', schedSubPath()); }
 function setSchedOQ(n) { S.schedOQ = n; renderInPlace(); }
 function splitLabelFor(splitId) {
   return S.splits.find(s => s.split_id === splitId)?.label || splitId || '';
@@ -4216,6 +4224,19 @@ function pageFromPath() {
     const idx = (S.art || []).findIndex(a => a.slug === sub);
     if (idx >= 0) S.artIdx = idx; else S.pendingArticleSlug = sub;
   }
+  if (h === 'standings' && sub) S.stdDiv = sub;
+  if (h === 'leagues' && sub) {
+    const region = OQ_REGIONS.find(r => r.key.toLowerCase() === sub.toLowerCase());
+    if (region) S.regTab = region.key;
+  }
+  if (h === 'schedule' && sub) {
+    if (sub === 'oq') { S.schedMode = 'oq'; S.schedRegion = ''; }
+    else if (sub.startsWith('oq-')) {
+      const region = OQ_REGIONS.find(r => r.key.toLowerCase() === sub.slice(3));
+      S.schedMode = 'oq'; S.schedRegion = region ? region.key : '';
+    }
+    else if (sub === 'div-1' || sub === 'div-2') S.schedMode = sub.slice(4);
+  }
   return { page: h, sub };
 }
 // pushState() never fires its own popstate event (unlike setting location.hash,
@@ -4254,10 +4275,14 @@ function render() {
 // ─── CONTROLS ──────────────────────────────────────────────────────────────
 function setHomeUpDiv(d) { S.homeUpDiv = d; renderInPlace(); }
 function setHSD(d) { S.homeStDiv = d; renderInPlace(); }
-function goStandingsDiv(d) { S.stdDiv = d; go('standings'); }
+// Tab switches inside a page (division, region) update the URL in place via
+// syncPath() rather than the full go() - go() also scrolls to top, which would
+// be a jarring jump for what's really just changing a filter, not navigating
+// to a new page.
+function goStandingsDiv(d) { S.stdDiv = d; renderInPlace(); syncPath('standings', d); }
 function setVodSp(id) { S.vodSp = id; renderInPlace(); }
 function setTDiv(d) { S.tdiv = d; renderInPlace(); }
-function setReg(r) { S.regTab = r; renderInPlace(); }
+function setReg(r) { S.regTab = r; renderInPlace(); syncPath('leagues', r.toLowerCase()); }
 async function changeSplit(sp) {
   S.act = sp;
   document.getElementById('app').innerHTML = '<div class="ldg"><div class="sp"></div><span class="ldg-l">Loading…</span></div>';
