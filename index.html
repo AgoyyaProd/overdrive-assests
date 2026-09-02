@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OverDrive - Event Organizer</title>
-<meta name="description" content="OverDrive - Event Organizer - standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
+<meta name="description" content="OverDrive - Event Organizer - standings, schedule, Open Qualifiers, and Continentals for every division of the OverDrive 2v2 Trackmania league.">
 <meta property="og:title" content="OverDrive - Event Organizer">
-<meta property="og:description" content="Standings, schedule, Open Qualifiers, Continentals and Power Ranking for every division of the OverDrive 2v2 Trackmania league.">
+<meta property="og:description" content="Standings, schedule, Open Qualifiers, and Continentals for every division of the OverDrive 2v2 Trackmania league.">
 <meta property="og:image" content="https://raw.githubusercontent.com/AgoyyaProd/overdrive-assets/main/logo-brand.svg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -1117,13 +1117,7 @@ footer{
             </div>
           </div>
           <div class="ddi" onclick="go('teams')">Teams</div>
-          <div class="ddi ddi-sub">
-            <div class="ddi-sub-row">Ranking <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></div>
-            <div class="dd-sub">
-              <div class="ddi" onclick="event.stopPropagation();go('overpoints')">Overpoints</div>
-              <div class="ddi" onclick="event.stopPropagation();go('ranking')">Power Ranking</div>
-            </div>
-          </div>
+          <div class="ddi" onclick="go('overpoints')">Overpoints</div>
         </div>
       </div>
 
@@ -1170,13 +1164,7 @@ footer{
         <span class="mnav-lk-sub" onclick="mnavGo('leagues')">Regionals</span>
       </div>
       <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGo('teams')">Teams</span>
-      <div class="mnav-lk-parent2" onclick="mnavToggleSub(this)">Ranking
-        <span class="mnav-arr"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span>
-      </div>
-      <div class="mnav-sub2">
-        <span class="mnav-lk-sub" onclick="mnavGo('overpoints')">Overpoints</span>
-        <span class="mnav-lk-sub" onclick="mnavGo('ranking')">Power Ranking</span>
-      </div>
+      <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGo('overpoints')">Overpoints</span>
     </div>
   </div>
   <div class="mnav-item">
@@ -3936,6 +3924,12 @@ function pgHowToPlay() {
 <div class="htp-sec">UP & DOWNS</div>
 <p class="htp-p">Up & Downs is the last step in. The teams that earned their spot through Continentals face the bottom 4 teams of Division 2 in a direct promotion series, for a place in the main OverDrive league itself.</p>
 
+<div class="htp-sec">RULEBOOK</div>
+<p class="htp-p">Every format, tiebreaker and match rule in full detail, in one document.</p>
+<div class="ab-btns" style="margin-top:6px">
+<a href="https://drive.google.com/file/d/1StuLv7mapA_tmHORaEJl3TwfVgNY0qxl/view?usp=sharing" target="_blank" class="btn-d">Read the Rulebook (v1.5)</a>
+</div>
+
 <div class="htp-sec">GET IN</div>
 <p class="htp-p">Registrations for the current Open Qualifier split are open now.</p>
 <div class="ab-btns" style="margin-top:6px">
@@ -4109,7 +4103,13 @@ function renderInPlace() {
 }
 
 // go – navigation entre pages (scroll en haut)
+// Power Ranking is being reworked and isn't ready to show - go() is the single
+// entry point every navigation path funnels through (menu clicks, direct
+// go('ranking') calls, and pageFromHash() below for a typed/bookmarked URL), so
+// redirecting here closes off all of them at once rather than just hiding the
+// menu links and leaving the page itself still reachable.
 function go(page) {
+  if (page === 'ranking') page = 'leagues';
   S.page = page;
   renderInPlace();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4170,6 +4170,7 @@ const PAGE_TITLES = {
 let _navigatingViaGo = false;
 function pageFromHash() {
   const h = (location.hash || '').replace(/^#\/?/, '').split('?')[0];
+  if (h === 'ranking') return 'leagues'; // being reworked - see the note on go()
   return PAGES[h] ? h : 'home';
 }
 function syncHash(page) {
