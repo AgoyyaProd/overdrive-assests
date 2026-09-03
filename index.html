@@ -1106,16 +1106,11 @@ footer{
 
       <!-- Leagues (dropdown) -->
       <div class="nav-item">
-        <span class="nlk" data-p="leagues" onclick="go('leagues')">Leagues <span class="dd-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span></span>
+        <span class="nlk" data-p="leagues">Leagues <span class="dd-arr"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span></span>
         <div class="dd">
-          <div class="ddi ddi-sub">
-            <div class="ddi-sub-row">Standings <span class="dd-sub-arr"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M9 6l6 6-6 6z"/></svg></span></div>
-            <div class="dd-sub">
-              <div class="ddi" onclick="event.stopPropagation();goStandingsDiv('1')">Division 1</div>
-              <div class="ddi" onclick="event.stopPropagation();goStandingsDiv('2')">Division 2</div>
-              <div class="ddi" onclick="event.stopPropagation();go('leagues')">Regionals</div>
-            </div>
-          </div>
+          <div class="ddi" onclick="goStandingsDiv('1')">Division 1</div>
+          <div class="ddi" onclick="goStandingsDiv('2')">Division 2</div>
+          <div class="ddi" onclick="go('leagues')">Regionals</div>
           <div class="ddi" onclick="go('teams')">Teams</div>
           <div class="ddi" onclick="go('overpoints')">Overpoints</div>
         </div>
@@ -1155,14 +1150,9 @@ footer{
       <span class="mnav-arr"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span>
     </div>
     <div class="mnav-sub">
-      <div class="mnav-lk-parent2" onclick="mnavToggleSub(this)">Standings
-        <span class="mnav-arr"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></span>
-      </div>
-      <div class="mnav-sub2">
-        <span class="mnav-lk-sub" onclick="mnavGoStd('1')">Division 1</span>
-        <span class="mnav-lk-sub" onclick="mnavGoStd('2')">Division 2</span>
-        <span class="mnav-lk-sub" onclick="mnavGo('leagues')">Regionals</span>
-      </div>
+      <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGoStd('1')">Division 1</span>
+      <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGoStd('2')">Division 2</span>
+      <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGo('leagues')">Regionals</span>
       <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGo('teams')">Teams</span>
       <span class="mnav-lk-sub mnav-lk-sub-top" onclick="mnavGo('overpoints')">Overpoints</span>
     </div>
@@ -2836,8 +2826,8 @@ function schedSubPath() {
   if (S.schedMode === '1' || S.schedMode === '2') return `div-${S.schedMode}`;
   return '';
 }
-function setSchedMode(mode) { S.schedMode = mode; S.schedOQ = ''; renderInPlace(); syncPath('schedule', schedSubPath()); }
-function setSchedRegion(r) { S.schedRegion = r; S.schedOQ = ''; renderInPlace(); syncPath('schedule', schedSubPath()); }
+function setSchedMode(mode) { S.schedMode = mode; S.schedOQ = ''; S.page = 'schedule'; renderInPlace(); syncPath('schedule', schedSubPath()); }
+function setSchedRegion(r) { S.schedRegion = r; S.schedOQ = ''; S.page = 'schedule'; renderInPlace(); syncPath('schedule', schedSubPath()); }
 function setSchedOQ(n) { S.schedOQ = n; renderInPlace(); }
 function splitLabelFor(splitId) {
   return S.splits.find(s => s.split_id === splitId)?.label || splitId || '';
@@ -4193,11 +4183,25 @@ window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobi
 // computed from wherever the page actually loaded rather than hardcoded, so this
 // keeps working unchanged whether the site sits at a GitHub Pages project path
 // (/overdrive-assets/) or later moves to a custom domain's root (/).
+// Naively trusting location.pathname to be "the base" only works when the page
+// happens to load at the true root - which .htaccess's SPA fallback breaks the
+// moment someone loads a deep link directly (e.g. /standings/1 serves index.html
+// via a server-side rewrite, but the browser's address bar - and therefore
+// location.pathname - still reads /standings/1, not /). Instead, find the first
+// path segment that's a real page key and treat everything before it as the
+// base - correctly resolving to "/" for a domain root deploy (IONOS) or
+// "/overdrive-assets/" for a GitHub Pages project deploy, regardless of which
+// page the visitor happened to land on directly.
 const BASE_PATH = (() => {
   let p = location.pathname;
-  if (p.endsWith('index.html')) p = p.slice(0, -'index.html'.length);
-  if (!p.endsWith('/')) p += '/';
-  return p;
+  if (p.endsWith('index.html') || p.endsWith('404.html')) p = p.slice(0, p.lastIndexOf('/') + 1);
+  const segments = p.split('/').filter(Boolean);
+  let cut = segments.length;
+  for (let i = 0; i < segments.length; i++) {
+    if (PAGES[segments[i]]) { cut = i; break; }
+  }
+  const base = '/' + segments.slice(0, cut).join('/');
+  return base.endsWith('/') ? base : base + '/';
 })();
 const PAGE_TITLES = {
   home:'OverDrive - Event Organizer', leagues:'Standings – OverDrive - Event Organizer', standings:'Standings – OverDrive - Event Organizer',
@@ -4279,10 +4283,10 @@ function setHSD(d) { S.homeStDiv = d; renderInPlace(); }
 // syncPath() rather than the full go() - go() also scrolls to top, which would
 // be a jarring jump for what's really just changing a filter, not navigating
 // to a new page.
-function goStandingsDiv(d) { S.stdDiv = d; renderInPlace(); syncPath('standings', d); }
+function goStandingsDiv(d) { S.stdDiv = d; S.page = 'standings'; renderInPlace(); syncPath('standings', d); }
 function setVodSp(id) { S.vodSp = id; renderInPlace(); }
 function setTDiv(d) { S.tdiv = d; renderInPlace(); }
-function setReg(r) { S.regTab = r; renderInPlace(); syncPath('leagues', r.toLowerCase()); }
+function setReg(r) { S.regTab = r; S.page = 'leagues'; renderInPlace(); syncPath('leagues', r.toLowerCase()); }
 async function changeSplit(sp) {
   S.act = sp;
   document.getElementById('app').innerHTML = '<div class="ldg"><div class="sp"></div><span class="ldg-l">Loading…</span></div>';
@@ -4579,7 +4583,11 @@ function initNavDropdowns() {
         if (!closeTimer) closeTimer = setTimeout(() => { closeAll(); closeTimer = null; }, DD_CLOSE_DELAY);
       }
 
-      // Nested submenus follow the same geometric rule.
+      // Nested submenus follow the same geometric rule, but also stay open as long
+      // as the mouse is anywhere in the outer Leagues panel - not just tightly
+      // within their own row+panel - since crossing toward Teams/Overpoints below
+      // it (still clearly "inside the Leagues dropdown") was enough to start the
+      // close countdown and made the submenu feel like it retracted immediately.
       if (item.classList.contains('open')) {
         item.querySelectorAll('.ddi-sub').forEach(sub => {
           const sm = sub.querySelector('.dd-sub');
@@ -4590,7 +4598,8 @@ function initNavDropdowns() {
           const rowEl = sub.querySelector('.ddi-sub-row') || sub;
           const overRow = within(rowEl.getBoundingClientRect(), e.clientX, e.clientY);
           const overPanel = sub.classList.contains('open') && within(sm.getBoundingClientRect(), e.clientX, e.clientY);
-          if (overRow || overPanel) { clearTimeout(sub._t); sub._t = null; sub.classList.add('open'); }
+          const overParentDD = within(dd.getBoundingClientRect(), e.clientX, e.clientY);
+          if (overRow || overPanel || overParentDD) { clearTimeout(sub._t); sub._t = null; sub.classList.add('open'); }
           else if (sub.classList.contains('open') && !sub._t) {
             sub._t = setTimeout(() => { sub.classList.remove('open'); sub._t = null; }, DD_SUB_DELAY);
           }
