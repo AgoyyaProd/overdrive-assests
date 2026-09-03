@@ -4354,12 +4354,33 @@ function openMatchModal(matchId) {
   const playersB = [teamB?.player1, teamB?.player2].filter(Boolean).join(' & ');
 
   // Recent form (last 3 matches for each team)
+  // Matches by roster, not by an explicit Team_History predecessor_id link: any
+  // other team_id whose two registered players are exactly this team's two
+  // players (order doesn't matter) is treated as the same team for "recent form"
+  // purposes - covers a rename/rebrand that keeps the same duo (e.g. GrassBoyz
+  // formerly Team Heretics) without needing that link set up in the sheet first.
+  function teamsWithSamePlayers(teamId) {
+    const t = S.teams[teamId];
+    const p1 = (t?.player1||'').trim().toLowerCase();
+    const p2 = (t?.player2||'').trim().toLowerCase();
+    if (!p1 || !p2) return [teamId];
+    const mySet = [p1, p2].sort().join('|');
+    const matches = Object.values(S.teams)
+      .filter(other => {
+        const op1 = (other.player1||'').trim().toLowerCase();
+        const op2 = (other.player2||'').trim().toLowerCase();
+        return op1 && op2 && [op1, op2].sort().join('|') === mySet;
+      })
+      .map(other => other.team_id);
+    return [...new Set([teamId, ...matches])];
+  }
   function recentForm(teamId, excludeMatchId) {
+    const ids = teamsWithSamePlayers(teamId);
     return matchSource
-      .filter(rx => rx.match_id !== excludeMatchId && (rx.team_a_id === teamId || rx.team_b_id === teamId) && rx.score_a != null && rx.score_b != null && rx.score_a !== '' && rx.score_b !== '')
+      .filter(rx => rx.match_id !== excludeMatchId && (ids.includes(rx.team_a_id) || ids.includes(rx.team_b_id)) && rx.score_a != null && rx.score_b != null && rx.score_a !== '' && rx.score_b !== '')
       .slice(-3).reverse()
       .map(rx => {
-        const isA = rx.team_a_id === teamId;
+        const isA = ids.includes(rx.team_a_id);
         const opponent = S.teams[isA ? rx.team_b_id : rx.team_a_id]?.team_name || (isA ? rx.team_b_id : rx.team_a_id);
         const scoreA = rx.score_a ?? '?', scoreB = rx.score_b ?? '?';
         const myScore = isA ? scoreA : scoreB, oppScore = isA ? scoreB : scoreA;
