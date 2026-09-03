@@ -83,7 +83,7 @@ body::before{
 }
 .ni{position:relative;z-index:10;width:66%;max-width:3200px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 32px;gap:16px}
 @media(max-width:768px){.ni{width:100%}}
-.nl{margin-left:auto;padding-left:80px}
+.nl{margin-left:auto;padding-left:80px;align-self:stretch}
 
 /* brand */
 .nb{display:flex;align-items:center;gap:0;cursor:pointer;flex-shrink:0}
@@ -91,7 +91,7 @@ body::before{
 
 /* nav links with dropdown */
 .nl{display:flex;align-items:center;gap:0}
-.nav-item{position:relative;display:flex;align-items:center}
+.nav-item{position:relative;display:flex;align-items:center;align-self:stretch}
 .nav-item.open .dd-arr{transform:rotate(180deg)}
 .nlk{
   font-family:var(--ft);font-weight:400;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
@@ -2335,6 +2335,11 @@ async function openTeamModal(teamId) {
   if (!t) return;
   const divLbl = divLabel(t.division);
   const playersLine = [t.player1, t.player2].filter(Boolean).join(' & ');
+  // Career stats (Overdrive Record, streak, titles) and Previous Splits only mean
+  // something once a team has actually played in Division 1/2 - an Open Qualifier
+  // entrant has no division history for these numbers to summarise, so the whole
+  // block is skipped rather than showing zeroes for a team that hasn't played yet.
+  const showHistory = !isOpenDivision(t.division);
 
   document.getElementById('modal-content').innerHTML = `
 <div class="team-modal">
@@ -2352,13 +2357,14 @@ async function openTeamModal(teamId) {
     </div>
   </div>
 </div>
-<div id="team-current-split" style="display:flex;flex-wrap:wrap;margin-top:26px"><div class="empty" style="padding:16px 0;width:100%;text-align:center"><p>Loading…</p></div></div>
+${showHistory ? `<div id="team-current-split" style="display:flex;flex-wrap:wrap;margin-top:26px"><div class="empty" style="padding:16px 0;width:100%;text-align:center"><p>Loading…</p></div></div>
 <div class="mo-section">
   <div class="mo-sh">Previous Splits</div>
   <div id="team-history-list" class="mo-maps"><div class="empty" style="padding:16px 0"><p>Loading…</p></div></div>
-</div>
+</div>` : ''}
 </div>`;
   document.getElementById('modal-ov').classList.add('open');
+  if (!showHistory) return;
 
   // Always the league's true active split (from Config), never the split the Standings/
   // Leagues page selector might currently be showing: Team stats must stay independent
@@ -3628,11 +3634,12 @@ ${vs.length ? `<div class="vg">${cards}</div>` : `<div class="empty"><h3>No VODs
 }
 
 function pgTeams() {
-  let ts = Object.values(S.teams);
-  if (S.tdiv !== 'all') {
-    if (S.tdiv === 'Open') ts = ts.filter(t => isOpenDivision(t.division));
-    else ts = ts.filter(t => String(t.division) === S.tdiv);
-  }
+  // Open-division teams (no registered division yet - Open Qualifier entrants)
+  // don't get their own tab or cards here: they show up plenty of other places
+  // (Schedule, Continentals brackets, Standings note badges) once they matter to
+  // a Division. This page is specifically the Division 1 / Division 2 roster.
+  let ts = Object.values(S.teams).filter(t => !isOpenDivision(t.division));
+  if (S.tdiv !== 'all') ts = ts.filter(t => String(t.division) === S.tdiv);
   const cards = ts.map(t => {
     const pl = [t.player1, t.player2].filter(Boolean).join(' / ');
     const subs = [t.sub1, t.sub2].filter(Boolean);
@@ -3648,7 +3655,6 @@ function pgTeams() {
 <button class="fb3${S.tdiv==='all'?' on':''}" onclick="setTDiv('all')">All</button>
 <button class="fb3${S.tdiv==='1'?' on':''}" onclick="setTDiv('1')">Division 1</button>
 <button class="fb3${S.tdiv==='2'?' on':''}" onclick="setTDiv('2')">Division 2</button>
-<button class="fb3${S.tdiv==='Open'?' on':''}" onclick="setTDiv('Open')">Open</button>
 </div>
 ${ts.length ? `<div class="tg">${cards}</div>` : `<div class="empty"><h3>No teams</h3></div>`}
 </div>`;
