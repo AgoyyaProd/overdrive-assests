@@ -4317,12 +4317,19 @@ function mlogoSm(team) {
 
 // ─── MODAL ─────────────────────────────────────────────────────────────────
 function openMatchModal(matchId) {
-  const fromMain = S.sched.find(x => matchKey(x) === matchId);
+  // S.sched only ever holds the currently active split (loaded via lSched(S.act)),
+  // but the Schedule page's own day-by-day list is built from S.schedAllRows -
+  // every split combined. A match from an older, no-longer-active split (e.g.
+  // browsing Spring 2026 while Fall 2026 is the active split) renders fine there,
+  // but was never findable here, so clicking it silently did nothing. S.schedAllRows
+  // is checked first since it's the more complete source when it's loaded.
+  const fromAll = (S.schedAllRows || []).find(x => matchKey(x) === matchId);
+  const fromMain = fromAll || S.sched.find(x => matchKey(x) === matchId);
   const m = fromMain || S.homeSched.find(x => matchKey(x) === matchId);
   if (!m) return;
   // Whichever array the match actually came from: keeps "recent form" consistent with
   // the same split, instead of assuming S.res (which tracks whatever S.act currently is).
-  const matchSource = fromMain ? S.sched : S.homeSched;
+  const matchSource = fromAll ? S.schedAllRows : (fromMain ? S.sched : S.homeSched);
   const isDone = m.status === 'DONE';
   const isLive = (m.status||''). toUpperCase() === 'LIVE';
 
