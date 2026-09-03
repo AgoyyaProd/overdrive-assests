@@ -83,7 +83,7 @@ body::before{
 }
 .ni{position:relative;z-index:10;width:66%;max-width:3200px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 32px;gap:16px}
 @media(max-width:768px){.ni{width:100%}}
-.nl{margin-left:auto;padding-left:80px}
+.nl{margin-left:auto;padding-left:80px;align-self:stretch}
 
 /* brand */
 .nb{display:flex;align-items:center;gap:0;cursor:pointer;flex-shrink:0}
@@ -91,7 +91,7 @@ body::before{
 
 /* nav links with dropdown */
 .nl{display:flex;align-items:center;gap:0}
-.nav-item{position:relative;display:flex;align-items:center}
+.nav-item{position:relative;display:flex;align-items:center;align-self:stretch}
 .nav-item.open .dd-arr{transform:rotate(180deg)}
 .nlk{
   font-family:var(--ft);font-weight:400;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
@@ -110,7 +110,6 @@ body::before{
   padding:6px;min-width:170px;z-index:200;
   display:flex;flex-direction:column;gap:2px;
   box-shadow:0 16px 40px rgba(0,0,0,.6);
-  margin-top:8px;
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .12s ease;
 }
@@ -2336,6 +2335,11 @@ async function openTeamModal(teamId) {
   if (!t) return;
   const divLbl = divLabel(t.division);
   const playersLine = [t.player1, t.player2].filter(Boolean).join(' & ');
+  // Career stats (Overdrive Record, streak, titles) and Previous Splits only mean
+  // something once a team has actually played in Division 1/2 - an Open Qualifier
+  // entrant has no division history for these numbers to summarise, so the whole
+  // block is skipped rather than showing zeroes for a team that hasn't played yet.
+  const showHistory = !isOpenDivision(t.division);
 
   document.getElementById('modal-content').innerHTML = `
 <div class="team-modal">
@@ -2353,13 +2357,14 @@ async function openTeamModal(teamId) {
     </div>
   </div>
 </div>
-<div id="team-current-split" style="display:flex;flex-wrap:wrap;margin-top:26px"><div class="empty" style="padding:16px 0;width:100%;text-align:center"><p>Loading…</p></div></div>
+${showHistory ? `<div id="team-current-split" style="display:flex;flex-wrap:wrap;margin-top:26px"><div class="empty" style="padding:16px 0;width:100%;text-align:center"><p>Loading…</p></div></div>
 <div class="mo-section">
   <div class="mo-sh">Previous Splits</div>
   <div id="team-history-list" class="mo-maps"><div class="empty" style="padding:16px 0"><p>Loading…</p></div></div>
-</div>
+</div>` : ''}
 </div>`;
   document.getElementById('modal-ov').classList.add('open');
+  if (!showHistory) return;
 
   // Always the league's true active split (from Config), never the split the Standings/
   // Leagues page selector might currently be showing: Team stats must stay independent
@@ -3629,11 +3634,12 @@ ${vs.length ? `<div class="vg">${cards}</div>` : `<div class="empty"><h3>No VODs
 }
 
 function pgTeams() {
-  let ts = Object.values(S.teams);
-  if (S.tdiv !== 'all') {
-    if (S.tdiv === 'Open') ts = ts.filter(t => isOpenDivision(t.division));
-    else ts = ts.filter(t => String(t.division) === S.tdiv);
-  }
+  // Open-division teams (no registered division yet - Open Qualifier entrants)
+  // don't get their own tab or cards here: they show up plenty of other places
+  // (Schedule, Continentals brackets, Standings note badges) once they matter to
+  // a Division. This page is specifically the Division 1 / Division 2 roster.
+  let ts = Object.values(S.teams).filter(t => !isOpenDivision(t.division));
+  if (S.tdiv !== 'all') ts = ts.filter(t => String(t.division) === S.tdiv);
   const cards = ts.map(t => {
     const pl = [t.player1, t.player2].filter(Boolean).join(' / ');
     const subs = [t.sub1, t.sub2].filter(Boolean);
@@ -3649,7 +3655,6 @@ function pgTeams() {
 <button class="fb3${S.tdiv==='all'?' on':''}" onclick="setTDiv('all')">All</button>
 <button class="fb3${S.tdiv==='1'?' on':''}" onclick="setTDiv('1')">Division 1</button>
 <button class="fb3${S.tdiv==='2'?' on':''}" onclick="setTDiv('2')">Division 2</button>
-<button class="fb3${S.tdiv==='Open'?' on':''}" onclick="setTDiv('Open')">Open</button>
 </div>
 ${ts.length ? `<div class="tg">${cards}</div>` : `<div class="empty"><h3>No teams</h3></div>`}
 </div>`;
@@ -4318,12 +4323,19 @@ function mlogoSm(team) {
 
 // ─── MODAL ─────────────────────────────────────────────────────────────────
 function openMatchModal(matchId) {
-  const fromMain = S.sched.find(x => matchKey(x) === matchId);
+  // S.sched only ever holds the currently active split (loaded via lSched(S.act)),
+  // but the Schedule page's own day-by-day list is built from S.schedAllRows -
+  // every split combined. A match from an older, no-longer-active split (e.g.
+  // browsing Spring 2026 while Fall 2026 is the active split) renders fine there,
+  // but was never findable here, so clicking it silently did nothing. S.schedAllRows
+  // is checked first since it's the more complete source when it's loaded.
+  const fromAll = (S.schedAllRows || []).find(x => matchKey(x) === matchId);
+  const fromMain = fromAll || S.sched.find(x => matchKey(x) === matchId);
   const m = fromMain || S.homeSched.find(x => matchKey(x) === matchId);
   if (!m) return;
   // Whichever array the match actually came from: keeps "recent form" consistent with
   // the same split, instead of assuming S.res (which tracks whatever S.act currently is).
-  const matchSource = fromMain ? S.sched : S.homeSched;
+  const matchSource = fromAll ? S.schedAllRows : (fromMain ? S.sched : S.homeSched);
   const isDone = m.status === 'DONE';
   const isLive = (m.status||''). toUpperCase() === 'LIVE';
 
@@ -4342,12 +4354,33 @@ function openMatchModal(matchId) {
   const playersB = [teamB?.player1, teamB?.player2].filter(Boolean).join(' & ');
 
   // Recent form (last 3 matches for each team)
+  // Matches by roster, not by an explicit Team_History predecessor_id link: any
+  // other team_id whose two registered players are exactly this team's two
+  // players (order doesn't matter) is treated as the same team for "recent form"
+  // purposes - covers a rename/rebrand that keeps the same duo (e.g. GrassBoyz
+  // formerly Team Heretics) without needing that link set up in the sheet first.
+  function teamsWithSamePlayers(teamId) {
+    const t = S.teams[teamId];
+    const p1 = (t?.player1||'').trim().toLowerCase();
+    const p2 = (t?.player2||'').trim().toLowerCase();
+    if (!p1 || !p2) return [teamId];
+    const mySet = [p1, p2].sort().join('|');
+    const matches = Object.values(S.teams)
+      .filter(other => {
+        const op1 = (other.player1||'').trim().toLowerCase();
+        const op2 = (other.player2||'').trim().toLowerCase();
+        return op1 && op2 && [op1, op2].sort().join('|') === mySet;
+      })
+      .map(other => other.team_id);
+    return [...new Set([teamId, ...matches])];
+  }
   function recentForm(teamId, excludeMatchId) {
+    const ids = teamsWithSamePlayers(teamId);
     return matchSource
-      .filter(rx => rx.match_id !== excludeMatchId && (rx.team_a_id === teamId || rx.team_b_id === teamId) && rx.score_a != null && rx.score_b != null && rx.score_a !== '' && rx.score_b !== '')
+      .filter(rx => rx.match_id !== excludeMatchId && (ids.includes(rx.team_a_id) || ids.includes(rx.team_b_id)) && rx.score_a != null && rx.score_b != null && rx.score_a !== '' && rx.score_b !== '')
       .slice(-3).reverse()
       .map(rx => {
-        const isA = rx.team_a_id === teamId;
+        const isA = ids.includes(rx.team_a_id);
         const opponent = S.teams[isA ? rx.team_b_id : rx.team_a_id]?.team_name || (isA ? rx.team_b_id : rx.team_a_id);
         const scoreA = rx.score_a ?? '?', scoreB = rx.score_b ?? '?';
         const myScore = isA ? scoreA : scoreB, oppScore = isA ? scoreB : scoreA;
